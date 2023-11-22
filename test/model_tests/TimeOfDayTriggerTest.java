@@ -1,17 +1,14 @@
-package testmodel;
+package model_tests;
 
-import SoftEng_Project_Group08.TimeOfDayTrigger;
 import java.time.LocalTime;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import softeng_project_group08.model.TimeOfDayTrigger;
 
 /**
  *
- * @author mario
+ * @author group08
  */
 public class TimeOfDayTriggerTest {
     

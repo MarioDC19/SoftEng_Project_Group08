@@ -1,16 +1,18 @@
-package SoftEng_Project_Group08;
+package softeng_project_group08.model;
 
 /**
  *
- * @author Master
+ * @author group08
  */
 public class Rule {
     
+    private String name;
     private Trigger trigger;
     private Action action;
     private Boolean active;
 
-    public Rule(Trigger trigger, Action action) {
+    public Rule(String name, Trigger trigger, Action action) {
+        this.name = name;
         this.trigger = trigger;
         this.action = action;
         this.active=true;
@@ -39,7 +41,13 @@ public class Rule {
     public void setActive(Boolean active) {
         this.active = active;
     }
-    
-    
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     
 }

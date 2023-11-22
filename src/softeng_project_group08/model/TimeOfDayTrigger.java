@@ -1,16 +1,16 @@
-package SoftEng_Project_Group08;
+package softeng_project_group08.model;
 
 import java.time.LocalTime;
 
 /**
  *
- * @author mario
+ * @author group08
  */
 public class TimeOfDayTrigger implements Trigger{
     
     private LocalTime timeOfDay;
 
-    public TimeOfDayTrigger(int hour, int minute){
+    public TimeOfDayTrigger(int hour, int minute) {
         timeOfDay = LocalTime.of(hour, minute);
     }
 

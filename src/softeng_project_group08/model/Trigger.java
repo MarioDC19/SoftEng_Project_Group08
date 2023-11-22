@@ -1,11 +1,11 @@
-package SoftEng_Project_Group08;
+package softeng_project_group08.model;
 
 /**
  *
- * @author mario
+ * @author group08
  */
 public interface Trigger {
-
+    
     public boolean check();
-
+    
 }

@@ -1,14 +1,14 @@
-package SoftEng_Project_Group08;
+package softeng_project_group08.model;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 /**
  *
- * @author Master
+ * @author group08
  */
-public class ShowDialogAction implements Action {
-
+public class ShowDialogAction implements Action{
+    
     private String message;
 
     public ShowDialogAction(String message) {
@@ -26,4 +26,5 @@ public class ShowDialogAction implements Action {
             alert.showAndWait();
         });
     }
+    
 }

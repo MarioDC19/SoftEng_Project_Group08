@@ -1,4 +1,4 @@
-package SoftEng_Project_Group08;
+package softeng_project_group08.model;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -6,7 +6,7 @@ import java.io.IOException;
 
 /**
  *
- * @author Master
+ * @author group08
  */
 public class PlayAudioAction implements Action {
 
@@ -19,22 +19,21 @@ public class PlayAudioAction implements Action {
     @Override
     public void execute() {
         try {
-            //Controlo che Desktop sia supportato
+            // Check if Desktop is supported
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
                 Desktop desktop = Desktop.getDesktop();
-                //Controlo sull'esistenza del file
+                // Check if audio file exists
                 if (file.exists() && file.isFile()) {
                     desktop.open(file);
                 } else {
-                    System.out.println("Il file audio non esiste o non è valido.");
+                    System.out.println("Audio file does not exist.");
                 }
 
             } else {
-                System.out.println("Desktop non è supportato su questo ambiente.");
+                System.out.println("Desktop is not supported.");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }
