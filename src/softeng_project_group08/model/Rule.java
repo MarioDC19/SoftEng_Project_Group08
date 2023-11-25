@@ -1,21 +1,26 @@
 package softeng_project_group08.model;
 
+import java.util.Objects;
+
 /**
- *
+ *Represents a rule in the application.
+ * A rule consists of a name, a trigger, an action, and an activation status.
+ * Provides methods to retrieve and modify the components of the rule.
+ * Overrides the equals method for comparing rules based on their names.
  * @author group08
  */
 public class Rule {
-    
+
     private String name;
     private Trigger trigger;
     private Action action;
-    private Boolean active;
+    private boolean active;
 
     public Rule(String name, Trigger trigger, Action action) {
         this.name = name;
         this.trigger = trigger;
         this.action = action;
-        this.active=true;
+        this.active = true;
     }
 
     public Trigger getTrigger() {
@@ -34,7 +39,7 @@ public class Rule {
         this.action = action;
     }
 
-    public Boolean isActive() {
+    public boolean isActive() {
         return active;
     }
 
@@ -49,5 +54,23 @@ public class Rule {
     public void setName(String name) {
         this.name = name;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Rule other = (Rule) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
+    }
+
 }
