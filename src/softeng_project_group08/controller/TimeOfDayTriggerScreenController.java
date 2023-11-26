@@ -16,12 +16,11 @@ import softeng_project_group08.model.RuleManager;
 import softeng_project_group08.model.TimeOfDayTrigger;
 
 /**
- * Controls the setup of time-based triggers for rules.
- * Manages the selection and configuration of time triggers in the application.
+ * Controls the setup of time-based triggers for rules. Manages the selection
+ * and configuration of time triggers in the application.
+ *
  * @author group08
  */
-
-
 public class TimeOfDayTriggerScreenController implements Initializable {
 
     @FXML
@@ -32,19 +31,18 @@ public class TimeOfDayTriggerScreenController implements Initializable {
 
     @FXML
     private Button saveButtonID;
-    
+
     private RuleManager ruleManager;
 
     private boolean closedWithX = false;
 
     private TriggerCreateScreenController triggerCreateScreenController;
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         ruleManager = RuleManager.getRuleManager();
-        
+
         // Actual hour
         LocalTime currentTime = LocalTime.now();
 
@@ -71,7 +69,7 @@ public class TimeOfDayTriggerScreenController implements Initializable {
             }
         };
 
-       //Use a StringConverter to format the display of hours
+        //Use a StringConverter to format the display of hours
         hourFactory.setConverter(new StringConverter<Integer>() {
             @Override
             public String toString(Integer value) {
@@ -82,12 +80,12 @@ public class TimeOfDayTriggerScreenController implements Initializable {
             @Override
             public Integer fromString(String string) {
                 // This method is called when a value is manually entered into the text box
-                
+
                 return Integer.parseInt(string);
             }
         });
 
-         //Configure the factory for minutes with the current time
+        //Configure the factory for minutes with the current time
         SpinnerValueFactory<Integer> minuteFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, currentTime.getMinute()) {
             @Override
             public void decrement(int steps) {
@@ -110,7 +108,7 @@ public class TimeOfDayTriggerScreenController implements Initializable {
             }
         };
 
-       //Use a StringConverter to format the display of minutes
+        //Use a StringConverter to format the display of minutes
         minuteFactory.setConverter(new StringConverter<Integer>() {
             @Override
             public String toString(Integer value) {
@@ -128,7 +126,7 @@ public class TimeOfDayTriggerScreenController implements Initializable {
         hourSelectorID.setValueFactory(hourFactory);
         minutesSelectorID.setValueFactory(minuteFactory);
 
-       // Add listeners to format the text for hours and minutes
+        // Add listeners to format the text for hours and minutes
         hourSelectorID.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue.length() == 1) {
                 hourSelectorID.getEditor().setText("0" + newValue);
@@ -145,29 +143,16 @@ public class TimeOfDayTriggerScreenController implements Initializable {
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
-        
         // get hours and minutes
         int selectedHours = hourSelectorID.getValue();
         int selectedMinutes = minutesSelectorID.getValue();
-        
+
         //Create a TimeOfDayTrigger with the selected hours and minute
         TimeOfDayTrigger timeTrigger = new TimeOfDayTrigger(selectedHours, selectedMinutes);
         ruleManager.getCurrentRule().setTrigger(timeTrigger);
-        
-        
+
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
-
-       
     }
 
-    
-
 }
-
-
-
-
-
-
-

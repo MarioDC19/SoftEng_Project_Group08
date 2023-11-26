@@ -1,6 +1,5 @@
 package softeng_project_group08.controller;
 
-
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
@@ -60,8 +59,8 @@ public class MainScreenController implements Initializable {
         ruleManager.setCurrentRule(newRule);
         //Load the RuleCreateScreen
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        cs.switchScreen("/softeng_project_group08/view/RuleCreateScreen.fxml", currentStage);
+        String title = "MyIFTTT";
+        cs.switchScreen("/softeng_project_group08/view/RuleCreateScreen.fxml", currentStage, title);
 
     }
 
@@ -71,6 +70,7 @@ public class MainScreenController implements Initializable {
         stage.close();
     }
 
+    //Gives information about the application
     @FXML
     private void aboutIAction(ActionEvent event) {
         String message = "Build 1.0.0, Information Contacts: \nSalvatore Bruno, Mario Della Corte, Maurizio Esposito, Antonio De Caro";

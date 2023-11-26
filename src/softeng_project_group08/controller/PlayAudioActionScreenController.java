@@ -16,8 +16,9 @@ import softeng_project_group08.model.PlayAudioAction;
 import softeng_project_group08.model.RuleManager;
 
 /**
- * Manages audio action creation for rules.
- * Controls the selection of audio files and handling of related functionalities.
+ * Manages audio action creation for rules. Controls the selection of audio
+ * files and handling of related functionalities.
+ *
  * @author group08
  */
 public class PlayAudioActionScreenController implements Initializable {
@@ -36,22 +37,21 @@ public class PlayAudioActionScreenController implements Initializable {
         ruleManager = RuleManager.getRuleManager();
     }
 
-@FXML
-private void saveButtonAction(ActionEvent event)  {
-    
-    // Get the file selected by the FileChooser
-    File selectedFile = new File(audioPathID.getText());
+    @FXML
+    private void saveButtonAction(ActionEvent event) {
 
-    //Set the action as a PlayAudioAction with the selected file
-    PlayAudioAction playAudioAction = new PlayAudioAction(selectedFile);
-    
-    ruleManager.getCurrentRule().setAction(playAudioAction);
-    
-    Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
-    currentStage.close();
+        // Get the file selected by the FileChooser
+        File selectedFile = new File(audioPathID.getText());
 
-}
+        //Set the action as a PlayAudioAction with the selected file
+        PlayAudioAction playAudioAction = new PlayAudioAction(selectedFile);
 
+        ruleManager.getCurrentRule().setAction(playAudioAction);
+
+        Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
+        currentStage.close();
+
+    }
 
     @FXML
     private void insertAudioAction(ActionEvent event) {
@@ -73,8 +73,4 @@ private void saveButtonAction(ActionEvent event)  {
         }
     }
 
-
-
 }
-
-

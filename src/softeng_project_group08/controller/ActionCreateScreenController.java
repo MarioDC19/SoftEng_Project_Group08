@@ -1,6 +1,5 @@
 package softeng_project_group08.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
@@ -48,15 +47,14 @@ public class ActionCreateScreenController implements Initializable {
     }
 
     @FXML
-    private void saveButtonAction(ActionEvent event)  {
+    private void saveButtonAction(ActionEvent event) {
         //back to the previous screen
         if (ruleManager.getCurrentRule().getAction() != null) {
-            String path = "/softeng_project_group08/view/RuleCreateScreen.fxml";
 
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
+            String title = "MyIFTTT";
             //display the screen in non-modal mode
-            Initializable controller = cs.switchScreen(path, currentStage);
+            cs.switchScreen("/softeng_project_group08/view/RuleCreateScreen.fxml", currentStage, title);
         }
     }
 
@@ -65,19 +63,17 @@ public class ActionCreateScreenController implements Initializable {
         //if back is pressed the action is not saved
         ruleManager.getCurrentRule().setAction(null);
 
-        String path = "/softeng_project_group08/view/RuleCreateScreen.fxml";
-
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        Initializable controller = cs.switchScreen(path, currentStage);
+        String title = "MyIFTTT";
+        cs.switchScreen("/softeng_project_group08/view/RuleCreateScreen.fxml", currentStage, title);
     }
 
     @FXML
     private void audioAction(ActionEvent event) {
         if (audioActionID.isSelected()) {
-            ChangeScreen cs = new ChangeScreen();
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            cs.switchScreenModal("/softeng_project_group08/view/PlayAudioActionScreen.fxml", currentStage);
+            String title = "Play Audio Action";
+            cs.switchScreenModal("/softeng_project_group08/view/PlayAudioActionScreen.fxml", currentStage, title);
 
             if (ruleManager.getCurrentRule().getAction() == null) {
                 audioActionID.setSelected(false);
@@ -91,11 +87,11 @@ public class ActionCreateScreenController implements Initializable {
 
     @FXML
     private void dialogAction(ActionEvent event) {
+        //New Screen appears only if the radio button switches from not selected to selected
         if (dialogActionID.isSelected()) {
-
-            ChangeScreen cs = new ChangeScreen();
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            cs.switchScreenModal("/softeng_project_group08/view/ShowDialogActionScreen.fxml", currentStage);
+            String title = "Show Dialog Action";
+            cs.switchScreenModal("/softeng_project_group08/view/ShowDialogActionScreen.fxml", currentStage, title);
 
             if (ruleManager.getCurrentRule().getAction() == null) {
                 dialogActionID.setSelected(false);

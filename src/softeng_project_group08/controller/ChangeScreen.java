@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class ChangeScreen {
 
     // Method to switch screens
-    public Initializable switchScreen(String path, Stage currentStage) {
+    public Initializable switchScreen(String path, Stage currentStage, String title) {
         try {
             // Load FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
@@ -32,6 +32,7 @@ public class ChangeScreen {
             currentStage.close();
 
             // Show the new stage
+            newStage.setTitle(title);
             newStage.show();
 
             // Return the controller for the loaded FXML
@@ -46,26 +47,24 @@ public class ChangeScreen {
     }
 
     // Method to switch screens modally
-    public Initializable switchScreenModal(String path, Stage currentStage) {
+    public Initializable switchScreenModal(String path, Stage currentStage, String title) {
         try {
-           
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
 
-           
             Stage newStage = new Stage();
             newStage.setScene(new Scene(root));
+            newStage.setTitle(title);
 
             // Set modality to prevent interaction with other stages
             newStage.initModality(Modality.APPLICATION_MODAL);
 
-           
+            // Set the current stage as the owner of the new stage
             newStage.initOwner(currentStage);
 
-            
             newStage.showAndWait();
 
-            
             return loader.getController();
         } catch (IOException ex) {
             // Show an error dialog if loading fails

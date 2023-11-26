@@ -13,26 +13,25 @@ import softeng_project_group08.model.RuleManager;
 import softeng_project_group08.model.ShowDialogAction;
 
 /**
- * Manages dialog action creation for rules.
- * Handles input of dialog text and related functionalities.
+ * Manages dialog action creation for rules. Handles input of dialog text and
+ * related functionalities.
  *
  * @author group08
  */
-
 public class ShowDialogActionScreenController implements Initializable {
 
     @FXML
     private Button saveButtonID;
     @FXML
     private TextArea textDialogID;
-    
-    
+
     private RuleManager ruleManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //Get the instance of the RuleManager
         ruleManager = RuleManager.getRuleManager();
+
     }
 
     @FXML
@@ -42,10 +41,9 @@ public class ShowDialogActionScreenController implements Initializable {
         //Set the action as a ShowDialogAction with the entered text
         ShowDialogAction showDialogAction = new ShowDialogAction(dialogText);
         ruleManager.getCurrentRule().setAction(showDialogAction);
-        
+
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
     }
 
 }
-

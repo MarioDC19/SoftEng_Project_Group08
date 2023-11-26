@@ -48,9 +48,9 @@ public class TriggerCreateScreenController implements Initializable {
         if (ruleManager.getCurrentRule().getTrigger() != null) {
             // Get the current window
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
+            String title = "MyIFTTT";
             // Switch to the RuleCreateScreen.fxml
-            Initializable newController = cs.switchScreen("/softeng_project_group08/view/RuleCreateScreen.fxml", currentStage);
+            Initializable newController = cs.switchScreen("/softeng_project_group08/view/RuleCreateScreen.fxml", currentStage, title);
 
         }
     }
@@ -62,9 +62,9 @@ public class TriggerCreateScreenController implements Initializable {
 
         // Get the current window
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
+        String title = "MyIFTTT";
         // Switch to the RuleCreateScreen.fxml
-        Initializable newController = cs.switchScreen("/softeng_project_group08/view/RuleCreateScreen.fxml", currentStage);
+        Initializable newController = cs.switchScreen("/softeng_project_group08/view/RuleCreateScreen.fxml", currentStage, title);
 
     }
 
@@ -78,9 +78,10 @@ public class TriggerCreateScreenController implements Initializable {
             newText = newText + "Time of day";
 
             selectedTrigger.setText(newText);
-            
+
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            cs.switchScreenModal("/softeng_project_group08/view/TimeOfDayTriggerScreen.fxml", currentStage);
+            String title = "Time Of Day Trigger";
+            cs.switchScreenModal("/softeng_project_group08/view/TimeOfDayTriggerScreen.fxml", currentStage, title);
 
             if (ruleManager.getCurrentRule().getTrigger() == null) {
                 hourTriggerID.setSelected(false);

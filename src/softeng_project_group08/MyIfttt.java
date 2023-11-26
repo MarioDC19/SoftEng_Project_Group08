@@ -11,13 +11,14 @@ import javafx.stage.Stage;
  * @author group08
  */
 public class MyIfttt extends Application {
-    
-@Override
+
+    @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/softeng_project_group08/view/MainScreen.fxml"));
-        
+
         Scene scene = new Scene(root);
-        
+
+        stage.setTitle("MyIFTTT");
         stage.setScene(scene);
         stage.show();
     }
@@ -28,5 +29,5 @@ public class MyIfttt extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
