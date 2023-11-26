@@ -78,6 +78,9 @@ public class TriggerCreateScreenController implements Initializable {
             newText = newText + "Time of day";
 
             selectedTrigger.setText(newText);
+            
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            cs.switchScreenModal("/softeng_project_group08/view/TimeOfDayTriggerScreen.fxml", currentStage);
 
             if (ruleManager.getCurrentRule().getTrigger() == null) {
                 hourTriggerID.setSelected(false);
