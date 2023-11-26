@@ -1,4 +1,4 @@
-package softengprojectgroup08;
+package softeng_project_group08;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

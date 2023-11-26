@@ -3,10 +3,13 @@ package softeng_project_group08.model;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 /**
- *
- * @author group08
+ *Represents an action to play an audio file using the default system application.
+ *Implements the Action interface.
+ *@author group08
  */
 public class PlayAudioAction implements Action {
 
@@ -26,14 +29,27 @@ public class PlayAudioAction implements Action {
                 if (file.exists() && file.isFile()) {
                     desktop.open(file);
                 } else {
-                    System.out.println("Audio file does not exist.");
+                    Platform.runLater(()->{
+                    showDialog("Audio file does not exist.");
+                    });
+                    
                 }
 
             } else {
-                System.out.println("Desktop is not supported.");
+                Platform.runLater(()->{
+                    showDialog("Desktop is not supported.");
+                    });
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            showDialog("Audio file generic error.");
         }
+    }
+    
+    private void showDialog(String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Errore");
+                    alert.setHeaderText(null);
+                    alert.setContentText(message);
+                    alert.show();
     }
 }

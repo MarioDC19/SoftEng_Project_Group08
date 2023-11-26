@@ -3,7 +3,7 @@ package softeng_project_group08.model;
 import java.time.LocalTime;
 
 /**
- *
+ * Represents a trigger to check if the current time matches a specified time of day.
  * @author group08
  */
 public class TimeOfDayTrigger implements Trigger{
