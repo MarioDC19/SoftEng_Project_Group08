@@ -16,14 +16,16 @@ public class RuleManager {
 
     private ObservableList<Rule> rules;
     private Rule currentRule;
+    private RulesThread rt;
     // Singleton pattern: shared instance
     private static RuleManager instance = null;
 
     private RuleManager() {
         rules = FXCollections.observableArrayList();
         currentRule = null;
-        
-        
+        rt = new RulesThread(rules);
+        rt.setDaemon(true);
+        rt.start();
     }
 
     public Rule getCurrentRule() {
