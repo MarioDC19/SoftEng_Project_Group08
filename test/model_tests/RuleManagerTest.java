@@ -9,7 +9,7 @@ import softeng_project_group08.model.RuleManager;
 
 /**
  *
- * @author mario
+ * @author group08
  */
 public class RuleManagerTest {
     
