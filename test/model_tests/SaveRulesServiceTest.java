@@ -10,6 +10,8 @@ import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.embed.swing.JFXPanel;
@@ -57,36 +59,35 @@ public class SaveRulesServiceTest {
 
     @Test
     public void testSaveRulesService() {
-
-        Platform.runLater(() -> {
+        try {
             // Creating the service
             SaveRulesService saveRulesService = new SaveRulesService(rules, filePath);
+            Platform.runLater(() -> {
+                // Setting the handler for the succeeded event
+                saveRulesService.setOnSucceeded(event -> {
+                    // Verifying if the file has been created successfully
+                    File testFile = new File(filePath);
+                    assertTrue(testFile.exists());
+                });
 
-            // Setting the handler for the succeeded event
-            saveRulesService.setOnSucceeded(event -> {
-                // Verifying if the file has been created successfully
-                File testFile = new File(filePath);
-                assertTrue(testFile.exists());
+                saveRulesService.setOnFailed(event -> {
+                    fail("The service failed to perform the operation");
+                });
+
+                // Starting the service after setting the handlers
+                saveRulesService.start();
 
             });
-
-            saveRulesService.setOnFailed(event -> {
-                fail("The service failed to perform the operation");
-            });
-
-            // Starting the service after setting the handlers
-            saveRulesService.start();
-
             // Waiting for a certain period for the service to complete (used just for this test)
-            try {
-                Thread.sleep(5000); // Waiting time in milliseconds (e.g., 5 seconds)
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(300); // Waiting time in milliseconds (e.g., 300 mseconds)
+            Platform.runLater(() -> {
+                // Verifying the final state of the service
+                assertEquals(Service.State.SUCCEEDED, saveRulesService.getState());
 
-            // Verifying the final state of the service
-            assertEquals(Service.State.SUCCEEDED, saveRulesService.getState());
-        });
+            });
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SaveRulesServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
