@@ -23,7 +23,12 @@ public class RuleManager {
     private RuleManager() {
         rules = FXCollections.observableArrayList();
         currentRule = null;
-
+        LoadRulesService lrs = new LoadRulesService();
+        lrs.setOnSucceeded(e -> {
+            List<Rule> loadedRules = lrs.getValue();
+            rules.addAll(loadedRules);
+        });
+        lrs.start();
         rt = new RulesThread(rules);
         rt.setDaemon(true);
         rt.start();
