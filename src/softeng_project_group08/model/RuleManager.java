@@ -1,16 +1,16 @@
 package softeng_project_group08.model;
 
+import java.util.List;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 /**
- * @author group08
- * Manages the rules in the application.
- * Uses the Singleton pattern to provide a shared instance.
- * Contains methods for adding, removing, and retrieving rules.
- * Runs a background thread (RulesThread) to handle rule-related tasks.
+ * @author group08 Manages the rules in the application. Uses the Singleton
+ * pattern to provide a shared instance. Contains methods for adding, removing,
+ * and retrieving rules. Runs a background thread (RulesThread) to handle
+ * rule-related tasks.
  */
 public class RuleManager {
 
@@ -23,6 +23,7 @@ public class RuleManager {
     private RuleManager() {
         rules = FXCollections.observableArrayList();
         currentRule = null;
+
         rt = new RulesThread(rules);
         rt.setDaemon(true);
         rt.start();
@@ -40,7 +41,7 @@ public class RuleManager {
     public static RuleManager getRuleManager() {
         if (instance == null) {
             instance = new RuleManager();
-           
+
         }
         return instance;
     }
@@ -48,10 +49,10 @@ public class RuleManager {
     public ObservableList<Rule> getRules() {
         return rules;
     }
-    
+
     /**
-     * Adds the current rule to the list of rules.
-     * Displays an error message if the rule already exists.
+     * Adds the current rule to the list of rules. Displays an error message if
+     * the rule already exists.
      */
     public void addRule() {
         Platform.runLater(() -> {
@@ -64,17 +65,28 @@ public class RuleManager {
                 alert.showAndWait();
             } else {
                 this.rules.add(currentRule);
+                saveRulesToFile(rules); // Starting the thread once the rule has been created
             }
         });
-
     }
 
     public void removeRule(Rule rule) {
         Platform.runLater(() -> {
             this.rules.remove(rule);
+            saveRulesToFile(rules); // Starting the thread once the rule has been removed
         });
     }
 
-    
+    /**
+     * Saves the provided list of rules to a binary file asynchronously using a
+     * service.
+     *
+     *
+     */
+    private void saveRulesToFile(ObservableList<Rule> rulesToSave) {
+        String filePath = "ListRules.bin"; // Destination Path, binary file
+        SaveRulesService saveThread = new SaveRulesService(rulesToSave, filePath);
+        saveThread.start();
+    }
 
 }

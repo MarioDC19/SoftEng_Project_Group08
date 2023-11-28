@@ -1,15 +1,17 @@
 package softeng_project_group08.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
- *Represents a rule in the application.
- * A rule consists of a name, a trigger, an action, and an activation status.
- * Provides methods to retrieve and modify the components of the rule.
- * Overrides the equals method for comparing rules based on their names.
+ * Represents a rule in the application. A rule consists of a name, a trigger,
+ * an action, and an activation status. Provides methods to retrieve and modify
+ * the components of the rule. Overrides the equals method for comparing rules
+ * based on their names.
+ *
  * @author group08
  */
-public class Rule {
+public class Rule implements Serializable {
 
     private String name;
     private Trigger trigger;
