@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * @author group08
  */
-public class AppendToFileAction {
+public class AppendToFileAction implements Action{
 
     private String content;
     private String filePath;
