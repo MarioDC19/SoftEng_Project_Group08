@@ -31,6 +31,8 @@ public class ActionCreateScreenController implements Initializable {
     private RuleManager ruleManager;
 
     private ChangeScreen cs;
+    @FXML
+    private RadioButton appendToFileActionID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -42,7 +44,7 @@ public class ActionCreateScreenController implements Initializable {
                 Bindings.and(
                         audioActionID.selectedProperty().not(),
                         dialogActionID.selectedProperty().not()
-                )
+                ).and(appendToFileActionID.selectedProperty().not())
         );
     }
 
@@ -79,9 +81,11 @@ public class ActionCreateScreenController implements Initializable {
                 audioActionID.setSelected(false);
             } else {
                 dialogActionID.setDisable(true);
+                appendToFileActionID.setDisable(true);
             }
         } else {
             dialogActionID.setDisable(false);
+            appendToFileActionID.setDisable(false);
         }
     }
 
@@ -97,9 +101,31 @@ public class ActionCreateScreenController implements Initializable {
                 dialogActionID.setSelected(false);
             } else {
                 audioActionID.setDisable(true);
+                appendToFileActionID.setDisable(true);
             }
         } else {
             audioActionID.setDisable(false);
+            appendToFileActionID.setDisable(false);
         }
+    }
+
+    @FXML
+    private void appendToFileAction(ActionEvent event) {
+        if(appendToFileActionID.isSelected()){
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            String title = "Append to File Action";
+            cs.switchScreenModal("/softeng_project_group08/view/AppendToFileActionScreen.fxml", currentStage, title);
+        
+        
+        if(ruleManager.getCurrentRule().getAction() == null){
+            appendToFileActionID.setSelected(false);
+        } else{
+            audioActionID.setDisable(true);
+            dialogActionID.setDisable(true);
+        }
+        } else{
+            audioActionID.setDisable(false);
+            dialogActionID.setDisable(false);
+                }
     }
 }
