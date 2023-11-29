@@ -12,12 +12,16 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import softeng_project_group08.model.Rule;
 import softeng_project_group08.model.RuleManager;
@@ -58,6 +62,22 @@ public class MainScreenController implements Initializable {
 
         tableRulesID.setCellValueFactory(new PropertyValueFactory<>("name"));
         tableViewID.setItems(rulesList);
+        
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem deleteMenuItem = new MenuItem("Delete");
+        deleteMenuItem.setOnAction(event -> deleteRuleAction());
+        contextMenu.getItems().add(deleteMenuItem);
+
+        // Aggiungi un listener per il clic destro sulla TableView
+        tableViewID.setRowFactory(tv -> {
+            TableRow<Rule> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.SECONDARY) {
+                    contextMenu.show(tableViewID, event.getScreenX(), event.getScreenY());
+                }
+            });
+            return row;
+        });
         
         deleteRuleID.disableProperty().bind(Bindings.isEmpty(tableViewID.getSelectionModel().getSelectedItems()));
         
@@ -106,7 +126,7 @@ public class MainScreenController implements Initializable {
 
 
     @FXML
-    private void deleteRuleAction(ActionEvent event) {
+    private void deleteRuleAction() {
         ObservableList<Rule> selectedRules = tableViewID.getSelectionModel().getSelectedItems();
 
         if (!selectedRules.isEmpty()) {
@@ -125,6 +145,5 @@ public class MainScreenController implements Initializable {
             }
         } 
     }
-
-
+    
 }
