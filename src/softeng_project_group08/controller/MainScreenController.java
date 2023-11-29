@@ -1,7 +1,9 @@
 package softeng_project_group08.controller;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -39,6 +44,9 @@ public class MainScreenController implements Initializable {
     private MenuItem aboutID;
 
     private ChangeScreen cs;
+    @FXML
+    private Button deleteRuleID;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -50,6 +58,20 @@ public class MainScreenController implements Initializable {
 
         tableRulesID.setCellValueFactory(new PropertyValueFactory<>("name"));
         tableViewID.setItems(rulesList);
+        
+        deleteRuleID.disableProperty().bind(Bindings.isEmpty(tableViewID.getSelectionModel().getSelectedItems()));
+        
+        tableRulesID.setCellFactory(col -> {
+            TableCell<Rule, String> cell = new TableCell<>();
+            cell.textProperty().bind(Bindings.createStringBinding(() ->
+                    cell.getItem(), cell.itemProperty()));
+            return cell;
+        });
+        
+        tableViewID.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        
+        
 
     }
 
@@ -81,5 +103,28 @@ public class MainScreenController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
+    @FXML
+    private void deleteRuleAction(ActionEvent event) {
+        ObservableList<Rule> selectedRules = tableViewID.getSelectionModel().getSelectedItems();
+
+        if (!selectedRules.isEmpty()) {
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmAlert.setTitle("Confirmation");
+            confirmAlert.setHeaderText("Delete selected rules?");
+            confirmAlert.setContentText("Are you sure you want to delete the selected rules?");
+
+            Optional<ButtonType> result = confirmAlert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                for (Rule rule : selectedRules) {
+                    ruleManager.removeRule(rule);
+                }
+                tableViewID.getItems().removeAll(selectedRules);
+            }
+        } 
+    }
+
 
 }

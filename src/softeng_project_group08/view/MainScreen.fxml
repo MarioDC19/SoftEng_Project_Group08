@@ -30,7 +30,7 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <TableView fx:id="tableViewID" layoutY="82.0" prefHeight="466.0" prefWidth="766.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
+            <TableView fx:id="tableViewID" layoutY="82.0" prefHeight="425.0" prefWidth="761.0" AnchorPane.bottomAnchor="-3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
               <columns>
                 <TableColumn fx:id="tableRulesID" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="763.2001342773438" text="My Rules" />
               </columns>
@@ -43,7 +43,8 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME!!" />
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
                     <buttons>
-                      <Button fx:id="newRuleID" mnemonicParsing="false" onAction="#newRuleAction" prefHeight="26.0" prefWidth="121.0" text="New Rule" />
+                      <Button fx:id="deleteRuleID" mnemonicParsing="false" onAction="#deleteRuleAction" prefHeight="26.0" prefWidth="121.0" text="Delete" />
+                        <Button fx:id="newRuleID" mnemonicParsing="false" onAction="#newRuleAction" text="New Rule" />
                     </buttons>
                      <StackPane.margin>
                         <Insets right="20.0" />
@@ -51,6 +52,7 @@
                   </ButtonBar>
                </children>
             </StackPane>
+            <ButtonBar layoutX="547.0" layoutY="464.0" prefHeight="40.0" prefWidth="200.0" />
          </children>
       </AnchorPane>
    </children>
