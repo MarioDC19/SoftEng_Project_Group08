@@ -44,10 +44,12 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private MenuItem closeID;
+    
     @FXML
     private MenuItem aboutID;
 
     private ChangeScreen cs;
+    
     @FXML
     private Button deleteRuleID;
 
@@ -89,10 +91,6 @@ public class MainScreenController implements Initializable {
         });
         
         tableViewID.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-        
-        
-
     }
 
     @FXML
