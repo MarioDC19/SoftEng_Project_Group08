@@ -28,8 +28,8 @@ public class LoadRulesService extends Service<List<Rule>> {
 
     private String path;
 
-    public LoadRulesService() {
-        this.path = "ListRules.bin";
+    public LoadRulesService(String path ) {
+        this.path = path;
     }
 
     @Override
@@ -42,13 +42,13 @@ public class LoadRulesService extends Service<List<Rule>> {
                 if(f.exists()){
                 try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path))) {
                     list = (List<Rule>) ois.readObject();
-
+                    System.out.println("List of rules is successfully loaded");
                 } catch (FileNotFoundException ex) {
-                    System.out.println("I");
+                   // This catch is unreachable because we have already checked the existence of the file with f.exists()
                 } catch (IOException ex) {
-
+                    ex.printStackTrace();
                 } catch (ClassNotFoundException ex) {
-
+                    ex.printStackTrace();
                 }
                 }
                 else{

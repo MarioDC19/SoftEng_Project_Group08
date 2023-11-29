@@ -1,6 +1,8 @@
 package model_tests;
 
+import java.io.File;
 import javafx.embed.swing.JFXPanel;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
@@ -18,6 +20,16 @@ public class RuleManagerTest {
     public static void setUpClass() {
         // Initialize JavaFX Toolkit for running JavaFX operations on the test thread
         JFXPanel jfxPanel = new JFXPanel();
+    }
+    
+    @After
+    public void tearDown() {
+        // Deleting file after the test
+        String filePath= "ListRules.bin";
+        File testFile = new File(filePath);
+        if (testFile.exists()) {
+            testFile.delete();
+        }
     }
     
     @Test

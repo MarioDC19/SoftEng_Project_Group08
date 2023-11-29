@@ -19,11 +19,12 @@ public class RuleManager {
     private RulesThread rt;
     // Singleton pattern: shared instance
     private static RuleManager instance = null;
+    private final String saveLoadPath = "ListRules.bin";
 
     private RuleManager() {
         rules = FXCollections.observableArrayList();
         currentRule = null;
-        LoadRulesService lrs = new LoadRulesService();
+        LoadRulesService lrs = new LoadRulesService(saveLoadPath);
         lrs.setOnSucceeded(e -> {
             List<Rule> loadedRules = lrs.getValue();
             rules.addAll(loadedRules);
@@ -89,8 +90,7 @@ public class RuleManager {
      *
      */
     private void saveRulesToFile(ObservableList<Rule> rulesToSave) {
-        String filePath = "ListRules.bin"; // Destination Path, binary file
-        SaveRulesService saveThread = new SaveRulesService(rulesToSave, filePath);
+        SaveRulesService saveThread = new SaveRulesService(rulesToSave, saveLoadPath);
         saveThread.start();
     }
 
