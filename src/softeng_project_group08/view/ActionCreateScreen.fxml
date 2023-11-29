@@ -45,6 +45,11 @@
                         <Font size="22.0" />
                      </font>
                   </RadioButton>
+                  <RadioButton fx:id="copyFileActionID" mnemonicParsing="false" onAction="#copyFileAction" prefHeight="43.0" prefWidth="322.0" text="Copy file">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </RadioButton>
                </children>
             </VBox>
             <ButtonBar layoutX="547.0" layoutY="454.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="546.6" AnchorPane.rightAnchor="14.0" />

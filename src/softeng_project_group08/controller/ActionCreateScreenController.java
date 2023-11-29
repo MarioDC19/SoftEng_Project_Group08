@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import softeng_project_group08.model.RuleManager;
 
@@ -33,19 +34,25 @@ public class ActionCreateScreenController implements Initializable {
     private ChangeScreen cs;
     @FXML
     private RadioButton appendToFileActionID;
+    @FXML
+    private RadioButton copyFileActionID;
+    
+    ToggleGroup tg;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cs = new ChangeScreen();
         ruleManager = RuleManager.getRuleManager();
+        
+        tg = new ToggleGroup();
+        audioActionID.setToggleGroup(tg);
+        dialogActionID.setToggleGroup(tg);
+        appendToFileActionID.setToggleGroup(tg);
+        copyFileActionID.setToggleGroup(tg);
 
-        // Disable the saveButton if the two RadioButtons are disabled
-        saveButtonID1.disableProperty().bind(
-                Bindings.and(
-                        audioActionID.selectedProperty().not(),
-                        dialogActionID.selectedProperty().not()
-                ).and(appendToFileActionID.selectedProperty().not())
-        );
+        // Disable the saveButton if no button is selected
+        saveButtonID1.disableProperty().bind(tg.selectedToggleProperty().isNull());
+        
     }
 
     @FXML
@@ -72,25 +79,22 @@ public class ActionCreateScreenController implements Initializable {
 
     @FXML
     private void audioAction(ActionEvent event) {
-        if (audioActionID.isSelected()) {
+        ruleManager.getCurrentRule().setAction(null); 
+       if (audioActionID.isSelected()) {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             String title = "Play Audio Action";
             cs.switchScreenModal("/softeng_project_group08/view/PlayAudioActionScreen.fxml", currentStage, title);
 
             if (ruleManager.getCurrentRule().getAction() == null) {
                 audioActionID.setSelected(false);
-            } else {
-                dialogActionID.setDisable(true);
-                appendToFileActionID.setDisable(true);
             }
-        } else {
-            dialogActionID.setDisable(false);
-            appendToFileActionID.setDisable(false);
-        }
+            
+    }
     }
 
     @FXML
     private void dialogAction(ActionEvent event) {
+        ruleManager.getCurrentRule().setAction(null); 
         //New Screen appears only if the radio button switches from not selected to selected
         if (dialogActionID.isSelected()) {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -99,18 +103,13 @@ public class ActionCreateScreenController implements Initializable {
 
             if (ruleManager.getCurrentRule().getAction() == null) {
                 dialogActionID.setSelected(false);
-            } else {
-                audioActionID.setDisable(true);
-                appendToFileActionID.setDisable(true);
-            }
-        } else {
-            audioActionID.setDisable(false);
-            appendToFileActionID.setDisable(false);
+            } 
         }
     }
 
     @FXML
     private void appendToFileAction(ActionEvent event) {
+        ruleManager.getCurrentRule().setAction(null); 
         if(appendToFileActionID.isSelected()){
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             String title = "Append to File Action";
@@ -119,13 +118,22 @@ public class ActionCreateScreenController implements Initializable {
         
         if(ruleManager.getCurrentRule().getAction() == null){
             appendToFileActionID.setSelected(false);
-        } else{
-            audioActionID.setDisable(true);
-            dialogActionID.setDisable(true);
-        }
-        } else{
-            audioActionID.setDisable(false);
-            dialogActionID.setDisable(false);
+        } 
                 }
+    }
+
+    @FXML
+    private void copyFileAction(ActionEvent event) {
+        ruleManager.getCurrentRule().setAction(null); 
+        if(copyFileActionID.isSelected()){
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            String title = "Copy File Action";
+            cs.switchScreenModal("/softeng_project_group08/view/CopyFileActionScreen.fxml", currentStage, title);
+        
+        
+        if(ruleManager.getCurrentRule().getAction() == null){
+            copyFileActionID.setSelected(false);
+        }
+    }
     }
 }

@@ -13,11 +13,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import softeng_project_group08.model.AppendToFileAction;
 import softeng_project_group08.model.RuleManager;
 
 /**
@@ -25,17 +24,20 @@ import softeng_project_group08.model.RuleManager;
  *
  * @author group08
  */
-public class AppendToFileActionScreenController implements Initializable {
+public class CopyFileActionScreenController implements Initializable {
 
     @FXML
     private Button saveButtonID;
     @FXML
-    private TextArea appendStringID;
-    @FXML
     private TextField filePathID;
     @FXML
     private Button insertFileID;
+    @FXML
+    private TextField directoryPathID;
+    @FXML
+    private Button insertDirectoryID;
     File file;
+    File directory;
     RuleManager rm;
 
     /**
@@ -43,21 +45,23 @@ public class AppendToFileActionScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        rm= RuleManager.getRuleManager();
         file=null;
-       saveButtonID.disableProperty().bind(
+        directory=null;
+        saveButtonID.disableProperty().bind(
                 Bindings.or(
                         filePathID.textProperty().isEmpty(),
-                        appendStringID.textProperty().isEmpty()
+                        directoryPathID.textProperty().isEmpty()
                 ));
+        rm=RuleManager.getRuleManager();
+        
     }    
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
-        AppendToFileAction atfa = new AppendToFileAction(appendStringID.getText(),file.getPath());
-        rm.getCurrentRule().setAction(atfa);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
+        //CopyFileAction cfa= new CopyFileAction(file,directory);
+       // rm.getCurrentRule().setAction(cfa);
+        Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
+        currentStage.close();
         
     }
 
@@ -65,12 +69,22 @@ public class AppendToFileActionScreenController implements Initializable {
     private void insertFileAction(ActionEvent event) {
         FileChooser fc= new FileChooser();
         fc.setTitle("Select File");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text File", "*.txt", "*.csv", "*.xml", "*.json", "*.html", "*.md", "*.log", "*.conf", "*.properties", "*.ini");
-        fc.getExtensionFilters().add(extFilter);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         file=fc.showOpenDialog(stage);
         if(file != null){
             filePathID.setText(file.getPath());
+        }
+        
+    }
+
+    @FXML
+    private void insertDirectoryAction(ActionEvent event) {
+        DirectoryChooser dc = new DirectoryChooser();
+        dc.setTitle("Select destionation directory");
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        directory=dc.showDialog(stage);
+        if(directory != null){
+            directoryPathID.setText(directory.getPath());
         }
     }
     
