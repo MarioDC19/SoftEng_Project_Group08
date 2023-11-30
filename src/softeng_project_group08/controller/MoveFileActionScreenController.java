@@ -18,6 +18,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import softeng_project_group08.model.CopyFileAction;
+import softeng_project_group08.model.MoveFileAction;
 import softeng_project_group08.model.RuleManager;
 
 /**
@@ -59,8 +60,8 @@ public class MoveFileActionScreenController implements Initializable {
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
-        //MoveFileAction mfa= new MoveFileAction(file,directory);
-        //rm.getCurrentRule().setAction(mfa);
+        MoveFileAction mfa= new MoveFileAction(file,directory);
+        rm.getCurrentRule().setAction(mfa);
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
         
