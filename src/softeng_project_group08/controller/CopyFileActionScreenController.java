@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import softeng_project_group08.model.CopyFileAction;
 import softeng_project_group08.model.RuleManager;
 
 /**
@@ -58,8 +59,8 @@ public class CopyFileActionScreenController implements Initializable {
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
-        //CopyFileAction cfa= new CopyFileAction(file,directory);
-       // rm.getCurrentRule().setAction(cfa);
+        CopyFileAction cfa= new CopyFileAction(file,directory);
+        rm.getCurrentRule().setAction(cfa);
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
         
