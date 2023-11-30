@@ -57,7 +57,7 @@ public class CopyFileAction implements Action {
         alert.setTitle("Errore");
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.showAndWait();
+        alert.show();
     }
 
 }
