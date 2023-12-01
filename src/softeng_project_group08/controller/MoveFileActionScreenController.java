@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package softeng_project_group08.controller;
 
 import java.io.File;
@@ -17,12 +13,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import softeng_project_group08.model.CopyFileAction;
 import softeng_project_group08.model.MoveFileAction;
 import softeng_project_group08.model.RuleManager;
 
 /**
- * FXML Controller class
+ * Manages move action creation for rules. 
+ * Controls the selection of a file to move into another directory
  *
  * @author group08
  */

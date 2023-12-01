@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package softeng_project_group08.controller;
 
 import java.io.File;
@@ -21,7 +17,8 @@ import softeng_project_group08.model.AppendToFileAction;
 import softeng_project_group08.model.RuleManager;
 
 /**
- * FXML Controller class
+ * Manages appending string action creation for rules. 
+ * Controls the adding of a string at the end of a file.
  *
  * @author group08
  */
