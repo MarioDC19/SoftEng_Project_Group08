@@ -40,6 +40,8 @@ public class ActionCreateScreenController implements Initializable {
     ToggleGroup tg;
     @FXML
     private RadioButton moveFileActionID;
+    @FXML
+    private RadioButton deleteFileActionID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -52,6 +54,7 @@ public class ActionCreateScreenController implements Initializable {
         appendToFileActionID.setToggleGroup(tg);
         copyFileActionID.setToggleGroup(tg);
         moveFileActionID.setToggleGroup(tg);
+        deleteFileActionID.setToggleGroup(tg);
 
         // Disable the saveButton if no button is selected
         saveButtonID1.disableProperty().bind(tg.selectedToggleProperty().isNull());
@@ -99,6 +102,15 @@ public class ActionCreateScreenController implements Initializable {
     private void copyFileAction(ActionEvent event) {
         handleAction(copyFileActionID,"Copy File Action","/softeng_project_group08/view/CopyFileActionScreen.fxml");
     }
+    @FXML
+    private void moveFileAction(ActionEvent event) {
+        handleAction(moveFileActionID,"Move File Action","/softeng_project_group08/view/MoveFileActionScreen.fxml");
+    }
+
+    @FXML
+    private void deleteFileAction(ActionEvent event) {
+        handleAction(deleteFileActionID,"Delete File Action","/softeng_project_group08/view/DeleteFileActionScreen.fxml");
+    }
     
     private void handleAction(RadioButton rb, String title, String path){
         // private method to handle the buttons action.
@@ -115,8 +127,4 @@ public class ActionCreateScreenController implements Initializable {
         
     }
 
-    @FXML
-    private void moveFileAction(ActionEvent event) {
-        handleAction(moveFileActionID,"Move File Action","/softeng_project_group08/view/MoveFileActionScreen.fxml");
-    }
 }
