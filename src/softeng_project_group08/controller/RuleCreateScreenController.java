@@ -1,6 +1,5 @@
 package softeng_project_group08.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
@@ -10,7 +9,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import softeng_project_group08.model.RuleManager;
 
@@ -37,6 +40,18 @@ public class RuleCreateScreenController implements Initializable {
 
     ChangeScreen cs = new ChangeScreen();
 
+    @FXML
+    private Spinner<Integer> spinnerDaysID;
+
+    @FXML
+    private Spinner<Integer> spinnerHoursID;
+    @FXML
+    private Spinner<Integer> spinnerMinutesID;
+    @FXML
+    private CheckBox checkBoxID;
+    @FXML
+    private AnchorPane anchorPaneID;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -45,6 +60,21 @@ public class RuleCreateScreenController implements Initializable {
         saveRuleID1.disableProperty().bind(Bindings.isEmpty(nameRuleID.textProperty()));
         addTriggerID.disableProperty().bind(Bindings.isEmpty(nameRuleID.textProperty()));
         addActionID.disableProperty().bind(Bindings.isEmpty(nameRuleID.textProperty()));
+
+        if (ruleManager.getCurrentRule().getSleepingTime() != 0) {
+            checkBoxID.setSelected(true);
+        }
+
+        anchorPaneID.visibleProperty().bind(checkBoxID.selectedProperty());
+
+        SpinnerValueFactory<Integer> valueFactoryDays = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 365, (ruleManager.getCurrentRule().getSleepingTime()) / 1440);
+        spinnerDaysID.setValueFactory(valueFactoryDays);
+
+        SpinnerValueFactory<Integer> valueFactoryHours = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24, (ruleManager.getCurrentRule().getSleepingTime() % 1440) / 60);
+        spinnerHoursID.setValueFactory(valueFactoryHours);
+
+        SpinnerValueFactory<Integer> valueFactoryMinutes = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24, (ruleManager.getCurrentRule().getSleepingTime() % 1440) % 60);
+        spinnerMinutesID.setValueFactory(valueFactoryMinutes);
 
     }
 
@@ -61,6 +91,7 @@ public class RuleCreateScreenController implements Initializable {
             showDialog(" You can't save the rule without an Action ", Alert.AlertType.ERROR, "Error");
         } else {
             ruleManager.addRule();
+            System.out.println("Sleeping time minutes: " + ruleManager.getCurrentRule().getSleepingTime());
             nameRuleID.clear();
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             String title = "MyIFTTT";
@@ -117,6 +148,20 @@ public class RuleCreateScreenController implements Initializable {
         alert.setContentText(message);
 
         alert.showAndWait();
+    }
+
+    @FXML
+    private void saveTimeAction(ActionEvent event) {
+
+        ruleManager.getCurrentRule().setSleepingTime(spinnerDaysID.getValue(), spinnerHoursID.getValue(), spinnerMinutesID.getValue());
+
+    }
+
+    @FXML
+    private void checkBoxAction(ActionEvent event) {
+        if (!checkBoxID.isSelected()) {
+            ruleManager.getCurrentRule().setSleepingTime(0);
+        }
     }
 
 }

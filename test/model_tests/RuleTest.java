@@ -1,5 +1,7 @@
 package model_tests;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -13,7 +15,10 @@ public class RuleTest {
     
     FakeTrigger trueTrigger, falseTrigger;
     FakeAction aAction, bAction;
-    Rule r1, r2, r3, r4;
+    Rule r1, r2, r3, r4,r5;
+    private static final int MINUTE = 1;
+    private static final int MINUTE_IN_HOUR = 60;
+    private static final int MINUTE_IN_DAY = 24 * MINUTE_IN_HOUR;
     
     @Before
     public void setUp() {
@@ -30,6 +35,7 @@ public class RuleTest {
         r3 = new Rule("A", falseTrigger, bAction);
         // test case set methods: rule with name="C", trigger=null, action=null, active=true
         r4 = new Rule("C", null, null);
+        r5= new Rule("E",trueTrigger,aAction,3,4,5);
     }
     
     // assertSame checks whether the arguments point at the same object
@@ -97,6 +103,27 @@ public class RuleTest {
         // fourth if: equals between rules based on name
         assertEquals(r3, r1);
         assertNotEquals(r3, r2);
+    }
+    @Test
+    public void testGetSetSleepingTime() {
+        assertEquals(0, r1.getSleepingTime());
+        assertEquals(0, r2.getSleepingTime());
+        assertEquals(3 * MINUTE_IN_DAY + 4 *MINUTE_IN_HOUR + 5, r5.getSleepingTime());
+
+        r1.setSleepingTime(2, 3, 4);
+        assertEquals(2 * MINUTE_IN_DAY + 3 *MINUTE_IN_HOUR + 4, r1.getSleepingTime());
+        r2.setSleepingTime(60);
+        assertEquals(60,r2.getSleepingTime());
+    }
+
+    @Test
+    public void testSetRepeat() {
+        assertNull(r1.getRepeat());
+
+        LocalDateTime expectedRepeat = LocalDateTime.now().plus(60,ChronoUnit.MINUTES);
+        r1.setRepeat(expectedRepeat);
+
+        assertEquals(expectedRepeat, r1.getRepeat());
     }
         
 }
