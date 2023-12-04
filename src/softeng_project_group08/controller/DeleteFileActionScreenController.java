@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import softeng_project_group08.model.DeleteFileAction;
-import softeng_project_group08.model.RuleManager;
 
 /**
  * Manages delete action creation for rules. Controls the selection of a file

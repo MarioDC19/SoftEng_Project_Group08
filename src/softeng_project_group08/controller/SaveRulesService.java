@@ -1,14 +1,12 @@
-package softeng_project_group08.model;
+package softeng_project_group08.controller;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.collections.ObservableList;
-
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+import softeng_project_group08.model.RuleList;
 
 /**
  * Service class responsible for saving a list of rules to a file. Extends
@@ -18,10 +16,10 @@ import java.util.ArrayList;
  */
 public class SaveRulesService extends Service<Void> {
 
-    private ObservableList<Rule> rules;
+    private RuleList rules;
     private String filePath;
 
-    public SaveRulesService(ObservableList<Rule> rules, String filePath) {
+    public SaveRulesService(RuleList rules, String filePath) {
         this.rules = rules;
         this.filePath = filePath;
     }
@@ -41,19 +39,15 @@ public class SaveRulesService extends Service<Void> {
     // Method to save rules to a file
     private void saveRulesToFile() {
         try {
-            // Convert ObservableList to ArrayList for serialization
-            ArrayList<Rule> ruleArrayList = new ArrayList<>(rules);
-
-            // Write the serialized ArrayList to the specified file
             try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filePath)))) {
 
-                oos.writeObject(ruleArrayList);
+                oos.writeObject(rules);
 
-                System.out.println("Observable list of rules saved successfully to file: " + filePath);
+                System.out.println("RuleList saved successfully to file: " + filePath);
             }
         } catch (IOException e) {
             // Handle IO exceptions if there's an error during file writing
-            System.err.println("Error while saving the observable list of rules to file: " + filePath);
+            System.err.println("Error while saving RuleList to file: " + filePath);
             e.printStackTrace();
         }
     }

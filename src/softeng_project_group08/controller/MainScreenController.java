@@ -21,17 +21,20 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import softeng_project_group08.model.Rule;
-import softeng_project_group08.model.RuleManager;
+import softeng_project_group08.model.RuleEventListener;
+import softeng_project_group08.model.RuleEventType;
+import softeng_project_group08.model.RuleList;
 
 /**
- * Controls the main screen functionalities and interactions.
+ * Controls the main screen functionalities and interactions. This controller is
+ * subscribed to the list, when the list changes, the table view is updated
+ * accordingly.
  *
  * @author group08
  */
-public class MainScreenController implements Initializable {
+public class MainScreenController implements Initializable, RuleEventListener {
 
     @FXML
     private Button newRuleID;
@@ -44,15 +47,14 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private MenuItem closeID;
-    
+
     @FXML
     private MenuItem aboutID;
 
     private ChangeScreen cs;
-    
+
     @FXML
     private Button deleteRuleID;
-
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -60,17 +62,19 @@ public class MainScreenController implements Initializable {
         // Get the RuleManager instance.
         ruleManager = RuleManager.getRuleManager();
         // Get the list of rules from the RuleManager.
-        ObservableList<Rule> rulesList = ruleManager.getRules();
-
-        tableRulesID.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tableViewID.setItems(rulesList);
+        RuleList rulesList = ruleManager.getRules();
         
+        // Initialize the table view
+        tableRulesID.setCellValueFactory(new PropertyValueFactory<>("name"));
+        for(Rule r : rulesList){
+            tableViewID.getItems().add(r);
+        }
+        // Initialize right-click remove functionality on table view
         ContextMenu contextMenu = new ContextMenu();
         MenuItem deleteMenuItem = new MenuItem("Delete");
         deleteMenuItem.setOnAction(event -> deleteRuleAction());
         contextMenu.getItems().add(deleteMenuItem);
-
-        // Aggiungi un listener per il clic destro sulla TableView
+        // Add a listener to react to right click on the table view
         tableViewID.setRowFactory(tv -> {
             TableRow<Rule> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -80,24 +84,29 @@ public class MainScreenController implements Initializable {
             });
             return row;
         });
-        
+        // Initialize remove selected rules functionality on table view
         deleteRuleID.disableProperty().bind(Bindings.isEmpty(tableViewID.getSelectionModel().getSelectedItems()));
-        
         tableRulesID.setCellFactory(col -> {
             TableCell<Rule, String> cell = new TableCell<>();
-            cell.textProperty().bind(Bindings.createStringBinding(() ->
-                    cell.getItem(), cell.itemProperty()));
+            cell.textProperty().bind(Bindings.createStringBinding(()
+                    -> cell.getItem(), cell.itemProperty()));
             return cell;
         });
-        
         tableViewID.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        
+        // subscribe this controller to the RuleList and listen for any type of change.
+        ruleManager.getRules().getEventManager().subscribe(this);
+        // Initialize the RuleManager (subscribe, start processing rules)
+        ruleManager.initialize();
     }
 
     @FXML
     private void newRuleAction(ActionEvent event) {
         Rule newRule = new Rule(null, null, null);
         ruleManager.setCurrentRule(newRule);
-        //Load the RuleCreateScreen
+        // Unsubscribe from the ruleList before changing screen
+        ruleManager.getRules().getEventManager().unsubscribe(this);
+        // Load the RuleCreateScreen
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         String title = "MyIFTTT";
         cs.switchScreen("/softeng_project_group08/view/RuleCreateScreen.fxml", currentStage, title);
@@ -122,7 +131,6 @@ public class MainScreenController implements Initializable {
         alert.showAndWait();
     }
 
-
     @FXML
     private void deleteRuleAction() {
         ObservableList<Rule> selectedRules = tableViewID.getSelectionModel().getSelectedItems();
@@ -137,11 +145,28 @@ public class MainScreenController implements Initializable {
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 for (Rule rule : selectedRules) {
-                    ruleManager.removeRule(rule);
+                    ruleManager.getRules().removeRule(rule);
                 }
-                tableViewID.getItems().removeAll(selectedRules);
             }
-        } 
+        }
     }
-    
+
+    @Override
+    public void update(RuleEventType eventType, Rule updatedRule) {
+        switch(eventType){
+            case ADD:
+                tableViewID.getItems().add(updatedRule);
+                break;
+            case REMOVE:
+                tableViewID.getItems().remove(updatedRule);
+                break;
+            case CHANGE:
+                tableViewID.getItems().remove(updatedRule);
+                tableViewID.getItems().add(updatedRule);
+                break;
+            default:
+                System.out.println("Unknown event");
+        }
+    }
+
 }

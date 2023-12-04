@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import softeng_project_group08.model.RuleManager;
 
 /**
  * Manages trigger selection and configuration for rule creation. Controls the

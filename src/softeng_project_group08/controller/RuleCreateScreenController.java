@@ -15,7 +15,6 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import softeng_project_group08.model.RuleManager;
 
 /**
  * Controls the rule creation screen functionalities. Manages rule addition,
@@ -39,18 +38,16 @@ public class RuleCreateScreenController implements Initializable {
     private RuleManager ruleManager;
 
     ChangeScreen cs = new ChangeScreen();
-
-    @FXML
-    private Spinner<Integer> spinnerDaysID;
-
-    @FXML
-    private Spinner<Integer> spinnerHoursID;
-    @FXML
-    private Spinner<Integer> spinnerMinutesID;
     @FXML
     private CheckBox checkBoxID;
     @FXML
     private AnchorPane anchorPaneID;
+    @FXML
+    private Spinner<Integer> spinnerDaysID;
+    @FXML
+    private Spinner<Integer> spinnerHoursID;
+    @FXML
+    private Spinner<Integer> spinnerMinutesID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -75,7 +72,7 @@ public class RuleCreateScreenController implements Initializable {
 
         SpinnerValueFactory<Integer> valueFactoryMinutes = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24, (ruleManager.getCurrentRule().getSleepingTime() % 1440) % 60);
         spinnerMinutesID.setValueFactory(valueFactoryMinutes);
-
+        
     }
 
     @FXML
@@ -90,7 +87,7 @@ public class RuleCreateScreenController implements Initializable {
         } else if (ruleManager.getCurrentRule().getAction() == null) {
             showDialog(" You can't save the rule without an Action ", Alert.AlertType.ERROR, "Error");
         } else {
-            ruleManager.addRule();
+            ruleManager.addCurrentRule();
             System.out.println("Sleeping time minutes: " + ruleManager.getCurrentRule().getSleepingTime());
             nameRuleID.clear();
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -107,8 +104,6 @@ public class RuleCreateScreenController implements Initializable {
         if (!enteredName.equals(ruleManager.getCurrentRule().getName())) {
             ruleManager.getCurrentRule().setName(enteredName); //prova
         }
-
-        // Assuming 'screenChanger' is the instance of the ChangeScreen class created earlier
         // Get the current window
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         String title = "Create Trigger";
@@ -122,8 +117,6 @@ public class RuleCreateScreenController implements Initializable {
         if (!(enteredName.equals(ruleManager.getCurrentRule().getName()))) {
             ruleManager.getCurrentRule().setName(enteredName); // prova
         }
-
-        // Assuming 'screenChanger' is the instance of the ChangeScreen class created earlier
         // Get the current window
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         String title = "Create Action";
@@ -151,17 +144,15 @@ public class RuleCreateScreenController implements Initializable {
     }
 
     @FXML
-    private void saveTimeAction(ActionEvent event) {
-
-        ruleManager.getCurrentRule().setSleepingTime(spinnerDaysID.getValue(), spinnerHoursID.getValue(), spinnerMinutesID.getValue());
-
-    }
-
-    @FXML
     private void checkBoxAction(ActionEvent event) {
         if (!checkBoxID.isSelected()) {
             ruleManager.getCurrentRule().setSleepingTime(0);
         }
+    }
+
+    @FXML
+    private void saveTimeAction(ActionEvent event) {
+        ruleManager.getCurrentRule().setSleepingTime(spinnerDaysID.getValue(), spinnerHoursID.getValue(), spinnerMinutesID.getValue());
     }
 
 }

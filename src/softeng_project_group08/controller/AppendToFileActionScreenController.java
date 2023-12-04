@@ -14,11 +14,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import softeng_project_group08.model.AppendToFileAction;
-import softeng_project_group08.model.RuleManager;
 
 /**
- * Manages appending string action creation for rules. 
- * Controls the adding of a string at the end of a file.
+ * Manages appending string action creation for rules. Controls the adding of a
+ * string at the end of a file.
  *
  * @author group08
  */
@@ -40,35 +39,35 @@ public class AppendToFileActionScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        rm= RuleManager.getRuleManager();
-        file=null;
-       saveButtonID.disableProperty().bind(
+        rm = RuleManager.getRuleManager();
+        file = null;
+        saveButtonID.disableProperty().bind(
                 Bindings.or(
                         filePathID.textProperty().isEmpty(),
                         appendStringID.textProperty().isEmpty()
                 ));
-    }    
+    }
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
-        AppendToFileAction atfa = new AppendToFileAction(appendStringID.getText(),file.getPath());
+        AppendToFileAction atfa = new AppendToFileAction(appendStringID.getText(), file.getPath());
         rm.getCurrentRule().setAction(atfa);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
-        
+
     }
 
     @FXML
     private void insertFileAction(ActionEvent event) {
-        FileChooser fc= new FileChooser();
+        FileChooser fc = new FileChooser();
         fc.setTitle("Select File");
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text File", "*.txt", "*.csv", "*.xml", "*.json", "*.html", "*.md", "*.log", "*.conf", "*.properties", "*.ini");
         fc.getExtensionFilters().add(extFilter);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        file=fc.showOpenDialog(stage);
-        if(file != null){
+        file = fc.showOpenDialog(stage);
+        if (file != null) {
             filePathID.setText(file.getPath());
         }
     }
-    
+
 }

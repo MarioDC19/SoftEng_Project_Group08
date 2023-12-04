@@ -1,7 +1,6 @@
 package softeng_project_group08.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -13,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import softeng_project_group08.model.PlayAudioAction;
-import softeng_project_group08.model.RuleManager;
 
 /**
  * Manages audio action creation for rules. Controls the selection of audio
