@@ -33,6 +33,11 @@ public class DeleteFileAction implements Action {
         }
     }
     
+    @Override
+    public String toString() {
+        return "DeleteFileAction:\n" + "file=\n" + file ;
+    }
+    
         private void showDialog(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Errore");

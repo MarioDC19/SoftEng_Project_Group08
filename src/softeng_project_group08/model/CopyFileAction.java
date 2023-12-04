@@ -51,6 +51,11 @@ public class CopyFileAction implements Action {
             System.out.println("The file has been copied successfully.");
         }
     }
+    
+    @Override
+    public String toString() {
+        return "CopyFileAction:\n" + "sourceFile=\n" + sourceFile + "\ntargetDirectory=\n" + targetDirectory;
+    }
 
     private void showDialog(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -45,6 +45,11 @@ public class PlayAudioAction implements Action {
         }
     }
     
+    @Override
+    public String toString() {
+        return "PlayAudioAction:\n" + "file=\n" + file;
+    }
+    
     private void showDialog(String message){
         Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Errore");

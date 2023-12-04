@@ -28,4 +28,8 @@ public class TimeOfDayTrigger implements Trigger{
         return timeOfDay.getHour() == now.getHour() && timeOfDay.getMinute() == now.getMinute();
     }
     
+    @Override
+    public String toString() {
+        return "TimeOfDayTrigger: " + timeOfDay;
+    }
 }

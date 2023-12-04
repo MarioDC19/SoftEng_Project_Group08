@@ -39,4 +39,9 @@ public class MoveFileAction implements Action {
             ex.printStackTrace();
         }
     }
+    
+    @Override
+    public String toString() {
+        return "MoveFileAction:\n" + "sourceFile=\n" + sourceFile + "\ntargetDirectory=\n" + targetDirectory ;
+    }
 }

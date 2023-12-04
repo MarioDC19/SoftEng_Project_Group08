@@ -32,8 +32,11 @@
             </MenuBar>
             <TableView fx:id="tableViewID" editable="true" layoutY="82.0" prefHeight="425.0" prefWidth="761.0" AnchorPane.bottomAnchor="-3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
               <columns>
-                  <TableColumn fx:id="activeRuleColumnID" prefWidth="47.333343505859375" text="Active" />
-                <TableColumn fx:id="tableRulesID" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="711.6666564941406" text="My Rules" />
+                  <TableColumn fx:id="activeRuleColumnID" maxWidth="2100.0" prefWidth="47.333343505859375" text="Active" />
+                <TableColumn fx:id="tableRulesID" editable="false" maxWidth="2000.0" minWidth="100.0" prefWidth="47.333343505859375" text="Name" />
+                  <TableColumn fx:id="tableTriggerID" editable="false" maxWidth="10500.0" minWidth="100.0" prefWidth="47.333343505859375" text="Trigger" />
+                  <TableColumn fx:id="tableActionID" editable="false" maxWidth="10500.0" minWidth="100.0" prefWidth="47.333343505859375" text="Action" />
+                  <TableColumn fx:id="tableTimeID" editable="false" maxWidth="6000.0" prefWidth="47.333343505859375" text="Sleeping Time" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -27,4 +27,8 @@ public class ShowDialogAction implements Action{
         });
     }
     
+     @Override
+    public String toString() {
+        return "ShowDialogAction:\n" +"message= " + message ;
+    }
 }

@@ -26,10 +26,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import softeng_project_group08.model.Action;
 import softeng_project_group08.model.Rule;
 import softeng_project_group08.model.RuleEventListener;
 import softeng_project_group08.model.RuleEventType;
 import softeng_project_group08.model.RuleList;
+import softeng_project_group08.model.Trigger;
 
 /**
  * Controls the main screen functionalities and interactions. This controller is
@@ -61,6 +63,12 @@ public class MainScreenController implements Initializable, RuleEventListener {
     private Button deleteRuleID;
     @FXML
     private TableColumn<Rule, Boolean> activeRuleColumnID;
+    @FXML
+    private TableColumn<Rule, Trigger> tableTriggerID;
+    @FXML
+    private TableColumn<Rule, Integer> tableTimeID;
+    @FXML
+    private TableColumn<Rule, Action> tableActionID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -74,6 +82,9 @@ public class MainScreenController implements Initializable, RuleEventListener {
         tableRulesID.setCellValueFactory(new PropertyValueFactory<>("name"));
             // set the state of the checkbox at the current value
         activeRuleColumnID.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isActive()));
+        tableTriggerID.setCellValueFactory(new PropertyValueFactory<>("trigger"));
+        tableActionID.setCellValueFactory(new PropertyValueFactory<>("action"));
+        tableTimeID.setCellValueFactory(new PropertyValueFactory<>("sleepingTime"));
             // add functionality to change the state of the rule when the checkbox is clicked
         activeRuleColumnID.setCellFactory(column -> new CheckBoxTableCell<Rule, Boolean>() {
             @Override

@@ -11,7 +11,7 @@ import java.util.List;
  * itself changes. Thread-safe class with respect to add and remove; if the list
  * is iterated upon, the iteration must be done in a synchronized block
  *
- * @author mario
+ * @author group08
  */
 public class RuleList implements Iterable<Rule>, RuleEventListener, Serializable {
 

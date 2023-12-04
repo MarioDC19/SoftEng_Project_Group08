@@ -33,4 +33,9 @@ public class AppendToFileAction implements Action{
             e.printStackTrace();
         }
     }
+    
+    @Override
+    public String toString() {
+        return "AppendToFileAction: " + "\ncontent=" + content + "\nfilePath=\n" + filePath;
+    }
 }
