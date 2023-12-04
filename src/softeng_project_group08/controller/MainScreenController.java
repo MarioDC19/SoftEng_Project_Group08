@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -19,8 +21,10 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import softeng_project_group08.model.Rule;
 import softeng_project_group08.model.RuleEventListener;
@@ -55,6 +59,8 @@ public class MainScreenController implements Initializable, RuleEventListener {
 
     @FXML
     private Button deleteRuleID;
+    @FXML
+    private TableColumn<Rule, Boolean> activeRuleColumnID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -63,10 +69,29 @@ public class MainScreenController implements Initializable, RuleEventListener {
         ruleManager = RuleManager.getRuleManager();
         // Get the list of rules from the RuleManager.
         RuleList rulesList = ruleManager.getRules();
-        
+
         // Initialize the table view
         tableRulesID.setCellValueFactory(new PropertyValueFactory<>("name"));
-        for(Rule r : rulesList){
+            // set the state of the checkbox at the current value
+        activeRuleColumnID.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isActive()));
+            // add functionality to change the state of the rule when the checkbox is clicked
+        activeRuleColumnID.setCellFactory(column -> new CheckBoxTableCell<Rule, Boolean>() {
+            @Override
+            public void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (!isEmpty()) {
+                    TableCell<Rule, Boolean> cell = this;
+                    CheckBox checkBox = (CheckBox) cell.getGraphic();
+
+                    checkBox.setOnMouseClicked(event -> {
+                        int rowIndex = getIndex();
+                        Rule selectedRule = tableViewID.getItems().get(rowIndex);
+                        selectedRule.setActive(!selectedRule.isActive());
+                    });
+                }
+            }
+        });
+        for (Rule r : rulesList) {
             tableViewID.getItems().add(r);
         }
         // Initialize right-click remove functionality on table view
@@ -93,7 +118,7 @@ public class MainScreenController implements Initializable, RuleEventListener {
             return cell;
         });
         tableViewID.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        
+
         // subscribe this controller to the RuleList and listen for any type of change.
         ruleManager.getRules().getEventManager().subscribe(this);
         // Initialize the RuleManager (subscribe, start processing rules)
@@ -153,7 +178,7 @@ public class MainScreenController implements Initializable, RuleEventListener {
 
     @Override
     public void update(RuleEventType eventType, Rule updatedRule) {
-        switch(eventType){
+        switch (eventType) {
             case ADD:
                 tableViewID.getItems().add(updatedRule);
                 break;
@@ -161,8 +186,8 @@ public class MainScreenController implements Initializable, RuleEventListener {
                 tableViewID.getItems().remove(updatedRule);
                 break;
             case CHANGE:
-                tableViewID.getItems().remove(updatedRule);
-                tableViewID.getItems().add(updatedRule);
+                // reload the row in the table view
+                tableViewID.refresh();
                 break;
             default:
                 System.out.println("Unknown event");
