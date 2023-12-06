@@ -50,6 +50,11 @@
                         <Font size="22.0" />
                      </font>
                   </RadioButton>
+                  <RadioButton fx:id="fileExistenceID" mnemonicParsing="false" onAction="#fileExistenceTriggerAction" prefHeight="43.0" prefWidth="234.0" text="File Existence">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </RadioButton>
                </children>
             </VBox>
          </children>

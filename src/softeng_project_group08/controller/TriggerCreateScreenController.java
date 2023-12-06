@@ -37,6 +37,8 @@ public class TriggerCreateScreenController implements Initializable {
     private RadioButton dayOfMonthID;
     @FXML
     private RadioButton dayOfYearID;
+    @FXML
+    private RadioButton fileExistenceID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -49,6 +51,7 @@ public class TriggerCreateScreenController implements Initializable {
         dayOfWeekID.setToggleGroup(tg);
         dayOfMonthID.setToggleGroup(tg);
         dayOfYearID.setToggleGroup(tg);
+        fileExistenceID.setToggleGroup(tg);
         // Disable the saveButton if no button is selected
         saveButtonID.disableProperty().bind(tg.selectedToggleProperty().isNull());
 
@@ -114,6 +117,11 @@ public class TriggerCreateScreenController implements Initializable {
         }
     }
         
+    }
+
+    @FXML
+    private void fileExistenceTriggerAction(ActionEvent event) {
+        handleTrigger(fileExistenceID,"File Existence Trigger","/softeng_project_group08/view/triggers/FileExistenceTriggerScreen.fxml","File existence");
     }
 
     
