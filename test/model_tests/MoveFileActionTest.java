@@ -3,7 +3,7 @@ package model_tests;
 import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
-import softeng_project_group08.model.MoveFileAction;
+import softeng_project_group08.model.actions.MoveFileAction;
 import java.io.IOException;
 import org.junit.After;
 

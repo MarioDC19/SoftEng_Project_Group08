@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import softeng_project_group08.controller.RuleManager;
 import softeng_project_group08.model.Rule;
 import softeng_project_group08.model.RuleEventListener;
 import softeng_project_group08.model.RuleEventManager;

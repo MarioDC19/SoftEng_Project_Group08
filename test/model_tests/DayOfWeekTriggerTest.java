@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
-import softeng_project_group08.model.DayOfWeekTrigger;
+import softeng_project_group08.model.triggers.DayOfWeekTrigger;
 
 /**
  *

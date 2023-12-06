@@ -8,11 +8,11 @@ import java.time.LocalDate;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import softeng_project_group08.model.DayOfYearTrigger;
+import softeng_project_group08.model.triggers.DayOfYearTrigger;
 
 /**
  *
- * @author Master
+ * @author group08
  */
 public class DayOfYearTriggerTest {
      private DayOfYearTrigger a, b;

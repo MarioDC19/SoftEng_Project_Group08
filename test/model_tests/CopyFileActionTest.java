@@ -6,13 +6,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import softeng_project_group08.model.CopyFileAction;
+import softeng_project_group08.model.actions.CopyFileAction;
 
 /**
  *
  * @author group08
  */
-
 public class CopyFileActionTest {
 
     private static final String SOURCE_FILE_PATH = "testSource.txt";
@@ -20,8 +19,6 @@ public class CopyFileActionTest {
     private File sourceFile;
     private File targetDirectory;
     private File targetFile;
-
-   
 
     @Before
     public void setUp() throws IOException {

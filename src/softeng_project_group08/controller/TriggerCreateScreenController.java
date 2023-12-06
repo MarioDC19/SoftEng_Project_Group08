@@ -9,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -84,17 +83,22 @@ public class TriggerCreateScreenController implements Initializable {
 
     @FXML
     private void hourTriggerAction(ActionEvent event) {
-            handleTrigger(hourTriggerID,"Time Of Day Trigger","/softeng_project_group08/view/TimeOfDayTriggerScreen.fxml","Time of day");
+            handleTrigger(hourTriggerID,"Time Of Day Trigger","/softeng_project_group08/view/triggers/TimeOfDayTriggerScreen.fxml","Time of day");
     }
 
     @FXML
     private void dayOfWeekAction(ActionEvent event) {
-        handleTrigger(dayOfWeekID,"Day Of Week Trigger","/softeng_project_group08/view/DayOfWeekTriggerScreen.fxml","Day of week");
+        handleTrigger(dayOfWeekID,"Day Of Week Trigger","/softeng_project_group08/view/triggers/DayOfWeekTriggerScreen.fxml","Day of week");
     }
     
     @FXML
     private void dayOfMonthAction(ActionEvent event) {
-        handleTrigger(dayOfMonthID,"Day Of Month Trigger","/softeng_project_group08/view/DayOfMonthTriggerScreen.fxml","Day of month");
+        handleTrigger(dayOfMonthID,"Day Of Month Trigger","/softeng_project_group08/view/triggers/DayOfMonthTriggerScreen.fxml","Day of month");
+    }
+    
+    @FXML
+    private void dayOfYearAction(ActionEvent event) {
+         handleTrigger(dayOfYearID,"Day Of Year Trigger","/softeng_project_group08/view/triggers/DayOfYearTriggerScreen.fxml","Day of year");
     }
     
     private void handleTrigger(RadioButton rb, String title, String path,String text){
@@ -112,9 +116,6 @@ public class TriggerCreateScreenController implements Initializable {
         
     }
 
-    @FXML
-    private void dayOfYearAction(ActionEvent event) {
-         handleTrigger(dayOfYearID,"Day Of Year Trigger","/softeng_project_group08/view/DayOfYearTriggerScreen.fxml","Day of year");
-    }
+    
     
 }

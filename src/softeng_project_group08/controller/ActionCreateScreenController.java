@@ -40,6 +40,8 @@ public class ActionCreateScreenController implements Initializable {
     private RadioButton moveFileActionID;
     @FXML
     private RadioButton deleteFileActionID;
+    @FXML
+    private RadioButton executeExternalActionID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -53,6 +55,7 @@ public class ActionCreateScreenController implements Initializable {
         copyFileActionID.setToggleGroup(tg);
         moveFileActionID.setToggleGroup(tg);
         deleteFileActionID.setToggleGroup(tg);
+        executeExternalActionID.setToggleGroup(tg);
 
         // Disable the saveButton if no button is selected
         saveButtonID1.disableProperty().bind(tg.selectedToggleProperty().isNull());
@@ -83,32 +86,38 @@ public class ActionCreateScreenController implements Initializable {
 
     @FXML
     private void audioAction(ActionEvent event) {
-        handleAction(audioActionID,"Play Audio Action","/softeng_project_group08/view/PlayAudioActionScreen.fxml");
+        handleAction(audioActionID,"Play Audio Action","/softeng_project_group08/view/actions/PlayAudioActionScreen.fxml");
     }
 
     @FXML
     private void dialogAction(ActionEvent event) {
-        handleAction(dialogActionID,"Show Dialog Action","/softeng_project_group08/view/ShowDialogActionScreen.fxml");
+        handleAction(dialogActionID,"Show Dialog Action","/softeng_project_group08/view/actions/ShowDialogActionScreen.fxml");
     }
 
     @FXML
     private void appendToFileAction(ActionEvent event) {
-        handleAction(appendToFileActionID,"Append to File Action","/softeng_project_group08/view/AppendToFileActionScreen.fxml");
+        handleAction(appendToFileActionID,"Append to File Action","/softeng_project_group08/view/actions/AppendToFileActionScreen.fxml");
     }
 
     @FXML
     private void copyFileAction(ActionEvent event) {
-        handleAction(copyFileActionID,"Copy File Action","/softeng_project_group08/view/CopyFileActionScreen.fxml");
+        handleAction(copyFileActionID,"Copy File Action","/softeng_project_group08/view/actions/CopyFileActionScreen.fxml");
     }
     @FXML
     private void moveFileAction(ActionEvent event) {
-        handleAction(moveFileActionID,"Move File Action","/softeng_project_group08/view/MoveFileActionScreen.fxml");
+        handleAction(moveFileActionID,"Move File Action","/softeng_project_group08/view/actions/MoveFileActionScreen.fxml");
     }
 
     @FXML
     private void deleteFileAction(ActionEvent event) {
-        handleAction(deleteFileActionID,"Delete File Action","/softeng_project_group08/view/DeleteFileActionScreen.fxml");
+        handleAction(deleteFileActionID,"Delete File Action","/softeng_project_group08/view/actions/DeleteFileActionScreen.fxml");
     }
+    
+    @FXML
+    private void executeExternalAction(ActionEvent event) {
+        handleAction(executeExternalActionID,"Execute External Program Action","/softeng_project_group08/view/actions/ExecuteExternalProgramActionScreen.fxml");
+    }
+
     
     private void handleAction(RadioButton rb, String title, String path){
         // private method to handle the buttons action.
@@ -125,4 +134,5 @@ public class ActionCreateScreenController implements Initializable {
         
     }
 
+    
 }

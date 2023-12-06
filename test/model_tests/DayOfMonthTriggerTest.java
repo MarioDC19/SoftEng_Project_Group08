@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import softeng_project_group08.model.DayOfMonthTrigger;
+import softeng_project_group08.model.triggers.DayOfMonthTrigger;
 
 /**
  *

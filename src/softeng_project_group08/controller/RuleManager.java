@@ -13,10 +13,13 @@ import softeng_project_group08.model.RuleEventType;
 import softeng_project_group08.model.RuleList;
 
 /**
- * @author group08 Manages the rules list in the application. Uses the Singleton
+ *
+ * Manages the rules list in the application. Uses the Singleton
  * pattern to provide a shared instance to all controllers. Contains methods for
  * adding and and retrieving rules. Runs a background service
  * (ProcessRulesService) to handle rule-related tasks.
+ * 
+ * @author group08 
  */
 public class RuleManager implements RuleEventListener {
 

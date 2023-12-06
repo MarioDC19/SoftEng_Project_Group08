@@ -1,6 +1,6 @@
 package model_tests;
 
-import softeng_project_group08.model.AppendToFileAction;
+import softeng_project_group08.model.actions.AppendToFileAction;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

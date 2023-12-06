@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import softeng_project_group08.model.DeleteFileAction;
+import softeng_project_group08.model.actions.DeleteFileAction;
 
 /**
  *
