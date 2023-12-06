@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="266.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="softeng_project_group08.controller.triggers.FileSizeTriggerScreenController">
+   <children>
+      <StackPane prefHeight="67.0" prefWidth="434.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Check File Size" textAlignment="CENTER" wrappingWidth="429.809814453125">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+         </children>
+      </StackPane>
+      <Separator layoutY="65.0" prefHeight="0.0" prefWidth="434.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <ButtonBar layoutX="233.0" layoutY="226.0" prefHeight="40.0" prefWidth="200.0">
+         <buttons>
+            <Button fx:id="saveButtonID" mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
+         </buttons>
+         <padding>
+            <Insets bottom="5.0" right="20.0" />
+         </padding>
+      </ButtonBar>
+      <TextField fx:id="fileSizeID" layoutX="17.0" layoutY="158.0" prefHeight="31.0" prefWidth="239.0" />
+      <Text layoutX="107.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the maximum file size: " />
+      <Button fx:id="fileChooserID" layoutX="273.0" layoutY="80.0" mnemonicParsing="false" onAction="#fileChooserAction" prefHeight="31.0" prefWidth="146.0" text="Select the file" />
+      <TextField fx:id="fileNameID" editable="false" layoutX="14.0" layoutY="80.0" prefHeight="31.0" prefWidth="247.0" />
+      <Spinner fx:id="measurementUnitID" layoutX="286.0" layoutY="158.0" prefHeight="31.0" prefWidth="120.0" />
+   </children>
+</AnchorPane>

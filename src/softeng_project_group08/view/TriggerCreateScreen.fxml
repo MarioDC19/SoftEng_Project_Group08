@@ -50,7 +50,12 @@
                         <Font size="22.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="fileExistenceID" mnemonicParsing="false" onAction="#fileExistenceTriggerAction" prefHeight="43.0" prefWidth="234.0" text="File Existence">
+                  <RadioButton fx:id="fileExistenceID" mnemonicParsing="false" onAction="#fileExistenceAction" prefHeight="43.0" prefWidth="234.0" text="File existence">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="fileSizeID" mnemonicParsing="false" onAction="#fileSizeAction" prefHeight="43.0" prefWidth="234.0" text="File size">
                      <font>
                         <Font size="22.0" />
                      </font>
