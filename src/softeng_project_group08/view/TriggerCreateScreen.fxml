@@ -22,16 +22,8 @@
                         <Font size="33.0" />
                      </font>
                      <StackPane.margin>
-                        <Insets bottom="30.0" />
+                        <Insets bottom="30.0" top="25.0" />
                      </StackPane.margin>
-                  </Text>
-                  <Text fx:id="selectedTrigger" strokeType="OUTSIDE" strokeWidth="0.0">
-                     <StackPane.margin>
-                        <Insets top="60.0" />
-                     </StackPane.margin>
-                     <font>
-                        <Font size="15.0" />
-                     </font>
                   </Text>
                </children>
             </StackPane>
@@ -44,6 +36,16 @@
                      </font>
                   </RadioButton>
                   <RadioButton fx:id="dayOfWeekID" mnemonicParsing="false" onAction="#dayOfWeekAction" prefHeight="43.0" prefWidth="234.0" text="Day of week">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="dayOfMonthID" mnemonicParsing="false" onAction="#dayOfMonthAction" prefHeight="43.0" prefWidth="234.0" text="Day of month">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="dayOfYearID" mnemonicParsing="false" onAction="#dayOfYearAction" prefHeight="43.0" prefWidth="234.0" text="Day of year">
                      <font>
                         <Font size="22.0" />
                      </font>

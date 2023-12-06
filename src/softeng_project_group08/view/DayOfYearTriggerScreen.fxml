@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="266.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="softeng_project_group08.controller.DayOfYearTriggerScreenController">
+   <children>
+      <StackPane prefHeight="67.0" prefWidth="434.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select a day of year:" wrappingWidth="207.809814453125">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+         </children>
+      </StackPane>
+      <Separator layoutY="65.0" prefHeight="0.0" prefWidth="434.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <ButtonBar layoutX="233.0" layoutY="226.0" prefHeight="40.0" prefWidth="200.0">
+         <buttons>
+            <Button fx:id="saveButtonID" mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
+         </buttons>
+         <padding>
+            <Insets bottom="5.0" right="20.0" />
+         </padding>
+      </ButtonBar>
+      <DatePicker fx:id="pickerDateOfYearID" editable="false" layoutX="130.0" layoutY="129.0" />
+   </children>
+</AnchorPane>

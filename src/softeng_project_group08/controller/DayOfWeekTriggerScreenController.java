@@ -65,8 +65,6 @@ public class DayOfWeekTriggerScreenController implements Initializable {
     @FXML
     private void saveButtonAction(ActionEvent event) {
         selectedDay = dayOfWeekID.getValue();
-
-        System.out.println("You have selected: " + selectedDay);
         DayOfWeekTrigger dayTrigger = new DayOfWeekTrigger(selectedDay);
         ruleManager.getCurrentRule().setTrigger(dayTrigger);
 

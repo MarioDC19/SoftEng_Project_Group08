@@ -19,9 +19,6 @@ import javafx.stage.Stage;
  * @author group08
  */
 public class TriggerCreateScreenController implements Initializable {
-
-    @FXML
-    private Text selectedTrigger;
     @FXML
     private Button backID;
     @FXML
@@ -37,6 +34,10 @@ public class TriggerCreateScreenController implements Initializable {
     
     @FXML
     private RadioButton dayOfWeekID;
+    @FXML
+    private RadioButton dayOfMonthID;
+    @FXML
+    private RadioButton dayOfYearID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -47,7 +48,8 @@ public class TriggerCreateScreenController implements Initializable {
         tg = new ToggleGroup();
         hourTriggerID.setToggleGroup(tg);
         dayOfWeekID.setToggleGroup(tg);
-
+        dayOfMonthID.setToggleGroup(tg);
+        dayOfYearID.setToggleGroup(tg);
         // Disable the saveButton if no button is selected
         saveButtonID.disableProperty().bind(tg.selectedToggleProperty().isNull());
 
@@ -82,51 +84,20 @@ public class TriggerCreateScreenController implements Initializable {
 
     @FXML
     private void hourTriggerAction(ActionEvent event) {
-
-        if (hourTriggerID.isSelected()) {
-
-            String newText = selectedTrigger.getText();
-
-            newText = newText + "Time of day";
-
-            selectedTrigger.setText(newText);
-
-            handleTrigger(hourTriggerID,"Time Of Day Trigger","/softeng_project_group08/view/TimeOfDayTriggerScreen.fxml");
-
-            if (ruleManager.getCurrentRule().getTrigger() == null) {
-                hourTriggerID.setSelected(false);
-                selectedTrigger.setText("");
-            }
-        } else {
-            // delete "Time of the day" from the text 
-            selectedTrigger.setText("");
-        }
+            handleTrigger(hourTriggerID,"Time Of Day Trigger","/softeng_project_group08/view/TimeOfDayTriggerScreen.fxml","Time of day");
     }
 
     @FXML
     private void dayOfWeekAction(ActionEvent event) {
-            
-        if (dayOfWeekID.isSelected()) {
-
-            String newText = selectedTrigger.getText();
-
-            newText = newText + "Day of week";
-
-            selectedTrigger.setText(newText);
-
-            handleTrigger(dayOfWeekID,"Day Of Week Trigger","/softeng_project_group08/view/DayOfWeekTriggerScreen.fxml");
-
-            if (ruleManager.getCurrentRule().getTrigger() == null) {
-                dayOfWeekID.setSelected(false);
-                selectedTrigger.setText("");
-            }
-        } else {
-            // delete "Time of the day" from the text 
-            selectedTrigger.setText("");
-        }
+        handleTrigger(dayOfWeekID,"Day Of Week Trigger","/softeng_project_group08/view/DayOfWeekTriggerScreen.fxml","Day of week");
     }
     
-    private void handleTrigger(RadioButton rb, String title, String path){
+    @FXML
+    private void dayOfMonthAction(ActionEvent event) {
+        handleTrigger(dayOfMonthID,"Day Of Month Trigger","/softeng_project_group08/view/DayOfMonthTriggerScreen.fxml","Day of month");
+    }
+    
+    private void handleTrigger(RadioButton rb, String title, String path,String text){
         // private method to handle the buttons triggers.
         ruleManager.getCurrentRule().setTrigger(null); 
         if(rb.isSelected()){
@@ -141,4 +112,9 @@ public class TriggerCreateScreenController implements Initializable {
         
     }
 
+    @FXML
+    private void dayOfYearAction(ActionEvent event) {
+         handleTrigger(dayOfYearID,"Day Of Year Trigger","/softeng_project_group08/view/DayOfYearTriggerScreen.fxml","Day of year");
+    }
+    
 }
