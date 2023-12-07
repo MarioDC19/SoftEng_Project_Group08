@@ -34,6 +34,10 @@ public class PlayAudioActionScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ruleManager = RuleManager.getRuleManager();
+        
+        saveButtonID.disableProperty().bind(
+                audioPathID.textProperty().isEmpty()
+        );
     }
 
     @FXML

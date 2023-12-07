@@ -1,4 +1,4 @@
-package model_tests;
+package model_tests.actions;
 
 import softeng_project_group08.model.actions.AppendToFileAction;
 

@@ -45,6 +45,10 @@ public class DayOfYearTriggerScreenController implements Initializable {
             }
         });
         
+        saveButtonID.disableProperty().bind(
+                pickerDateOfYearID.valueProperty().isNull()
+        );
+        
     }    
 
     @FXML

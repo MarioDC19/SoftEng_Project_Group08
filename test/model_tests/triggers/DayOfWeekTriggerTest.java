@@ -1,26 +1,27 @@
-package model_tests;
+package model_tests.triggers;
 
-import java.time.LocalDate;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import softeng_project_group08.model.triggers.DayOfMonthTrigger;
+import static org.junit.Assert.*;
+
+import java.time.LocalDate;
+import softeng_project_group08.model.triggers.DayOfWeekTrigger;
 
 /**
  *
  * @author group08
  */
-public class DayOfMonthTriggerTest {
+public class DayOfWeekTriggerTest {
 
-    private DayOfMonthTrigger a, b;
+    private DayOfWeekTrigger a, b;
 
     @Before
     public void setUp() {
         // Test case a: trigger on the current day
-        a = new DayOfMonthTrigger(LocalDate.now().getDayOfMonth());
+        a = new DayOfWeekTrigger(LocalDate.now().getDayOfWeek());
 
         // Test case b: trigger on the next day
-        b = new DayOfMonthTrigger(LocalDate.now().plusDays(1).getDayOfMonth());
+        b = new DayOfWeekTrigger(LocalDate.now().plusDays(1).getDayOfWeek());
     }
 
     @Test
@@ -32,3 +33,4 @@ public class DayOfMonthTriggerTest {
         assertEquals(false, b.check());
     }
 }
+

@@ -30,6 +30,10 @@ public class ShowDialogActionScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //Get the instance of the RuleManager
         ruleManager = RuleManager.getRuleManager();
+        
+        saveButtonID.disableProperty().bind(
+                textDialogID.textProperty().isEmpty()
+        ); //We retain not accettable that the field is empty
 
     }
 

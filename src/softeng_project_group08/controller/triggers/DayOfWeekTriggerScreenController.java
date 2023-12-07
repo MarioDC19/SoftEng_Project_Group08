@@ -50,11 +50,9 @@ public class DayOfWeekTriggerScreenController implements Initializable {
             }
         });
         
-        saveButtonID.setDisable(true);
-
-        dayOfWeekID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            saveButtonID.setDisable(newValue == null);
-        });
+         saveButtonID.disableProperty().bind(
+                dayOfWeekID.valueProperty().isNull()
+        );
         
         
     }

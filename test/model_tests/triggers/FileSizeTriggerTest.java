@@ -1,4 +1,4 @@
-package model_tests;
+package model_tests.triggers;
 
 import org.junit.After;
 import org.junit.Before;

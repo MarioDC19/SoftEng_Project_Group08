@@ -1,4 +1,4 @@
-package model_tests;
+package model_tests.actions;
 
 import java.io.File;
 import java.io.IOException;

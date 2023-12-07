@@ -1,4 +1,4 @@
-package model_tests;
+package model_tests.triggers;
 
 import org.junit.After;
 import org.junit.Before;
@@ -8,8 +8,6 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import softeng_project_group08.model.triggers.FileExistenceTrigger;
 
 /**

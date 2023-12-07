@@ -1,4 +1,4 @@
-package model_tests;
+package model_tests.triggers;
 
 import java.time.LocalTime;
 import org.junit.Before;

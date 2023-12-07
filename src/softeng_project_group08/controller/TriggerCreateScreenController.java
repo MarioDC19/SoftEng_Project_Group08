@@ -41,6 +41,8 @@ public class TriggerCreateScreenController implements Initializable {
     private RadioButton fileExistenceID;
     @FXML
     private RadioButton fileSizeID;
+    @FXML
+    private RadioButton checkExitStatusID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -55,6 +57,7 @@ public class TriggerCreateScreenController implements Initializable {
         dayOfYearID.setToggleGroup(tg);
         fileExistenceID.setToggleGroup(tg);
         fileSizeID.setToggleGroup(tg);
+        checkExitStatusID.setToggleGroup(tg);
         // Disable the saveButton if no button is selected
         saveButtonID.disableProperty().bind(tg.selectedToggleProperty().isNull());
 
@@ -107,6 +110,23 @@ public class TriggerCreateScreenController implements Initializable {
          handleTrigger(dayOfYearID,"Day Of Year Trigger","/softeng_project_group08/view/triggers/DayOfYearTriggerScreen.fxml","Day of year");
     }
     
+    
+    @FXML
+    private void fileExistenceAction(ActionEvent event) {
+        handleTrigger(fileExistenceID,"File Existence Trigger","/softeng_project_group08/view/triggers/FileExistenceTriggerScreen.fxml","File existence");
+    }
+
+    @FXML
+    private void fileSizeAction(ActionEvent event) {
+        handleTrigger(fileSizeID,"File Size Trigger","/softeng_project_group08/view/triggers/FileSizeTriggerScreen.fxml","File size");
+    }
+
+    @FXML
+    private void checkExitStatusAction(ActionEvent event) {
+        handleTrigger(checkExitStatusID,"Check Exit Status Trigger","/softeng_project_group08/view/triggers/CheckExitStatusTriggerScreen.fxml","Exit Status");
+    }
+
+    
     private void handleTrigger(RadioButton rb, String title, String path,String text){
         // private method to handle the buttons triggers.
         ruleManager.getCurrentRule().setTrigger(null); 
@@ -120,16 +140,6 @@ public class TriggerCreateScreenController implements Initializable {
         }
     }
         
-    }
-
-    @FXML
-    private void fileExistenceAction(ActionEvent event) {
-        handleTrigger(fileExistenceID,"File Existence Trigger","/softeng_project_group08/view/triggers/FileExistenceTriggerScreen.fxml","File existence");
-    }
-
-    @FXML
-    private void fileSizeAction(ActionEvent event) {
-        handleTrigger(fileSizeID,"File Size Trigger","/softeng_project_group08/view/triggers/FileSizeTriggerScreen.fxml","File size");
     }
 
     

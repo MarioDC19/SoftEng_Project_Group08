@@ -3,6 +3,7 @@ package softeng_project_group08.controller.actions;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,6 +35,10 @@ public class DeleteFileActionScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ruleManager = RuleManager.getRuleManager();
+        saveButtonID.disableProperty().bind(
+                filePathID.textProperty().isEmpty()
+        );
+
     }
 
     @FXML

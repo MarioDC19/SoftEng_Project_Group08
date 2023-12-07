@@ -47,10 +47,8 @@ public class ExecuteExternalProgramActionScreenController implements Initializab
         rm = RuleManager.getRuleManager();
         program = null;
         saveButtonID.disableProperty().bind(
-                Bindings.or(
-                        programPathID.textProperty().isEmpty(),
-                        passParametersID.textProperty().isEmpty()
-                ));
+                programPathID.textProperty().isEmpty()
+        );
     }
 
     @FXML
