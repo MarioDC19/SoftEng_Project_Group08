@@ -55,7 +55,7 @@ public class ExecuteExternalProgramActionTest {
         try {
             File file = new File(fileName);
             FileWriter writer = new FileWriter(file);
-            writer.write(content);
+            writer.write(content.trim());
             writer.close();
             if (!System.getProperty("os.name").toLowerCase().contains("win")) {
                 file.setExecutable(true);
@@ -102,7 +102,7 @@ public class ExecuteExternalProgramActionTest {
                 lastLine = line; // Update lastLine with each line read
             }
 
-            assertEquals("String not found in the last line of the file", "CiaoCiao", lastLine);
+            assertEquals("String not found in the last line of the file", "CiaoCiao", lastLine.trim());
 
         } catch (IOException e) {
             e.printStackTrace();
