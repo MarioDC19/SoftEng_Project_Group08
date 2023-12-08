@@ -1,6 +1,5 @@
 package model_tests;
 
-import java.io.FileOutputStream;
 import softeng_project_group08.model.Action;
 
 /**

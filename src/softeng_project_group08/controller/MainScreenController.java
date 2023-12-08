@@ -1,6 +1,8 @@
 package softeng_project_group08.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
@@ -168,7 +170,7 @@ public class MainScreenController implements Initializable, RuleEventListener {
 
     @FXML
     private void deleteRuleAction() {
-        ObservableList<Rule> selectedRules = tableViewID.getSelectionModel().getSelectedItems();
+        List<Rule> selectedRules = new ArrayList<>(tableViewID.getSelectionModel().getSelectedItems());
 
         if (!selectedRules.isEmpty()) {
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);

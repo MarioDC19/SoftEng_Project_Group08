@@ -72,7 +72,7 @@ public class RuleCreateScreenController implements Initializable {
 
         SpinnerValueFactory<Integer> valueFactoryMinutes = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24, (ruleManager.getCurrentRule().getSleepingTime() % 1440) % 60);
         spinnerMinutesID.setValueFactory(valueFactoryMinutes);
-        
+
     }
 
     @FXML
@@ -88,12 +88,10 @@ public class RuleCreateScreenController implements Initializable {
             showDialog(" You can't save the rule without an Action ", Alert.AlertType.ERROR, "Error");
         } else {
             ruleManager.addCurrentRule();
-            System.out.println("Sleeping time minutes: " + ruleManager.getCurrentRule().getSleepingTime());
             nameRuleID.clear();
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             String title = "MyIFTTT";
             cs.switchScreen("/softeng_project_group08/view/MainScreen.fxml", currentStage, title);
-
         }
 
     }
@@ -139,7 +137,6 @@ public class RuleCreateScreenController implements Initializable {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
-
         alert.showAndWait();
     }
 
