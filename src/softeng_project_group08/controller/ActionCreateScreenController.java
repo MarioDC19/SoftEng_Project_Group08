@@ -2,7 +2,7 @@ package softeng_project_group08.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -61,11 +61,6 @@ public class ActionCreateScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ruleManager = RuleManager.getRuleManager();
-        /*This check is essential to maintain the selected items in the list and checkbox selected status
-        when the user switches between windows to insert parameters for a specific action.*/
-        if (multiActions != null) {
-            multipleActionID.setSelected(true);
-        }
         initBindings();
         initContextMenu();
     }
@@ -79,8 +74,8 @@ public class ActionCreateScreenController implements Initializable {
         moveFileActionID.setToggleGroup(tg);
         deleteFileActionID.setToggleGroup(tg);
         executeExternalActionID.setToggleGroup(tg);
-        // Disable the saveButton if no button is selected
-        saveButtonID1.disableProperty().bind(tg.selectedToggleProperty().isNull());
+        // Disable the saveButton if no button is selected and if the size of the multi-action list is less than 1
+        saveButtonID1.disableProperty().bind(tg.selectedToggleProperty().isNull().and(Bindings.size(listViewID.getItems()).lessThan(1)));
         //list of multi actions is visible when the checkbox multipleActionID is selected
         listViewID.visibleProperty().bind(multipleActionID.selectedProperty());
     }
@@ -175,14 +170,10 @@ public class ActionCreateScreenController implements Initializable {
                 rb.setSelected(false);
             } else if (multipleActionID.isSelected()) {
                 /*If the action is not null and the "Multi Actions" checkbox is selected,
-                add the action to the ListView, deselect the radio button,
-                and enable the "Save" button.
+                add the action to the ListView and deselect the radio button
                  */
                 listViewID.getItems().add(ruleManager.getCurrentRule().getAction());
                 rb.setSelected(false);
-                //Unbind the "disableProperty" of the "Save" button to allow manual enabling.
-                saveButtonID1.disableProperty().unbind();
-                saveButtonID1.setDisable(false);
             }
         }
 
@@ -192,21 +183,16 @@ public class ActionCreateScreenController implements Initializable {
     private void multipleAction(ActionEvent event) {
         if (multipleActionID.isSelected()) {
             multiActions = new MultiActions();
-            listViewID.setItems(FXCollections.observableArrayList());
             if (tg.getSelectedToggle() != null) {
                 /*If an action has already been created, and the user clicks on the checkbox,
                   insert this action into the ListView.*/
                 listViewID.getItems().add(ruleManager.getCurrentRule().getAction());
                 tg.getSelectedToggle().setSelected(false);
-                saveButtonID1.disableProperty().unbind();
-                saveButtonID1.setDisable(false);
             }
         } else {
             //clean multiActions and list.
             multiActions = null;
-            listViewID.setItems(null);
-            //reset the binding with the toggle group
-            saveButtonID1.disableProperty().bind(tg.selectedToggleProperty().isNull());
+            listViewID.getItems().removeAll(listViewID.getItems());
         }
 
     }
@@ -215,9 +201,6 @@ public class ActionCreateScreenController implements Initializable {
         //delete the selected rows in the listView.
         ObservableList<Action> selectedItems = listView.getSelectionModel().getSelectedItems();
         listView.getItems().removeAll(selectedItems);
-        if (listView.getItems().isEmpty()) {
-            saveButtonID1.setDisable(true);
-        }
     }
 
 }
