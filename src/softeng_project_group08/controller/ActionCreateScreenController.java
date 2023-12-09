@@ -1,6 +1,7 @@
 package softeng_project_group08.controller;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
@@ -8,7 +9,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
@@ -190,11 +193,31 @@ public class ActionCreateScreenController implements Initializable {
                 tg.getSelectedToggle().setSelected(false);
             }
         } else {
-            //clean multiActions and list.
-            multiActions = null;
-            listViewID.getItems().removeAll(listViewID.getItems());
+            if(!listViewID.getItems().isEmpty()){
+                 showDialog("Are you sure to delete the multi action ?",Alert.AlertType.CONFIRMATION,"Confirmation");
+            }
         }
 
+    }
+    
+    private void showDialog(String message, Alert.AlertType at, String title) {
+        Alert alert = new Alert(at);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        if (at == Alert.AlertType.CONFIRMATION) {
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                //clean multiActions and list.
+                multiActions = null;
+                listViewID.getItems().removeAll(listViewID.getItems());
+            } else {
+                multipleActionID.setSelected(true);
+            }
+        } else {
+            // Show the dialog
+            alert.show();
+        }
     }
 
     private void deleteSelectedRows(ListView<Action> listView) {
