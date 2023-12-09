@@ -4,11 +4,12 @@ import softeng_project_group08.model.Trigger;
 import java.time.LocalDate;
 
 /**
- * 
  * Represents a trigger based on a specific day of the year.
+ *
  * @author grouo08
  */
 public class DayOfYearTrigger implements Trigger {
+
     private LocalDate dayOfYear;
 
     public DayOfYearTrigger(LocalDate dayOfYear) {
@@ -22,7 +23,7 @@ public class DayOfYearTrigger implements Trigger {
 
     @Override
     public String toString() {
-        return "DayOfYear: "  + dayOfYear ;
+        return "DayOfYear: " + dayOfYear;
     }
-    
+
 }

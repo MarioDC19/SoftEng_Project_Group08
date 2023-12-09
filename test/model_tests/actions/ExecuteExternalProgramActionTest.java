@@ -1,16 +1,12 @@
 package model_tests.actions;
 
 import java.io.BufferedReader;
-import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
-import static junit.framework.Assert.assertTrue;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.Test;
 import softeng_project_group08.model.actions.ExecuteExternalProgramAction;
@@ -47,7 +43,6 @@ public class ExecuteExternalProgramActionTest {
                     + "content=$1\n"
                     + "echo $content > testWrite.txt"
                     + "");
-
         }
     }
 
@@ -65,18 +60,17 @@ public class ExecuteExternalProgramActionTest {
         }
     }
 
-    
     @After
     public void tearDown() {
         if (os.contains("win")) {
             new File("testString.bat").delete();
             new File("testWrite.txt").delete();
         } else {
-            new File("testString.sh").delete();   
+            new File("testString.sh").delete();
             new File("testWrite.txt").delete();
         }
     }
-    //test the correct execution
+
     @Test
     public void testExecuteExternalProgramAction() {
         // path of testing program

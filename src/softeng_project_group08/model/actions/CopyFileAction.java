@@ -1,4 +1,5 @@
 package softeng_project_group08.model.actions;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,12 +11,11 @@ import softeng_project_group08.model.Action;
 
 /**
  *
- * Java class implementing the Action interface to copy a file from a source to a target directory.
- * 
+ * Java class implementing the Action interface to copy a file from a source to
+ * a target directory.
+ *
  * @author group08
  */
-
-
 public class CopyFileAction implements Action {
 
     private File sourceFile;
@@ -38,7 +38,6 @@ public class CopyFileAction implements Action {
                 showDialog("The destination must be a directory.");
             });
         } else {
-
             Path targetPath = targetDirectory.toPath().resolve(sourceFile.getName());
             try {
                 Files.copy(sourceFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
@@ -50,7 +49,7 @@ public class CopyFileAction implements Action {
             System.out.println("The file has been copied successfully.");
         }
     }
-    
+
     @Override
     public String toString() {
         return "CopyFileAction:\n" + "sourceFile=\n" + sourceFile + "\ntargetDirectory=\n" + targetDirectory;

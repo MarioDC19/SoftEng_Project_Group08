@@ -10,6 +10,7 @@ import java.util.Objects;
  * retrieve and modify the components of the rule. Overrides the equals method
  * for comparing rules based on their names. Notifies subscribed listeners when
  * a change happens in the rule.
+ * Refer to RuleState for a list of possible states that a rule can be in.
  *
  * @author group08
  */

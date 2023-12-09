@@ -12,7 +12,6 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import softeng_project_group08.controller.RuleManager;
-import softeng_project_group08.controller.TriggerCreateScreenController;
 import softeng_project_group08.model.triggers.TimeOfDayTrigger;
 
 /**
@@ -25,27 +24,24 @@ public class TimeOfDayTriggerScreenController implements Initializable {
 
     @FXML
     private Spinner<Integer> hourSelectorID;
-
     @FXML
     private Spinner<Integer> minutesSelectorID;
-
     @FXML
     private Button saveButtonID;
 
     private RuleManager ruleManager;
 
-    private boolean closedWithX = false;
-
-    private TriggerCreateScreenController triggerCreateScreenController;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         ruleManager = RuleManager.getRuleManager();
-
         // Actual hour
         LocalTime currentTime = LocalTime.now();
+        initHourFactory(currentTime);
+        initMinuteFactory(currentTime);
+        initListeners();
+    }
 
+    private void initHourFactory(LocalTime currentTime) {
         //Configure the factory for hours with the current time
         SpinnerValueFactory<Integer> hourFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, currentTime.getHour()) {
             @Override
@@ -68,7 +64,6 @@ public class TimeOfDayTriggerScreenController implements Initializable {
                 }
             }
         };
-
         //Use a StringConverter to format the display of hours
         hourFactory.setConverter(new StringConverter<Integer>() {
             @Override
@@ -84,7 +79,10 @@ public class TimeOfDayTriggerScreenController implements Initializable {
                 return Integer.parseInt(string);
             }
         });
+        hourSelectorID.setValueFactory(hourFactory);
+    }
 
+    private void initMinuteFactory(LocalTime currentTime) {
         //Configure the factory for minutes with the current time
         SpinnerValueFactory<Integer> minuteFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, currentTime.getMinute()) {
             @Override
@@ -107,7 +105,6 @@ public class TimeOfDayTriggerScreenController implements Initializable {
                 }
             }
         };
-
         //Use a StringConverter to format the display of minutes
         minuteFactory.setConverter(new StringConverter<Integer>() {
             @Override
@@ -122,18 +119,16 @@ public class TimeOfDayTriggerScreenController implements Initializable {
                 return Integer.parseInt(string);
             }
         });
-
-        hourSelectorID.setValueFactory(hourFactory);
         minutesSelectorID.setValueFactory(minuteFactory);
+    }
 
+    private void initListeners() {
         // Add listeners to format the text for hours and minutes
         hourSelectorID.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue.length() == 1) {
                 hourSelectorID.getEditor().setText("0" + newValue);
             }
         });
-
-        // Add listeners to format the text for hours and minutes
         minutesSelectorID.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue.length() == 1) {
                 minutesSelectorID.getEditor().setText("0" + newValue);
@@ -146,11 +141,9 @@ public class TimeOfDayTriggerScreenController implements Initializable {
         // get hours and minutes
         int selectedHours = hourSelectorID.getValue();
         int selectedMinutes = minutesSelectorID.getValue();
-
         //Create a TimeOfDayTrigger with the selected hours and minute
         TimeOfDayTrigger timeTrigger = new TimeOfDayTrigger(selectedHours, selectedMinutes);
         ruleManager.getCurrentRule().setTrigger(timeTrigger);
-
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
     }

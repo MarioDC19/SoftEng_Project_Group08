@@ -23,25 +23,23 @@ public class DayOfMonthTriggerScreenController implements Initializable {
     private Button saveButtonID;
     @FXML
     private Spinner<Integer> daySpinnerID;
-    
+
     private RuleManager ruleManager;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ruleManager= RuleManager.getRuleManager();
-        SpinnerValueFactory<Integer> valueFactoryDays = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 31 , 1 );
+        ruleManager = RuleManager.getRuleManager();
+        SpinnerValueFactory<Integer> valueFactoryDays = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 31, 1);
         daySpinnerID.setValueFactory(valueFactoryDays);
-    }    
+    }
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
-        DayOfMonthTrigger domt = new  DayOfMonthTrigger (daySpinnerID.getValue());
+        //Set the trigger as a DayOfMonthTrigger with the selected day
+        DayOfMonthTrigger domt = new DayOfMonthTrigger(daySpinnerID.getValue());
         ruleManager.getCurrentRule().setTrigger(domt);
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
     }
-    
+
 }

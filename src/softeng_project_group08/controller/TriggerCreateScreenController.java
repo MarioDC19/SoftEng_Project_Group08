@@ -18,6 +18,7 @@ import javafx.stage.Stage;
  * @author group08
  */
 public class TriggerCreateScreenController implements Initializable {
+
     @FXML
     private Button backID;
     @FXML
@@ -28,9 +29,9 @@ public class TriggerCreateScreenController implements Initializable {
     private RuleManager ruleManager;
 
     ChangeScreen cs = new ChangeScreen();
-    
+
     ToggleGroup tg;
-    
+
     @FXML
     private RadioButton dayOfWeekID;
     @FXML
@@ -46,10 +47,11 @@ public class TriggerCreateScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        cs = new ChangeScreen();
         ruleManager = RuleManager.getRuleManager();
-        
+        initBindings();
+    }
+
+    private void initBindings() {
         tg = new ToggleGroup();
         hourTriggerID.setToggleGroup(tg);
         dayOfWeekID.setToggleGroup(tg);
@@ -60,7 +62,6 @@ public class TriggerCreateScreenController implements Initializable {
         checkExitStatusID.setToggleGroup(tg);
         // Disable the saveButton if no button is selected
         saveButtonID.disableProperty().bind(tg.selectedToggleProperty().isNull());
-
     }
 
     //Control if the button is checked
@@ -73,7 +74,6 @@ public class TriggerCreateScreenController implements Initializable {
             String title = "MyIFTTT";
             // Switch to the RuleCreateScreen.fxml
             cs.switchScreen("/softeng_project_group08/view/RuleCreateScreen.fxml", currentStage, title);
-
         }
     }
 
@@ -81,7 +81,6 @@ public class TriggerCreateScreenController implements Initializable {
     private void backAction(ActionEvent event) {
         //if back is pressed the trigger is not saved
         ruleManager.getCurrentRule().setTrigger(null);
-
         // Get the current window
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         String title = "MyIFTTT";
@@ -92,56 +91,49 @@ public class TriggerCreateScreenController implements Initializable {
 
     @FXML
     private void hourTriggerAction(ActionEvent event) {
-            handleTrigger(hourTriggerID,"Time Of Day Trigger","/softeng_project_group08/view/triggers/TimeOfDayTriggerScreen.fxml","Time of day");
+        handleTrigger(hourTriggerID, "Time Of Day Trigger", "/softeng_project_group08/view/triggers/TimeOfDayTriggerScreen.fxml", "Time of day");
     }
 
     @FXML
     private void dayOfWeekAction(ActionEvent event) {
-        handleTrigger(dayOfWeekID,"Day Of Week Trigger","/softeng_project_group08/view/triggers/DayOfWeekTriggerScreen.fxml","Day of week");
+        handleTrigger(dayOfWeekID, "Day Of Week Trigger", "/softeng_project_group08/view/triggers/DayOfWeekTriggerScreen.fxml", "Day of week");
     }
-    
+
     @FXML
     private void dayOfMonthAction(ActionEvent event) {
-        handleTrigger(dayOfMonthID,"Day Of Month Trigger","/softeng_project_group08/view/triggers/DayOfMonthTriggerScreen.fxml","Day of month");
+        handleTrigger(dayOfMonthID, "Day Of Month Trigger", "/softeng_project_group08/view/triggers/DayOfMonthTriggerScreen.fxml", "Day of month");
     }
-    
+
     @FXML
     private void dayOfYearAction(ActionEvent event) {
-         handleTrigger(dayOfYearID,"Day Of Year Trigger","/softeng_project_group08/view/triggers/DayOfYearTriggerScreen.fxml","Day of year");
+        handleTrigger(dayOfYearID, "Day Of Year Trigger", "/softeng_project_group08/view/triggers/DayOfYearTriggerScreen.fxml", "Day of year");
     }
-    
-    
+
     @FXML
     private void fileExistenceAction(ActionEvent event) {
-        handleTrigger(fileExistenceID,"File Existence Trigger","/softeng_project_group08/view/triggers/FileExistenceTriggerScreen.fxml","File existence");
+        handleTrigger(fileExistenceID, "File Existence Trigger", "/softeng_project_group08/view/triggers/FileExistenceTriggerScreen.fxml", "File existence");
     }
 
     @FXML
     private void fileSizeAction(ActionEvent event) {
-        handleTrigger(fileSizeID,"File Size Trigger","/softeng_project_group08/view/triggers/FileSizeTriggerScreen.fxml","File size");
+        handleTrigger(fileSizeID, "File Size Trigger", "/softeng_project_group08/view/triggers/FileSizeTriggerScreen.fxml", "File size");
     }
 
     @FXML
     private void checkExitStatusAction(ActionEvent event) {
-        handleTrigger(checkExitStatusID,"Check Exit Status Trigger","/softeng_project_group08/view/triggers/CheckExitStatusTriggerScreen.fxml","Exit Status");
+        handleTrigger(checkExitStatusID, "Check Exit Status Trigger", "/softeng_project_group08/view/triggers/CheckExitStatusTriggerScreen.fxml", "Exit Status");
     }
 
-    
-    private void handleTrigger(RadioButton rb, String title, String path,String text){
+    private void handleTrigger(RadioButton rb, String title, String path, String text) {
         // private method to handle the buttons triggers.
-        ruleManager.getCurrentRule().setTrigger(null); 
-        if(rb.isSelected()){
+        ruleManager.getCurrentRule().setTrigger(null);
+        if (rb.isSelected()) {
             Stage currentStage = (Stage) rb.getScene().getWindow();
             cs.switchScreenModal(path, currentStage, title);
-        
-        
-        if(ruleManager.getCurrentRule().getTrigger() == null){
-            rb.setSelected(false);
+            if (ruleManager.getCurrentRule().getTrigger() == null) {
+                rb.setSelected(false);
+            }
         }
     }
-        
-    }
 
-    
-    
 }

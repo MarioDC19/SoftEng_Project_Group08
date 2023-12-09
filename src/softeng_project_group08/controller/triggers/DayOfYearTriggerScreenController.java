@@ -24,40 +24,34 @@ public class DayOfYearTriggerScreenController implements Initializable {
     private Button saveButtonID;
     @FXML
     private DatePicker pickerDateOfYearID;
-    
+
     private RuleManager ruleManager;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ruleManager= RuleManager.getRuleManager();
+        ruleManager = RuleManager.getRuleManager();
+        // the user cannot specify a date that is before the current one
         pickerDateOfYearID.setDayCellFactory(picker -> new DateCell() {
             @Override
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
-
                 if (date.isBefore(LocalDate.now())) {
                     setDisable(true);
-                    setStyle("-fx-background-color: #ffc0cb;"); 
+                    setStyle("-fx-background-color: #ffc0cb;");
                 }
             }
         });
-        
+        // the trigger cannot be saved if the datepicker has no value
         saveButtonID.disableProperty().bind(
                 pickerDateOfYearID.valueProperty().isNull()
         );
-        
-    }    
+    }
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
         ruleManager.getCurrentRule().setTrigger(new DayOfYearTrigger(pickerDateOfYearID.getValue()));
-        System.out.println(pickerDateOfYearID.getValue());
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
     }
 
-    
 }

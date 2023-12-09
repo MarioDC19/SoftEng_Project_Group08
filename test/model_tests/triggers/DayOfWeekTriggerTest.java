@@ -3,7 +3,6 @@ package model_tests.triggers;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 import java.time.LocalDate;
 import softeng_project_group08.model.triggers.DayOfWeekTrigger;
 
@@ -27,10 +26,9 @@ public class DayOfWeekTriggerTest {
     @Test
     public void testCheck() {
         // Test case a: should be true as it triggers on the current day
-        assertEquals(true, a.check());
+        assertTrue(a.check());
 
         // Test case b: should be false as it triggers on the next day
-        assertEquals(false, b.check());
+        assertFalse(b.check());
     }
 }
-

@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -58,7 +57,7 @@ public class MainScreenController implements Initializable, RuleEventListener {
     @FXML
     private MenuItem aboutID;
 
-    private ChangeScreen cs;
+    private ChangeScreen cs = new ChangeScreen();
 
     @FXML
     private Button deleteRuleID;
@@ -73,20 +72,27 @@ public class MainScreenController implements Initializable, RuleEventListener {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cs = new ChangeScreen();
         // Get the RuleManager instance.
         ruleManager = RuleManager.getRuleManager();
+        initTableView();
+        initDeleteRulesFunctionality();
+        // subscribe this controller to the RuleList and listen for any type of change.
+        ruleManager.getRules().getEventManager().subscribe(this);
+        // Initialize the RuleManager (subscribe, start processing rules)
+        ruleManager.initialize();
+    }
+
+    private void initTableView() {
         // Get the list of rules from the RuleManager.
         RuleList rulesList = ruleManager.getRules();
-
         // Initialize the table view
         tableRulesID.setCellValueFactory(new PropertyValueFactory<>("name"));
-            // set the state of the checkbox at the current value
+        // set the state of the checkbox at the current value
         activeRuleColumnID.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isActive()));
         tableTriggerID.setCellValueFactory(new PropertyValueFactory<>("trigger"));
         tableActionID.setCellValueFactory(new PropertyValueFactory<>("action"));
         tableTimeID.setCellValueFactory(new PropertyValueFactory<>("sleepingTime"));
-            // add functionality to change the state of the rule when the checkbox is clicked
+        // add functionality to change the state of the rule when the checkbox is clicked
         activeRuleColumnID.setCellFactory(column -> new CheckBoxTableCell<Rule, Boolean>() {
             @Override
             public void updateItem(Boolean item, boolean empty) {
@@ -103,9 +109,13 @@ public class MainScreenController implements Initializable, RuleEventListener {
                 }
             }
         });
+        // initialize table view list by adding rules from ruleList
         for (Rule r : rulesList) {
             tableViewID.getItems().add(r);
         }
+    }
+
+    private void initDeleteRulesFunctionality() {
         // Initialize right-click remove functionality on table view
         ContextMenu contextMenu = new ContextMenu();
         MenuItem deleteMenuItem = new MenuItem("Delete");
@@ -130,11 +140,6 @@ public class MainScreenController implements Initializable, RuleEventListener {
             return cell;
         });
         tableViewID.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-        // subscribe this controller to the RuleList and listen for any type of change.
-        ruleManager.getRules().getEventManager().subscribe(this);
-        // Initialize the RuleManager (subscribe, start processing rules)
-        ruleManager.initialize();
     }
 
     @FXML
@@ -159,8 +164,7 @@ public class MainScreenController implements Initializable, RuleEventListener {
     //Gives information about the application
     @FXML
     private void aboutIAction(ActionEvent event) {
-        String message = "Build 1.0.0, Information Contacts: \nSalvatore Bruno, Mario Della Corte, Maurizio Esposito, Antonio De Caro";
-
+        String message = "Information Contacts: \nSalvatore Bruno, Mario Della Corte, Maurizio Esposito, Antonio De Caro";
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
         alert.setHeaderText(null);

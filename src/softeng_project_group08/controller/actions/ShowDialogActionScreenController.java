@@ -28,23 +28,20 @@ public class ShowDialogActionScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //Get the instance of the RuleManager
         ruleManager = RuleManager.getRuleManager();
-        
+        // the action cannot be saved if the textfield is empty
         saveButtonID.disableProperty().bind(
                 textDialogID.textProperty().isEmpty()
-        ); //We retain not accettable that the field is empty
+        );
 
     }
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
         String dialogText = textDialogID.getText();
-
         //Set the action as a ShowDialogAction with the entered text
         ShowDialogAction showDialogAction = new ShowDialogAction(dialogText);
         ruleManager.getCurrentRule().setAction(showDialogAction);
-
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
     }

@@ -20,7 +20,6 @@ import softeng_project_group08.model.actions.CopyFileAction;
  * Manages copy action creation for rules. Controls the selection of a file to
  * copy into another directory
  *
- *
  * @author group08
  */
 public class CopyFileActionScreenController implements Initializable {
@@ -35,36 +34,33 @@ public class CopyFileActionScreenController implements Initializable {
     private TextField directoryPathID;
     @FXML
     private Button insertDirectoryID;
-    
+
     File file;
-    
+
     File directory;
-     
+
     private RuleManager rm;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         file = null;
         directory = null;
+        // the action cannot be saved if one or both textfields are empty
         saveButtonID.disableProperty().bind(
                 Bindings.or(
                         filePathID.textProperty().isEmpty(),
                         directoryPathID.textProperty().isEmpty()
                 ));
         rm = RuleManager.getRuleManager();
-
     }
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
+        //Set the action as a CopyFileAction with the selected file and directory
         CopyFileAction cfa = new CopyFileAction(file, directory);
         rm.getCurrentRule().setAction(cfa);
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
-
     }
 
     @FXML
@@ -73,10 +69,10 @@ public class CopyFileActionScreenController implements Initializable {
         fc.setTitle("Select File");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         file = fc.showOpenDialog(stage);
+        // handle the selected file and display it in the TextField
         if (file != null) {
             filePathID.setText(file.getPath());
         }
-
     }
 
     @FXML

@@ -1,7 +1,7 @@
 package model_tests.triggers;
 
 import java.time.LocalDate;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import softeng_project_group08.model.triggers.DayOfMonthTrigger;
@@ -26,9 +26,9 @@ public class DayOfMonthTriggerTest {
     @Test
     public void testCheck() {
         // Test case a: should be true as it triggers on the current day
-        assertEquals(true, a.check());
+        assertTrue(a.check());
 
         // Test case b: should be false as it triggers on the next day
-        assertEquals(false, b.check());
+        assertFalse(b.check());
     }
 }

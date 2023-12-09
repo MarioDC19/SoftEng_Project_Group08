@@ -4,8 +4,8 @@ import softeng_project_group08.model.Action;
 
 /**
  * Represents an action that executes an external program with given parameters.
- * @author group08
  *
+ * @author group08
  */
 import java.io.BufferedReader;
 import java.io.File;

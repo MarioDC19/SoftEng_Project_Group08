@@ -6,7 +6,6 @@ import org.junit.Test;
 import softeng_project_group08.model.actions.MoveFileAction;
 import java.io.IOException;
 import org.junit.After;
-
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -23,7 +22,6 @@ public class MoveFileActionTest {
 
     @Before
     public void setUp() throws IOException {
-
         sourceFile = new File(SOURCE_FILE_PATH);
         sourceFile.createNewFile();
 
@@ -31,7 +29,6 @@ public class MoveFileActionTest {
         targetDirectory.mkdir();
 
         targetFile = new File(targetDirectory, sourceFile.getName());
-
     }
 
     @After

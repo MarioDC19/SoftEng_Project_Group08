@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +13,6 @@ import softeng_project_group08.model.triggers.FileExistenceTrigger;
  *
  * @author group08
  */
-
 public class FileExistenceTriggerTest {
 
     private File tempDir;
@@ -36,7 +34,6 @@ public class FileExistenceTriggerTest {
             throw new RuntimeException("Error creating temporary file", e);
         }
     }
-
 
     @Test
     public void testCheckFileExists() {
@@ -89,5 +86,5 @@ public class FileExistenceTriggerTest {
             throw new RuntimeException("Error deleting temporary file", e);
         }
     }
-}
 
+}

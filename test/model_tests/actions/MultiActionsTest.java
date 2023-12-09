@@ -15,6 +15,7 @@ import softeng_project_group08.model.actions.MultiActions;
  * @author group08
  */
 public class MultiActionsTest {
+
     private MultiActions multiActions;
     private MultiActions multiActions2;
     private FakeAction dummyAction1;
@@ -25,7 +26,7 @@ public class MultiActionsTest {
         multiActions = new MultiActions();
         dummyAction1 = new FakeAction("Action 1");
         dummyAction2 = new FakeAction("Action 2");
-        multiActions2= new MultiActions();
+        multiActions2 = new MultiActions();
     }
 
     @Test
@@ -47,7 +48,7 @@ public class MultiActionsTest {
         assertEquals(2, multiActions.getList().size());
         assertTrue(multiActions.getList().contains(dummyAction1));
         assertTrue(multiActions.getList().contains(dummyAction2));
-        
+
         multiActions.removeChild(dummyAction1);
         assertEquals(1, multiActions.getList().size());
         assertFalse(multiActions.getList().contains(dummyAction1));
@@ -73,41 +74,33 @@ public class MultiActionsTest {
         multiActions.execute();
         assertTrue(dummyAction1.isExecuteCalled());
         assertTrue(dummyAction2.isExecuteCalled());
-        
-         
     }
+
     @Test
     public void testExecute2() {
-         // test case multiaction composed of another multiaction and a simple action
+        // test case multiaction composed of another multiaction and a simple action
         multiActions.addChild(dummyAction1);
         multiActions.addChild(dummyAction2);
-        
+
         assertFalse(dummyAction1.isExecuteCalled());
-        
+
         multiActions2.addChild(multiActions);
-       FakeAction dummyAction3 = new FakeAction("Action3");
+        FakeAction dummyAction3 = new FakeAction("Action3");
         multiActions2.addChild(dummyAction3);
         multiActions2.execute();
-        
-        
+
         assertTrue(dummyAction1.isExecuteCalled());
         assertTrue(dummyAction2.isExecuteCalled());
         assertTrue(dummyAction3.isExecuteCalled());
-         
     }
 
     @Test
     public void testToString() {
         multiActions.addChild(dummyAction1);
         multiActions.addChild(dummyAction2);
-        
-        
+
         String expected = "Action 1\nAction 2\n";
         assertEquals(expected, multiActions.toString());
     }
 
-    
 }
-    
-    
-

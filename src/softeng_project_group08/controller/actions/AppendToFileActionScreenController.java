@@ -32,16 +32,16 @@ public class AppendToFileActionScreenController implements Initializable {
     private TextField filePathID;
     @FXML
     private Button insertFileID;
-    
+
     File file;
-    
+
     private RuleManager rm;
 
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         rm = RuleManager.getRuleManager();
         file = null;
+        // the action cannot be saved if one or both textfields are empty
         saveButtonID.disableProperty().bind(
                 Bindings.or(
                         filePathID.textProperty().isEmpty(),
@@ -51,21 +51,23 @@ public class AppendToFileActionScreenController implements Initializable {
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
+        //Set the action as a AppendToFileAction with the selected file and string
         AppendToFileAction atfa = new AppendToFileAction(appendStringID.getText(), file.getPath());
         rm.getCurrentRule().setAction(atfa);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
-
     }
 
     @FXML
     private void insertFileAction(ActionEvent event) {
         FileChooser fc = new FileChooser();
         fc.setTitle("Select File");
+        // set accepted extensions for the filechooser
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text File", "*.txt", "*.csv", "*.xml", "*.json", "*.html", "*.md", "*.log", "*.conf", "*.properties", "*.ini");
         fc.getExtensionFilters().add(extFilter);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         file = fc.showOpenDialog(stage);
+        // handle the selected file and display it in the TextField
         if (file != null) {
             filePathID.setText(file.getPath());
         }

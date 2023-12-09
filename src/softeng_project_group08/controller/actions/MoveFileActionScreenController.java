@@ -41,29 +41,26 @@ public class MoveFileActionScreenController implements Initializable {
 
     private RuleManager rm;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        rm = RuleManager.getRuleManager();
         file = null;
         directory = null;
+        // the action cannot be saved if one or both textfields are empty
         saveButtonID.disableProperty().bind(
                 Bindings.or(
                         filePathID.textProperty().isEmpty(),
                         directoryPathID.textProperty().isEmpty()
                 ));
-        rm = RuleManager.getRuleManager();
-
     }
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
+        //Set the action as a MoveFileAction with the selected file and directory
         MoveFileAction mfa = new MoveFileAction(file, directory);
         rm.getCurrentRule().setAction(mfa);
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
-
     }
 
     @FXML
@@ -72,10 +69,10 @@ public class MoveFileActionScreenController implements Initializable {
         fc.setTitle("Select File");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         file = fc.showOpenDialog(stage);
+        // handle the selected file and display it in the TextField
         if (file != null) {
             filePathID.setText(file.getPath());
         }
-
     }
 
     @FXML
@@ -84,6 +81,7 @@ public class MoveFileActionScreenController implements Initializable {
         dc.setTitle("Select destionation directory");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         directory = dc.showDialog(stage);
+        // handle the selected directory and display it in the TextField
         if (directory != null) {
             directoryPathID.setText(directory.getPath());
         }

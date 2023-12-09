@@ -35,11 +35,11 @@ public class TimeOfDayTriggerTest {
 
     @Test
     public void testCheck() {
-        assertEquals(true, a.check());
-        assertEquals(false, b.check());
-        assertEquals(false, c.check());
-        assertEquals(false, d.check());
-        assertEquals(false, e.check());
+        assertTrue(a.check());
+        assertFalse(b.check());
+        assertFalse(c.check());
+        assertFalse(d.check());
+        assertFalse(e.check());
     }
 
 }

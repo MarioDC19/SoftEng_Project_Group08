@@ -5,10 +5,10 @@ import java.time.temporal.ChronoUnit;
 
 /**
  * State that represents when the rule is active and recurring, with a specified
- * sleeping time. From this state the rule can only become inactive and
- * recurring, because the user cannot remove the sleeping time once a rule is
- * created.
- *
+ * sleeping time. 
+ * Package-level class: the client can manipulate the Rule state only by using 
+ * public methods of the Rule class
+ * 
  * @author group08
  */
 class ActiveRecurringRuleState implements RuleState {

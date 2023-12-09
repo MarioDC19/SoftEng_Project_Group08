@@ -51,37 +51,38 @@ public class RuleCreateScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         ruleManager = RuleManager.getRuleManager();
         nameRuleID.setText(ruleManager.getCurrentRule().getName());
-        saveRuleID1.disableProperty().bind(Bindings.isEmpty(nameRuleID.textProperty()));
-        addTriggerID.disableProperty().bind(Bindings.isEmpty(nameRuleID.textProperty()));
-        addActionID.disableProperty().bind(Bindings.isEmpty(nameRuleID.textProperty()));
-
         if (ruleManager.getCurrentRule().getSleepingTime() != 0) {
             checkBoxID.setSelected(true);
         }
+        initBindings();
+        initSleepingTimeSpinners();
+    }
 
+    private void initBindings() {
+        // when a name isn't specified, the user cannot add a trigger or an action, or save the rule
+        saveRuleID1.disableProperty().bind(Bindings.isEmpty(nameRuleID.textProperty()));
+        addTriggerID.disableProperty().bind(Bindings.isEmpty(nameRuleID.textProperty()));
+        addActionID.disableProperty().bind(Bindings.isEmpty(nameRuleID.textProperty()));
+        // the sleeping time chooser panel is visible only if the corresponding checbox is selected
         anchorPaneID.visibleProperty().bind(checkBoxID.selectedProperty());
+    }
 
+    private void initSleepingTimeSpinners() {
         SpinnerValueFactory<Integer> valueFactoryDays = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 365, (ruleManager.getCurrentRule().getSleepingTime()) / 1440);
         spinnerDaysID.setValueFactory(valueFactoryDays);
-
         SpinnerValueFactory<Integer> valueFactoryHours = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24, (ruleManager.getCurrentRule().getSleepingTime() % 1440) / 60);
         spinnerHoursID.setValueFactory(valueFactoryHours);
-
         SpinnerValueFactory<Integer> valueFactoryMinutes = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24, (ruleManager.getCurrentRule().getSleepingTime() % 1440) % 60);
         spinnerMinutesID.setValueFactory(valueFactoryMinutes);
-
     }
 
     @FXML
     private void saveRuleAction(ActionEvent event) {
-
         // Retrieve the text entered in the textField, removing any leading or trailing white spaces
         String enteredName = nameRuleID.getText().trim();
         ruleManager.getCurrentRule().setName(enteredName);
-
         if (ruleManager.getCurrentRule().getTrigger() == null) {
             showDialog(" You can't save the rule without a Trigger ", Alert.AlertType.ERROR, "Error");
         } else if (ruleManager.getCurrentRule().getAction() == null) {
@@ -93,7 +94,6 @@ public class RuleCreateScreenController implements Initializable {
             String title = "MyIFTTT";
             cs.switchScreen("/softeng_project_group08/view/MainScreen.fxml", currentStage, title);
         }
-
     }
 
     @FXML

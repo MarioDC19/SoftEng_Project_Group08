@@ -38,7 +38,7 @@ public class ActionCreateScreenController implements Initializable {
 
     private RuleManager ruleManager;
 
-    private ChangeScreen cs;
+    private ChangeScreen cs = new ChangeScreen();
     @FXML
     private RadioButton appendToFileActionID;
     @FXML
@@ -60,8 +60,17 @@ public class ActionCreateScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cs = new ChangeScreen();
         ruleManager = RuleManager.getRuleManager();
+        /*This check is essential to maintain the selected items in the list and checkbox selected status
+        when the user switches between windows to insert parameters for a specific action.*/
+        if (multiActions != null) {
+            multipleActionID.setSelected(true);
+        }
+        initBindings();
+        initContextMenu();
+    }
+
+    private void initBindings() {
         tg = new ToggleGroup();
         audioActionID.setToggleGroup(tg);
         dialogActionID.setToggleGroup(tg);
@@ -70,16 +79,13 @@ public class ActionCreateScreenController implements Initializable {
         moveFileActionID.setToggleGroup(tg);
         deleteFileActionID.setToggleGroup(tg);
         executeExternalActionID.setToggleGroup(tg);
-        /*This check is essential to maintain the selected items in the list and checkbox selected status
-        when the user switches between windows to insert parameters for a specific action.
-         */
-        if (multiActions != null) {
-            multipleActionID.setSelected(true);
-        }
         // Disable the saveButton if no button is selected
         saveButtonID1.disableProperty().bind(tg.selectedToggleProperty().isNull());
         //list of multi actions is visible when the checkbox multipleActionID is selected
         listViewID.visibleProperty().bind(multipleActionID.selectedProperty());
+    }
+
+    private void initContextMenu() {
         /*The context menu is associated with a ListView to enable the deletion of a row when the user right-clicks on the mouse.
         This functionality allows the user to trigger a context menu, providing options
         such as deleting a specific row in the associated ListView.*/
@@ -209,7 +215,7 @@ public class ActionCreateScreenController implements Initializable {
         //delete the selected rows in the listView.
         ObservableList<Action> selectedItems = listView.getSelectionModel().getSelectedItems();
         listView.getItems().removeAll(selectedItems);
-        if (listView.getItems().isEmpty() ) {
+        if (listView.getItems().isEmpty()) {
             saveButtonID1.setDisable(true);
         }
     }

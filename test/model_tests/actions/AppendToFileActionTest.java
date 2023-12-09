@@ -49,16 +49,13 @@ public class AppendToFileActionTest {
     public void testAppendToFile() {
         AppendToFileAction action = new AppendToFileAction("String to add", FILE_PATH);
         action.execute();
-
         // Read the last line of the file
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             String lastLine = "";
-
             while ((line = reader.readLine()) != null) {
                 lastLine = line; // Update lastLine with each line read
             }
-
             assertEquals("String not found in the last line of the file", "String to add", lastLine);
         } catch (IOException e) {
             e.printStackTrace();

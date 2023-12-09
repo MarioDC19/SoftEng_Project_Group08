@@ -6,10 +6,11 @@ import javafx.scene.control.Alert;
 
 /**
  * Represents an action to show an information dialog.
+ *
  * @author group08
  */
-public class ShowDialogAction implements Action{
-    
+public class ShowDialogAction implements Action {
+
     private String message;
 
     public ShowDialogAction(String message) {
@@ -27,9 +28,10 @@ public class ShowDialogAction implements Action{
             alert.showAndWait();
         });
     }
-    
-     @Override
+
+    @Override
     public String toString() {
-        return "ShowDialogAction:\n" +"message= " + message ;
+        return "ShowDialogAction:\n" + "message= " + message;
     }
+    
 }

@@ -29,7 +29,6 @@ public class CopyFileActionTest {
         targetDirectory.mkdir();
 
         targetFile = new File(targetDirectory, sourceFile.getName());
-
     }
 
     @After

@@ -12,7 +12,7 @@ import softeng_project_group08.model.Action;
  *
  * @author group08
  */
-public class AppendToFileAction implements Action{
+public class AppendToFileAction implements Action {
 
     private String content;
     private String filePath;
@@ -34,7 +34,7 @@ public class AppendToFileAction implements Action{
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public String toString() {
         return "AppendToFileAction: " + "\ncontent=" + content + "\nfilePath=\n" + filePath;

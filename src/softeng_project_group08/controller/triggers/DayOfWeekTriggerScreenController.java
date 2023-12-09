@@ -23,7 +23,7 @@ public class DayOfWeekTriggerScreenController implements Initializable {
     @FXML
     private Button saveButtonID;
     @FXML
-    private ChoiceBox<DayOfWeek> dayOfWeekID; 
+    private ChoiceBox<DayOfWeek> dayOfWeekID;
 
     private DayOfWeek selectedDay;
     private RuleManager ruleManager;
@@ -34,9 +34,7 @@ public class DayOfWeekTriggerScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dayOfWeekID.getItems().addAll(DayOfWeek.values());
-        
         ruleManager = RuleManager.getRuleManager();
-
         // Set a converter to display the names of the days instead of the enum values
         dayOfWeekID.setConverter(new StringConverter<DayOfWeek>() {
             @Override
@@ -49,22 +47,20 @@ public class DayOfWeekTriggerScreenController implements Initializable {
                 return DayOfWeek.valueOf(string);
             }
         });
-        
-         saveButtonID.disableProperty().bind(
+        // the trigger cannot be saved if the choicebox has no value
+        saveButtonID.disableProperty().bind(
                 dayOfWeekID.valueProperty().isNull()
         );
-        
-        
     }
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
         selectedDay = dayOfWeekID.getValue();
+        //Set the trigger as a DayOfWeekTrigger with the selected day
         DayOfWeekTrigger dayTrigger = new DayOfWeekTrigger(selectedDay);
         ruleManager.getCurrentRule().setTrigger(dayTrigger);
-
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
     }
-}
 
+}

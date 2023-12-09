@@ -12,13 +12,13 @@ import softeng_project_group08.model.Rule;
  * @author group08
  */
 public class RuleTest {
-    
+
     FakeTrigger trueTrigger, falseTrigger;
     FakeAction aAction, bAction;
     Rule r1, r2, r3;
     private static final int MINUTE_IN_HOUR = 60;
     private static final int MINUTE_IN_DAY = 24 * MINUTE_IN_HOUR;
-    
+
     @Before
     public void setUp() {
         trueTrigger = new FakeTrigger(1, 1);
@@ -33,7 +33,7 @@ public class RuleTest {
         // Two rules are considered equal if they have the same name
         r3 = new Rule("A", falseTrigger, bAction);
     }
-    
+
     // assertSame checks whether the arguments point at the same object
     // assertEquals is not preferrable because triggers and action do not have equals() defined
     @Test
@@ -41,7 +41,7 @@ public class RuleTest {
         assertSame(trueTrigger, r1.getTrigger());
         r1.setTrigger(falseTrigger);
         assertSame(falseTrigger, r1.getTrigger());
-        
+
         assertSame(falseTrigger, r2.getTrigger());
         r2.setTrigger(trueTrigger);
         assertSame(trueTrigger, r2.getTrigger());
@@ -52,32 +52,30 @@ public class RuleTest {
         assertSame(aAction, r1.getAction());
         r1.setAction(bAction);
         assertSame(bAction, r1.getAction());
-        
+
         assertSame(bAction, r2.getAction());
         r2.setAction(aAction);
         assertSame(aAction, r2.getAction());
     }
-    
-    
+
     @Test
     public void testIsActiveAndSetActive() {
         assertTrue(r1.isActive());
         r2.setActive(false);
         assertFalse(r2.isActive());
     }
-    
+
     @Test
     public void testGetAndSetName() {
         assertEquals("A", r1.getName());
         r1.setName("C");
         assertEquals("C", r1.getName());
-        
+
         assertEquals("B", r2.getName());
         r2.setName("D");
         assertEquals("D", r2.getName());
     }
 
-    
     @Test
     public void testEquals() {
         // first if: same object
@@ -104,22 +102,22 @@ public class RuleTest {
     }
 
     @Test
-    public void testIsRecurring(){
+    public void testIsRecurring() {
         // a rule is recurring if sleeping time > 0, not recurring otherwise
         r1.setSleepingTime(4);
         assertTrue(r1.isRecurring());
         r1.setSleepingTime(0);
         assertFalse(r1.isRecurring());
     }
-    
+
     @Test
-    public void testGetAndSetRepeat(){
+    public void testGetAndSetRepeat() {
         // after rule creation, repeat is null
         assertNull(r1.getRepeat());
         r1.setRepeat(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
         assertEquals(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), r1.getRepeat());
     }
-    
+
     @Test
     public void fireActiveRule() {
         // r1 is active non-recurring after it's created, the trigger check returns true
@@ -135,7 +133,7 @@ public class RuleTest {
         assertTrue(r2.isActive());
         assertFalse(r2.isRecurring());
     }
-    
+
     @Test
     public void fireInactiveRule() {
         r1.setActive(false);
@@ -146,7 +144,7 @@ public class RuleTest {
         assertFalse(r1.isActive());
         assertFalse(r1.isRecurring());
     }
-    
+
     @Test
     public void fireActiveRecurringRule() {
         r1.setSleepingTime(1);
@@ -157,7 +155,7 @@ public class RuleTest {
         assertTrue(((FakeAction) r1.getAction()).isExecuteCalled());
         assertFalse(r1.isActive());
         assertTrue(r1.isRecurring());
-        
+
         r2.setSleepingTime(2);
         assertTrue(r2.isRecurring());
         // now r2 is active recurring; the trigger check is false so the action should not be executed
@@ -167,7 +165,7 @@ public class RuleTest {
         assertTrue(r2.isActive());
         assertTrue(r2.isRecurring());
     }
-    
+
     @Test
     public void fireInactiveRecurringRule() {
         r1.setActive(false);
@@ -179,7 +177,7 @@ public class RuleTest {
         assertNull(r1.getRepeat());
         assertTrue(r1.isActive());
         assertTrue(r1.isRecurring());
-        
+
         r2.setActive(false);
         r2.setSleepingTime(1, 2, 3);
         r2.setRepeat(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).plusMinutes(1));
@@ -189,7 +187,7 @@ public class RuleTest {
         assertEquals(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).plusMinutes(1), r2.getRepeat());
         assertFalse(r2.isActive());
         assertTrue(r2.isRecurring());
-        
+
         r3.setActive(false);
         r3.setSleepingTime(2);
         r3.setRepeat(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).minusMinutes(1));
@@ -200,5 +198,5 @@ public class RuleTest {
         assertTrue(r3.isActive());
         assertTrue(r3.isRecurring());
     }
-    
+
 }

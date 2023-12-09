@@ -35,52 +35,42 @@ public class CheckExitStatusTriggerScreenController implements Initializable {
     @FXML
     private TextField exitStatusID;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ruleManager = RuleManager.getRuleManager();
-        
-        saveButtonID.disableProperty().bind(Bindings.or(exitStatusID.textProperty().isEmpty(), programPathID.textProperty().isEmpty()));
+        // the trigger cannot be saved if one or both textfields are empty
+        saveButtonID.disableProperty().bind(Bindings.or(
+                exitStatusID.textProperty().isEmpty(),
+                programPathID.textProperty().isEmpty())
+        );
     }
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
-
         // Get the file selected by the FileChooser
         File programPath = new File(programPathID.getText());
-
         int exitStatus = Integer.parseInt(exitStatusID.getText());
-
+        //Set the trigger as a CheckExitStatusTrigger with the selected program
         CheckExitStatusTrigger checkExitStatus = new CheckExitStatusTrigger(programPath, exitStatus);
         ruleManager.getCurrentRule().setTrigger(checkExitStatus);
-        
-
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
-
     }
 
     @FXML
     private void insertProgramAction(ActionEvent event) {
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select a program to check");
-
-        //Show file chooser
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         File selectedFile = fileChooser.showOpenDialog(stage);
-
+        // set accepted extensions for the filechooser
         FileChooser.ExtensionFilter extFilterAll = new FileChooser.ExtensionFilter("Executable Files", "*.exe", "*.bat", "*.cmd", "*.sh");
         fileChooser.getExtensionFilters().add(extFilterAll);
-
         // Handle the selected file and display it in the TextField
         if (selectedFile != null) {
             String programPath = selectedFile.getPath();
             programPathID.setText(programPath);
         }
-
     }
 
 }

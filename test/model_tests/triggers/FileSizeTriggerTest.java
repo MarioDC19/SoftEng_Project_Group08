@@ -11,7 +11,6 @@ import softeng_project_group08.model.triggers.FileSizeTrigger;
  *
  * @author group08
  */
-
 public class FileSizeTriggerTest {
 
     private File testFile;
@@ -34,7 +33,7 @@ public class FileSizeTriggerTest {
 
     @Test
     public void testCheckFileSizeTrigger() {
-        // Crea un oggetto FileSizeTrigger con una dimensione desiderata di 1 KB
+        // Create a FileSizeTrigger with max size 1 KB
         FileSizeTrigger trigger = new FileSizeTrigger(testFile, 1);
 
         //Verify that the trigger returns false before writing to the file.
@@ -53,5 +52,5 @@ public class FileSizeTriggerTest {
             e.printStackTrace();
         }
     }
-}
 
+}

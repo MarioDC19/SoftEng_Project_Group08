@@ -6,20 +6,21 @@ import java.time.LocalDate;
 
 /**
  * Represents a trigger based on a specific day of the week.
+ *
  * @author group08
  */
 public class DayOfWeekTrigger implements Trigger {
-    
+
     private DayOfWeek day;
-    
-    public DayOfWeekTrigger (DayOfWeek day){
-        this.day=day;
+
+    public DayOfWeekTrigger(DayOfWeek day) {
+        this.day = day;
     }
-    
+
     public DayOfWeek getDayOfWeek() {
         return day;
     }
-    
+
     public void setDayOfWeek(DayOfWeek day) {
         this.day = day;
     }
@@ -35,9 +36,7 @@ public class DayOfWeekTrigger implements Trigger {
 
     @Override
     public String toString() {
-        return "DayOfWeekTrigger: " + day ;
+        return "DayOfWeekTrigger: " + day;
     }
-    
-    
-    
+
 }

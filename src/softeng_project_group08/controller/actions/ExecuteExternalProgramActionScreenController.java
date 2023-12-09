@@ -3,7 +3,6 @@ package softeng_project_group08.controller.actions;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,23 +28,18 @@ public class ExecuteExternalProgramActionScreenController implements Initializab
     private TextArea passParametersID;
     @FXML
     private TextField programPathID;
-    
     @FXML
     private Button insertProgramID;
-    
 
     RuleManager rm;
 
     File program;
-    
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         rm = RuleManager.getRuleManager();
         program = null;
+        // the action cannot be saved if the textfield is empty
         saveButtonID.disableProperty().bind(
                 programPathID.textProperty().isEmpty()
         );
@@ -55,6 +49,7 @@ public class ExecuteExternalProgramActionScreenController implements Initializab
     private void saveButtonAction(ActionEvent event) {
         File programFile = new File(programPathID.getText());
         String parametersText = passParametersID.getText();
+        //Set the action as a ExecuteExternalProgramAction with the selected program
         ExecuteExternalProgramAction eepm = new ExecuteExternalProgramAction(programFile, parametersText);
         rm.getCurrentRule().setAction(eepm);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -65,10 +60,12 @@ public class ExecuteExternalProgramActionScreenController implements Initializab
     private void insertProgramAction(ActionEvent event) {
         FileChooser fc = new FileChooser();
         fc.setTitle("Select File");
+        // set accepted extensions for the filechooser
         FileChooser.ExtensionFilter extFilterAll = new FileChooser.ExtensionFilter("Executable Files", "*.exe", "*.bat", "*.cmd", "*.sh");
         fc.getExtensionFilters().add(extFilterAll);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         program = fc.showOpenDialog(stage);
+        // handle the selected file and display it in the TextField
         if (program != null) {
             programPathID.setText(program.getPath());
         }

@@ -60,35 +60,37 @@ public class CheckExitStatusTriggerTest {
 
     @Test
     public void testCheckExitStatus() {
-
         File programFile;
         if (os.contains("win")) {
             programFile = new File("testExit.bat");
         } else {
             programFile = new File("testExit.sh");
         }
-
+        // Test case 1: trigger checks for exit status 37, that is returned by the program
+        // so the check should return true
         CheckExitStatusTrigger checkExitStatus = new CheckExitStatusTrigger(programFile, 37);
-        checkExitStatus.check();
-
-        assertEquals(37, checkExitStatus.getActualExitCode());
-
+        assertTrue(checkExitStatus.check());
+        // Test case 2: trigger checks for exit status 36,
+        // so the check should return false
+        checkExitStatus = new CheckExitStatusTrigger(programFile, 36);
+        assertFalse(checkExitStatus.check());
     }
 
     @Test
     public void testCheckExitStatus2() {
-
         File programFile;
         if (os.contains("win")) {
             programFile = new File("testExit2.bat");
         } else {
             programFile = new File("testExit2.sh");
         }
-
-        CheckExitStatusTrigger checkExitStatus = new CheckExitStatusTrigger(programFile, 37);
-        checkExitStatus.check();
-
-        assertNotEquals(37, checkExitStatus.getActualExitCode());
-
+        // Test case 1: trigger checks for exit status 0, that is returned by the program
+        // so the check should return true
+        CheckExitStatusTrigger checkExitStatus = new CheckExitStatusTrigger(programFile, 0);
+        assertTrue(checkExitStatus.check());
+        // Test case 2: trigger checks for exit status 1,
+        // so the check should return false
+        checkExitStatus = new CheckExitStatusTrigger(programFile, 1);
+        assertFalse(checkExitStatus.check());
     }
 }

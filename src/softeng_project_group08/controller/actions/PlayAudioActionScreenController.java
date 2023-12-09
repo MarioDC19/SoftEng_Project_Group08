@@ -34,7 +34,7 @@ public class PlayAudioActionScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ruleManager = RuleManager.getRuleManager();
-        
+        // the action cannot be saved if the textfield is empty
         saveButtonID.disableProperty().bind(
                 audioPathID.textProperty().isEmpty()
         );
@@ -42,33 +42,24 @@ public class PlayAudioActionScreenController implements Initializable {
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
-
         // Get the file selected by the FileChooser
         File selectedFile = new File(audioPathID.getText());
-
         //Set the action as a PlayAudioAction with the selected file
         PlayAudioAction playAudioAction = new PlayAudioAction(selectedFile);
-
         ruleManager.getCurrentRule().setAction(playAudioAction);
-
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
-
     }
 
     @FXML
     private void insertAudioAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleziona un file audio");
-
         // Set the filter for audio files, in MP3 format
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("File audio (*.mp3)", "*.mp3");
         fileChooser.getExtensionFilters().add(extFilter);
-
-        //Show file chooser
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         File selectedFile = fileChooser.showOpenDialog(stage);
-
         // Handle the selected file and display it in the TextField
         if (selectedFile != null) {
             String filePath = selectedFile.getPath();

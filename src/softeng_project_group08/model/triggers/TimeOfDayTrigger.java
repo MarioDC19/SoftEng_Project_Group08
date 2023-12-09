@@ -4,11 +4,13 @@ import softeng_project_group08.model.Trigger;
 import java.time.LocalTime;
 
 /**
- * Represents a trigger to check if the current time matches a specified time of day.
+ * Represents a trigger to check if the current time matches a specified time of
+ * day.
+ *
  * @author group08
  */
-public class TimeOfDayTrigger implements Trigger{
-    
+public class TimeOfDayTrigger implements Trigger {
+
     private LocalTime timeOfDay;
 
     public TimeOfDayTrigger(int hour, int minute) {
@@ -22,15 +24,16 @@ public class TimeOfDayTrigger implements Trigger{
     public void setTimeOfDay(LocalTime timeOfDay) {
         this.timeOfDay = timeOfDay;
     }
-    
+
     @Override
     public boolean check() {
         LocalTime now = LocalTime.now();
         return timeOfDay.getHour() == now.getHour() && timeOfDay.getMinute() == now.getMinute();
     }
-    
+
     @Override
     public String toString() {
         return "TimeOfDayTrigger: " + timeOfDay;
     }
+
 }

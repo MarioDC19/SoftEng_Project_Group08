@@ -15,8 +15,9 @@ import softeng_project_group08.controller.RuleManager;
 import softeng_project_group08.model.triggers.FileExistenceTrigger;
 
 /**
- * Controls the configuration of triggers based on the existence of a file in a specific directory. 
- * Manages the selection and configuration of file-based triggers in the application.
+ * Controls the configuration of triggers based on the existence of a file in a
+ * specific directory. Manages the selection and configuration of file-based
+ * triggers in the application.
  *
  * @author group08
  */
@@ -30,30 +31,28 @@ public class FileExistenceTriggerScreenController implements Initializable {
     private Button directoryChooserID;
     @FXML
     private TextField directoryNameID;
-    
+
     File selectedDirectory;
-    
+
     private RuleManager ruleManager;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         selectedDirectory = null;
         ruleManager = RuleManager.getRuleManager();
-        
-        saveButtonID.disableProperty().bind(Bindings.or(fileNameID.textProperty().isEmpty(), directoryNameID.textProperty().isEmpty()));
-    }    
+        // the trigger cannot be saved if one or both textfields are empty
+        saveButtonID.disableProperty().bind(Bindings.or(
+                fileNameID.textProperty().isEmpty(),
+                directoryNameID.textProperty().isEmpty())
+        );
+    }
 
     @FXML
     private void saveButtonAction(ActionEvent event) {
-        
         String file = fileNameID.getText();
-        
+        //Set the trigger as a FileExistenceTrigger with the selected file
         FileExistenceTrigger fileExistenceTrigger = new FileExistenceTrigger(file, selectedDirectory);
         ruleManager.getCurrentRule().setTrigger(fileExistenceTrigger);
-        
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
     }
@@ -63,11 +62,10 @@ public class FileExistenceTriggerScreenController implements Initializable {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Select the directory");
         selectedDirectory = directoryChooser.showDialog(directoryChooserID.getScene().getWindow());
-
         // Update the TextField with the selected path
         if (selectedDirectory != null) {
             directoryNameID.setText(selectedDirectory.getAbsolutePath());
         }
     }
-    
+
 }

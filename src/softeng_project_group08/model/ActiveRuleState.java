@@ -1,10 +1,10 @@
 package softeng_project_group08.model;
 
 /**
- * State that represents when the rule is active and not recurring. From this
- * state the rule can only become inactive and not recurring, because the user
- * cannot add the sleeping time once a rule is created.
- *
+ * State that represents when the rule is active and not recurring.
+ * Package-level class: the client can manipulate the Rule state only by using 
+ * public methods of the Rule class
+ * 
  * @author group08
  */
 class ActiveRuleState implements RuleState {

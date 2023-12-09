@@ -110,7 +110,7 @@ public class RuleManager implements RuleEventListener {
                 rules = (RuleList) ois.readObject();
                 // eventManager is transient, so it must be initialized
                 rules.resetEventManager();
-                System.out.println("List of rules is successfully loaded");
+                System.out.println("Rule list successfully loaded");
             } catch (FileNotFoundException ex) {
                 // This catch is unreachable because we have already checked the existence of the file with f.exists()
             } catch (IOException ex) {
@@ -119,7 +119,7 @@ public class RuleManager implements RuleEventListener {
                 ex.printStackTrace();
             }
         } else {
-            System.out.println("I have tried to load the list of rules, but the file doesn't exist yet");
+            System.out.println("Rule list cannot be loaded, the file doesn't exist yet");
         }
     }
 

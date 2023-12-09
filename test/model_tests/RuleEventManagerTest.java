@@ -1,9 +1,7 @@
 package model_tests;
 
 import java.io.File;
-import javafx.embed.swing.JFXPanel;
 import org.junit.After;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import softeng_project_group08.model.Rule;
@@ -16,14 +14,7 @@ import softeng_project_group08.model.RuleEventType;
  * @author group08
  */
 public class RuleEventManagerTest {
-    
-    // executes the static method once before all the tests in the class
-    @BeforeClass
-    public static void setUpClass() {
-        // Initialize JavaFX Toolkit for running JavaFX operations on the test thread
-        JFXPanel jfxPanel = new JFXPanel();
-    }
-    
+
     @After
     public void tearDown() {
         // Deleting file after the test
@@ -33,7 +24,7 @@ public class RuleEventManagerTest {
             testFile.delete();
         }
     }
-    
+
     @Test
     public void testSubscribeAndNotify() {
         RuleEventManager ruleEventManager = new RuleEventManager(RuleEventType.CHANGE);
@@ -44,7 +35,7 @@ public class RuleEventManagerTest {
         // Notify the listeners for the CHANGE event type
         ruleEventManager.notify(RuleEventType.CHANGE, new Rule("TestRule", null, null));
 
-        assertTrue(((TestRuleEventListener)listener).isUpdateCalled());
+        assertTrue(((TestRuleEventListener) listener).isUpdateCalled());
     }
 
     @Test
@@ -59,10 +50,11 @@ public class RuleEventManagerTest {
         // Notify the listeners for the CHANGE event type
         ruleEventManager.notify(RuleEventType.CHANGE, new Rule("TestRule", null, null));
 
-        assertFalse(((TestRuleEventListener)listener).isUpdateCalled());
+        assertFalse(((TestRuleEventListener) listener).isUpdateCalled());
     }
-    
+
     private static class TestRuleEventListener implements RuleEventListener {
+
         private boolean updateCalled = false;
 
         @Override
@@ -74,5 +66,5 @@ public class RuleEventManagerTest {
             return updateCalled;
         }
     }
-}
 
+}
