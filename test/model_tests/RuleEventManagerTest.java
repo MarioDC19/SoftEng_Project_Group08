@@ -1,13 +1,11 @@
 package model_tests;
 
-import java.io.File;
-import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import softeng_project_group08.model.Rule;
-import softeng_project_group08.model.RuleEventListener;
 import softeng_project_group08.model.RuleEventManager;
 import softeng_project_group08.model.RuleEventType;
+import static softeng_project_group08.model.RuleEventType.*;
 
 /**
  *
@@ -15,56 +13,55 @@ import softeng_project_group08.model.RuleEventType;
  */
 public class RuleEventManagerTest {
 
-    @After
-    public void tearDown() {
-        // Deleting file after the test
-        String filePath = "ListRules.bin";
-        File testFile = new File(filePath);
-        if (testFile.exists()) {
-            testFile.delete();
-        }
-    }
-
+    // test cases are checked in the same test method in order to notify
+    // more listeners at the same time
     @Test
     public void testSubscribeAndNotify() {
-        RuleEventManager ruleEventManager = new RuleEventManager(RuleEventType.CHANGE);
-        RuleEventListener listener = new TestRuleEventListener();
-
-        // Subscribe the listener to the CHANGE event type
-        ruleEventManager.subscribe(RuleEventType.CHANGE, listener);
+        // Create ruleEventManager that can generate every eventType
+        RuleEventManager ruleEventManager = new RuleEventManager(CHANGE, ADD, REMOVE);
+        // Test case 1: listener subscribed to all eventTypes
+        FakeRuleEventListener listener1 = new FakeRuleEventListener();
+        ruleEventManager.subscribe(listener1);
+        // Test case 2: listener subscribed only to the CHANGE event type
+        FakeRuleEventListener listener2 = new FakeRuleEventListener();
+        ruleEventManager.subscribe(CHANGE, listener2);
+        // Test case 3: listener subscribed to ADD and REMOVE event type
+        FakeRuleEventListener listener3 = new FakeRuleEventListener();
+        ruleEventManager.subscribe(ADD, listener3);
+        ruleEventManager.subscribe(REMOVE, listener3);
         // Notify the listeners for the CHANGE event type
-        ruleEventManager.notify(RuleEventType.CHANGE, new Rule("TestRule", null, null));
-
-        assertTrue(((TestRuleEventListener) listener).isUpdateCalled());
+        // listeners 1 and 2 should be notified (+1)
+        ruleEventManager.notify(CHANGE, null);
+        assertEquals(1, listener1.getUpdateCalledCount());
+        assertEquals(1, listener2.getUpdateCalledCount());
+        assertEquals(0, listener3.getUpdateCalledCount());
+        // Notify the listeners for the ADD event type
+        // listeners 1 and 3 should be notified (+1)
+        ruleEventManager.notify(ADD, null);
+        assertEquals(2, listener1.getUpdateCalledCount());
+        assertEquals(1, listener2.getUpdateCalledCount());
+        assertEquals(1, listener3.getUpdateCalledCount());
+        // Notify the listeners for the REMOVE event type
+        // listeners 1 and 3 should be notified (+1)
+        ruleEventManager.notify(REMOVE, null);
+        assertEquals(3, listener1.getUpdateCalledCount());
+        assertEquals(1, listener2.getUpdateCalledCount());
+        assertEquals(2, listener3.getUpdateCalledCount());
     }
 
     @Test
     public void testUnsubscribe() {
+        // Create ruleEventManager that can generate only CHANGE events
         RuleEventManager ruleEventManager = new RuleEventManager(RuleEventType.CHANGE);
-        RuleEventListener listener = new TestRuleEventListener();
-
+        FakeRuleEventListener listener = new FakeRuleEventListener();
         // Subscribe the listener to the CHANGE event type
         ruleEventManager.subscribe(RuleEventType.CHANGE, listener);
         // Unsubscribe the listener from the CHANGE event type
         ruleEventManager.unsubscribe(RuleEventType.CHANGE, listener);
         // Notify the listeners for the CHANGE event type
         ruleEventManager.notify(RuleEventType.CHANGE, new Rule("TestRule", null, null));
-
-        assertFalse(((TestRuleEventListener) listener).isUpdateCalled());
-    }
-
-    private static class TestRuleEventListener implements RuleEventListener {
-
-        private boolean updateCalled = false;
-
-        @Override
-        public void update(RuleEventType eventType, Rule updatedRule) {
-            updateCalled = true;
-        }
-
-        public boolean isUpdateCalled() {
-            return updateCalled;
-        }
+        // Since the listener is unsubscribed, notify should have no effect (updateCount = 0)
+        assertEquals(0, listener.getUpdateCalledCount());
     }
 
 }

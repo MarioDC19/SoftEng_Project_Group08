@@ -29,14 +29,17 @@ public class RuleManager implements RuleEventListener {
     private boolean subscribedToList;
     // Singleton pattern: shared instance
     private static RuleManager instance = null;
-    public static final String saveLoadPath = "ListRules.bin";
 
     private RuleManager() {
-        rules = new RuleList();
         currentRule = null;
         subscribedToList = false;
         // try to load the list from file
-        loadRuleListFromFile();
+        rules = RuleList.loadFromFile();
+        if(rules == null) {
+            // if loadRuleListFromFile() returns null the file does not exist
+            // or there's been an error during the load procedure
+            rules = new RuleList();
+        }
         // initialize the rule process service        
         prs = new ProcessRulesService(rules);
     }
@@ -49,18 +52,14 @@ public class RuleManager implements RuleEventListener {
         return instance;
     }
 
-    // Initializes the RuleManager: subscribe to the RuleList, start
-    // ProcessRulesService
+    // Initializes the RuleManager: subscribe to the RuleList, start ProcessRulesService
     public void initialize() {
+        // subscribe the RuleManager to the list for automatic save if it isn't already
         if (!subscribedToList) {
             rules.getEventManager().subscribe(this);
             subscribedToList = true;
         }
-        startRulesProcess();
-    }
-
-    // starts the ProcessRulesService only if it isn't already running
-    private void startRulesProcess() {
+        // starts the ProcessRulesService only if it isn't already running
         if (!prs.isRunning()) {
             prs.start();
         }
@@ -98,29 +97,8 @@ public class RuleManager implements RuleEventListener {
 
     @Override
     public void update(RuleEventType eventType, Rule updatedRule) {
-        SaveRulesService saveThread = new SaveRulesService(rules, saveLoadPath);
+        SaveRulesService saveThread = new SaveRulesService(rules);
         saveThread.start();
-    }
-
-    private void loadRuleListFromFile() {
-        RuleList list = null;
-        File f = new File(saveLoadPath);
-        if (f.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(saveLoadPath))) {
-                rules = (RuleList) ois.readObject();
-                // eventManager is transient, so it must be initialized
-                rules.resetEventManager();
-                System.out.println("Rule list successfully loaded");
-            } catch (FileNotFoundException ex) {
-                // This catch is unreachable because we have already checked the existence of the file with f.exists()
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-        } else {
-            System.out.println("Rule list cannot be loaded, the file doesn't exist yet");
-        }
     }
 
 }

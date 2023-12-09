@@ -17,11 +17,9 @@ import softeng_project_group08.model.RuleList;
 public class SaveRulesService extends Service<Void> {
 
     private RuleList rules;
-    private String filePath;
 
-    public SaveRulesService(RuleList rules, String filePath) {
+    public SaveRulesService(RuleList rules) {
         this.rules = rules;
-        this.filePath = filePath;
     }
 
     @Override
@@ -30,25 +28,10 @@ public class SaveRulesService extends Service<Void> {
         return new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                saveRulesToFile();
+                rules.saveToFile();
                 return null;
             }
         };
     }
 
-    // Method to save rules to a file
-    private void saveRulesToFile() {
-        try {
-            try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filePath)))) {
-
-                oos.writeObject(rules);
-
-                System.out.println("RuleList saved successfully to file: " + filePath);
-            }
-        } catch (IOException e) {
-            // Handle IO exceptions if there's an error during file writing
-            System.err.println("Error while saving RuleList to file: " + filePath);
-            e.printStackTrace();
-        }
-    }
 }

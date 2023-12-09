@@ -3,7 +3,8 @@ package model_tests;
 import softeng_project_group08.model.Action;
 
 /**
- *
+ * Simple implementation of Action interface for testing purposes
+ * 
  * @author group08
  */
 public class FakeAction implements Action {
@@ -29,4 +30,5 @@ public class FakeAction implements Action {
     public String toString() {
         return name;
     }
+    
 }

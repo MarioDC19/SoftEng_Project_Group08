@@ -119,7 +119,7 @@ public class RuleTest {
     }
 
     @Test
-    public void fireActiveRule() {
+    public void testFireActiveRule() {
         // r1 is active non-recurring after it's created, the trigger check returns true
         // the action should not be executed, the rule becomes inactive non-recurring
         r1.fire();
@@ -135,7 +135,7 @@ public class RuleTest {
     }
 
     @Test
-    public void fireInactiveRule() {
+    public void testFireInactiveRule() {
         r1.setActive(false);
         // now r1 is inactive non-recurring; the action should not be executed
         // the rule remains inactive non-recurring
@@ -146,7 +146,7 @@ public class RuleTest {
     }
 
     @Test
-    public void fireActiveRecurringRule() {
+    public void testFireActiveRecurringRule() {
         r1.setSleepingTime(1);
         assertTrue(r1.isRecurring());
         // now r1 is active recurring; the trigger check is true so the action should be executed
@@ -167,7 +167,7 @@ public class RuleTest {
     }
 
     @Test
-    public void fireInactiveRecurringRule() {
+    public void testFireInactiveRecurringRule() {
         r1.setActive(false);
         r1.setSleepingTime(1);
         r1.setRepeat(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));

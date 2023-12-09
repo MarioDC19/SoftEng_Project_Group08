@@ -3,10 +3,8 @@ package softeng_project_group08.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Helper class utilized by subjects that need to notify observers when a change
@@ -17,24 +15,21 @@ import java.util.Set;
 public class RuleEventManager implements Serializable {
 
     // Map that contains a list of subscribers for every event type that the 
-    // subject can generate.
+    // subject can geprivate Map<RuleEventType, List<RuleEventListener>> listeners;nerate.
     private Map<RuleEventType, List<RuleEventListener>> listeners;
-    // Set that contains the event types that the subject can generate.
-    private Set<RuleEventType> supportedTypes;
+    // listeners.keySet() returns the set of events that the subject can generate
 
     // The constructor accepts a variable number of eventTypes, which represent 
     // the types of events the subject can generate. 
     public RuleEventManager(RuleEventType... eventTypes) {
         listeners = new HashMap<>();
-        supportedTypes = new HashSet<>();
         for (RuleEventType eventType : eventTypes) {
             listeners.put(eventType, new ArrayList<>());
-            supportedTypes.add(eventType);
         }
     }
 
     public void subscribe(RuleEventType eventType, RuleEventListener listener) {
-        if (supportedTypes.contains(eventType)) {
+        if (listeners.keySet().contains(eventType)) {
             List<RuleEventListener> users = listeners.get(eventType);
             users.add(listener);
         }
@@ -43,13 +38,13 @@ public class RuleEventManager implements Serializable {
     // Overloaded method that subscribes the listener to all the event types
     // that the subject can generate.
     public void subscribe(RuleEventListener listener) {
-        for (RuleEventType ret : supportedTypes) {
+        for (RuleEventType ret : listeners.keySet()) {
             subscribe(ret, listener);
         }
     }
 
     public void unsubscribe(RuleEventType eventType, RuleEventListener listener) {
-        if (supportedTypes.contains(eventType)) {
+        if (listeners.keySet().contains(eventType)) {
             List<RuleEventListener> users = listeners.get(eventType);
             users.remove(listener);
         }
@@ -58,7 +53,7 @@ public class RuleEventManager implements Serializable {
     // Overloaded method that unsubscribes the listener to all the event types
     // that the subject can generate.
     public void unsubscribe(RuleEventListener listener) {
-        for (RuleEventType ret : supportedTypes) {
+        for (RuleEventType ret : listeners.keySet()) {
             unsubscribe(ret, listener);
         }
     }
@@ -69,4 +64,5 @@ public class RuleEventManager implements Serializable {
             listener.update(eventType, updatedRule);
         }
     }
+    
 }

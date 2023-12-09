@@ -3,13 +3,13 @@ package model_tests;
 import softeng_project_group08.model.Trigger;
 
 /**
- *
+ * Simple implementation of Trigger interface for testing purposes
+ * 
  * @author group08
  */
 public class FakeTrigger implements Trigger {
 
-    // Package level, test-only class
-    int a, b;
+    private int a, b;
 
     public FakeTrigger(int a, int b) {
         this.a = a;

@@ -1,5 +1,13 @@
 package softeng_project_group08.model;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,6 +27,7 @@ public class RuleList implements Iterable<Rule>, RuleEventListener, Serializable
     // eventManager in this case must not be serialized, subscriptions are added
     // at application start
     private transient RuleEventManager eventManager;
+    public static final String saveLoadPath = "ListRules.bin";
 
     public RuleList() {
         this.rules = new ArrayList<>();
@@ -33,7 +42,7 @@ public class RuleList implements Iterable<Rule>, RuleEventListener, Serializable
     
     // helper method, must be used only when this object is read from file and
     // eventManager must be initialized
-    public void resetEventManager(){
+    private void resetEventManager(){
         this.eventManager = new RuleEventManager(RuleEventType.ADD,
                 RuleEventType.REMOVE,
                 RuleEventType.CHANGE);
@@ -70,5 +79,42 @@ public class RuleList implements Iterable<Rule>, RuleEventListener, Serializable
     public Iterator<Rule> iterator() {
         return rules.iterator();
     }
-
+    
+    // load RuleList from file and return it
+    public static RuleList loadFromFile() {
+        RuleList list = null;
+        File f = new File(saveLoadPath);
+        if (f.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(saveLoadPath))) {
+                list = (RuleList) ois.readObject();
+                // eventManager is transient, so it must be initialized
+                list.resetEventManager();
+                System.out.println("Rule list successfully loaded");
+            } catch (FileNotFoundException ex) {
+                // This catch is unreachable because we have already checked the existence of the file with f.exists()
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            System.out.println("Rule list cannot be loaded, the file doesn't exist yet");
+        }
+        return list;
+    }
+    
+    // save this object to file
+    public void saveToFile() {
+        try {
+            try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(saveLoadPath)))) {
+                oos.writeObject(this);
+                System.out.println("RuleList saved successfully to file: " + saveLoadPath);
+            }
+        } catch (IOException e) {
+            // Handle IO exceptions if there's an error during file writing
+            System.err.println("Error while saving RuleList to file: " + saveLoadPath);
+            e.printStackTrace();
+        }
+    }
+    
 }
