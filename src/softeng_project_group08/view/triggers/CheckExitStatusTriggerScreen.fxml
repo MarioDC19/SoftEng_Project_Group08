@@ -30,9 +30,11 @@
             <Insets bottom="5.0" right="20.0" />
          </padding>
       </ButtonBar>
-      <TextField fx:id="exitStatusID" layoutX="267.0" layoutY="83.0" prefHeight="31.0" prefWidth="152.0" />
-      <Text layoutX="14.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your expected exit status :" />
-      <Button fx:id="insertProgramID" layoutX="269.0" layoutY="150.0" mnemonicParsing="false" onAction="#insertProgramAction" text="Select the program" />
-      <TextField fx:id="programPathID" editable="false" layoutX="14.0" layoutY="150.0" prefHeight="31.0" prefWidth="247.0" />
+      <TextField fx:id="exitStatusID" layoutX="225.0" layoutY="71.0" prefHeight="31.0" prefWidth="179.0" />
+      <Text layoutX="44.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your expected exit status :" />
+      <Button fx:id="insertProgramID" layoutX="298.0" layoutY="190.0" mnemonicParsing="false" onAction="#insertProgramAction" text="Select the program" />
+      <TextField fx:id="programPathID" editable="false" layoutX="29.0" layoutY="187.0" prefHeight="31.0" prefWidth="247.0" />
+      <TextField fx:id="passParametersID" layoutX="29.0" layoutY="133.0" prefHeight="47.0" prefWidth="375.0" />
+      <Text layoutX="164.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your parameters:" />
    </children>
 </AnchorPane>

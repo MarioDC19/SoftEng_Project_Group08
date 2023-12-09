@@ -22,14 +22,32 @@ public class CheckExitStatusTriggerTest {
     public void setUp() {
         if (os.contains("win")) {
             createTestFile("testExit.bat", "@echo off\n"
-                    + "exit /b 37\n");
-            createTestFile("testExit2.bat", "@echo off\n"
-                    + "exit /b 0\n");
+                    + "IF \"%1\"==\"success\" (\n"
+                    + "    exit /b 37\n"
+                    + ") ELSE (\n"
+                    + "    exit /b 0\n"
+                    + ")");
+            createTestFile("testExit2.bat", "@@echo off\n"
+                    + "IF \"%1\"==\"success\" (\n"
+                    + "    exit /b 0\n"
+                    + ") ELSE (\n"
+                    + "    exit /b 37\n"
+                    + ")");
         } else {
             createTestFile("testExit.sh", "#!/bin/bash\n"
-                    + "exit 37\n");
+                    + "\n"
+                    + "if [ \"$1\" = \"success\" ]; then\n"
+                    + "    exit 37\n"
+                    + "else\n"
+                    + "    exit 0\n"
+                    + "fi");
             createTestFile("testExit2.sh", "#!/bin/bash\n"
-                    + "exit 0\n");
+                    + "\n"
+                    + "if [ \"$1\" = \"success\" ]; then\n"
+                    + "    exit 0\n"
+                    + "else\n"
+                    + "    exit 37\n"
+                    + "fi");
         }
     }
 
@@ -37,7 +55,7 @@ public class CheckExitStatusTriggerTest {
         try {
             File file = new File(fileName);
             FileWriter writer = new FileWriter(file);
-            writer.write(content);
+            writer.write(content.trim());
             writer.close();
             if (!System.getProperty("os.name").toLowerCase().contains("win")) {
                 file.setExecutable(true);
@@ -68,11 +86,11 @@ public class CheckExitStatusTriggerTest {
         }
         // Test case 1: trigger checks for exit status 37, that is returned by the program
         // so the check should return true
-        CheckExitStatusTrigger checkExitStatus = new CheckExitStatusTrigger(programFile, 37);
+        CheckExitStatusTrigger checkExitStatus = new CheckExitStatusTrigger(programFile, 37, "success");
         assertTrue(checkExitStatus.check());
         // Test case 2: trigger checks for exit status 36,
         // so the check should return false
-        checkExitStatus = new CheckExitStatusTrigger(programFile, 36);
+        checkExitStatus = new CheckExitStatusTrigger(programFile, 36, "fail");
         assertFalse(checkExitStatus.check());
     }
 
@@ -86,11 +104,11 @@ public class CheckExitStatusTriggerTest {
         }
         // Test case 1: trigger checks for exit status 0, that is returned by the program
         // so the check should return true
-        CheckExitStatusTrigger checkExitStatus = new CheckExitStatusTrigger(programFile, 0);
+        CheckExitStatusTrigger checkExitStatus = new CheckExitStatusTrigger(programFile, 0, "success");
         assertTrue(checkExitStatus.check());
-        // Test case 2: trigger checks for exit status 1,
+        // Test case 2: trigger checks for exit status 1,s
         // so the check should return false
-        checkExitStatus = new CheckExitStatusTrigger(programFile, 1);
+        checkExitStatus = new CheckExitStatusTrigger(programFile, 1, "fail");
         assertFalse(checkExitStatus.check());
     }
 }

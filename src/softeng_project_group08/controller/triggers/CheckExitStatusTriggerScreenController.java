@@ -34,6 +34,8 @@ public class CheckExitStatusTriggerScreenController implements Initializable {
     private RuleManager ruleManager;
     @FXML
     private TextField exitStatusID;
+    @FXML
+    private TextField passParametersID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -49,9 +51,10 @@ public class CheckExitStatusTriggerScreenController implements Initializable {
     private void saveButtonAction(ActionEvent event) {
         // Get the file selected by the FileChooser
         File programPath = new File(programPathID.getText());
+        String parametersText = passParametersID.getText();
         int exitStatus = Integer.parseInt(exitStatusID.getText());
         //Set the trigger as a CheckExitStatusTrigger with the selected program
-        CheckExitStatusTrigger checkExitStatus = new CheckExitStatusTrigger(programPath, exitStatus);
+        CheckExitStatusTrigger checkExitStatus = new CheckExitStatusTrigger(programPath, exitStatus, parametersText);
         ruleManager.getCurrentRule().setTrigger(checkExitStatus);
         Stage currentStage = (Stage) saveButtonID.getScene().getWindow();
         currentStage.close();
