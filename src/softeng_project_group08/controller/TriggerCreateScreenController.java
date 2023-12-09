@@ -23,6 +23,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import softeng_project_group08.model.Trigger;
+import softeng_project_group08.model.triggers.AndTriggerDecorator;
 import softeng_project_group08.model.triggers.NotTriggerDecorator;
 
 /**
@@ -69,9 +70,11 @@ public class TriggerCreateScreenController implements Initializable {
     private CheckBox multiTriggerID;
     @FXML
     private TextArea fieldID;
+    @FXML
+    private RadioButton andID;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+   public void initialize(URL url, ResourceBundle rb) {
         ruleManager = RuleManager.getRuleManager();
         initBindings();
         initContextMenu();
@@ -92,8 +95,10 @@ public class TriggerCreateScreenController implements Initializable {
         //group for or and not operator
         tg2 = new ToggleGroup();
         notID.setToggleGroup(tg2);
+        andID.setToggleGroup(tg2);
         listViewID.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         notID.setOnAction(event -> handleNotButtonClick(listViewID));
+        andID.setOnAction(event -> handleAndButtonClick(listViewID));
     }
     
     private void initContextMenu(){
@@ -175,12 +180,9 @@ public class TriggerCreateScreenController implements Initializable {
         if (rb.isSelected()) {
             Stage currentStage = (Stage) rb.getScene().getWindow();
             cs.switchScreenModal(path, currentStage, title);
-
             if (ruleManager.getCurrentRule().getTrigger() == null) {
                 rb.setSelected(false);
             } else if (multiTriggerID.isSelected()) {
-                listViewID.getItems().removeAll(listViewID.getItems());
-                fieldID.setText("");
                 listViewID.getItems().add(ruleManager.getCurrentRule().getTrigger());
                 rb.setSelected(false);
             }
@@ -202,9 +204,25 @@ public class TriggerCreateScreenController implements Initializable {
             notID.setSelected(false);
         }
     }
-
-   
-
+    
+    private void handleAndButtonClick(ListView<Trigger> listView) {
+        ObservableList<Trigger> selectedItems = listView.getSelectionModel().getSelectedItems();
+        if (selectedItems != null && selectedItems.size() >= 2) {
+            Trigger combinedTrigger = selectedItems.get(0);
+            for (int i = 1; i < selectedItems.size(); i++) {
+                combinedTrigger = new AndTriggerDecorator(combinedTrigger, selectedItems.get(i));
+            }
+            ruleManager.getCurrentRule().setTrigger(combinedTrigger);
+            fieldID.setText(ruleManager.getCurrentRule().getTrigger().toString());
+            listView.getItems().removeAll(selectedItems);
+            listView.getItems().add(ruleManager.getCurrentRule().getTrigger());
+            andID.setSelected(false);
+        } else {
+            showDialog("You need to create at least two triggers and select at least two rows in the list to apply the AND operator. ", Alert.AlertType.ERROR, "Error");
+            andID.setSelected(false);
+        }
+    }
+    
     @FXML
     private void multiTriggerAction(ActionEvent event) {
         if (multiTriggerID.isSelected()) {
