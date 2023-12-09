@@ -85,6 +85,11 @@
                               <Insets left="5.0" top="10.0" />
                            </HBox.margin>
                         </RadioButton>
+                        <RadioButton fx:id="orID" mnemonicParsing="false" text="OR">
+                           <HBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </HBox.margin>
+                        </RadioButton>
                      </children>
                   </HBox>
                   <TextArea fx:id="fieldID" editable="false" prefHeight="80.0" prefWidth="355.0" />

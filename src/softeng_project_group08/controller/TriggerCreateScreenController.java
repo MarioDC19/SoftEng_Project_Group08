@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import softeng_project_group08.model.Trigger;
 import softeng_project_group08.model.triggers.AndTriggerDecorator;
 import softeng_project_group08.model.triggers.NotTriggerDecorator;
+import softeng_project_group08.model.triggers.OrTriggerDecorator;
 
 /**
  * Manages trigger selection and configuration for rule creation. Controls the
@@ -72,6 +73,8 @@ public class TriggerCreateScreenController implements Initializable {
     private TextArea fieldID;
     @FXML
     private RadioButton andID;
+    @FXML
+    private RadioButton orID;
 
     @Override
    public void initialize(URL url, ResourceBundle rb) {
@@ -96,9 +99,11 @@ public class TriggerCreateScreenController implements Initializable {
         tg2 = new ToggleGroup();
         notID.setToggleGroup(tg2);
         andID.setToggleGroup(tg2);
+        orID.setToggleGroup(tg2);
         listViewID.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         notID.setOnAction(event -> handleNotButtonClick(listViewID));
         andID.setOnAction(event -> handleAndButtonClick(listViewID));
+        orID.setOnAction(event -> handleOrButtonClick(listViewID));
     }
     
     private void initContextMenu(){
@@ -220,6 +225,23 @@ public class TriggerCreateScreenController implements Initializable {
         } else {
             showDialog("You need to create at least two triggers and select at least two rows in the list to apply the AND operator. ", Alert.AlertType.ERROR, "Error");
             andID.setSelected(false);
+        }
+    }
+    private void handleOrButtonClick(ListView<Trigger> listView) {
+        ObservableList<Trigger> selectedItems = listView.getSelectionModel().getSelectedItems();
+        if (selectedItems != null && selectedItems.size() >= 2) {
+            Trigger combinedTrigger = selectedItems.get(0);
+            for (int i = 1; i < selectedItems.size(); i++) {
+                combinedTrigger = new OrTriggerDecorator(combinedTrigger, selectedItems.get(i));
+            }
+            ruleManager.getCurrentRule().setTrigger(combinedTrigger);
+            fieldID.setText(ruleManager.getCurrentRule().getTrigger().toString());
+            listView.getItems().removeAll(selectedItems);
+            listView.getItems().add(ruleManager.getCurrentRule().getTrigger());
+            orID.setSelected(false);
+        } else {
+            showDialog("You need to create at least two triggers and select at least two rows in the list to apply the OR operator.", Alert.AlertType.ERROR, "Error");
+            orID.setSelected(false);
         }
     }
     
