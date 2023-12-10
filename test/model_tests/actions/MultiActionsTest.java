@@ -1,6 +1,7 @@
 package model_tests.actions;
 
 import model_tests.FakeAction;
+import model_tests.FakeDialogEventListener;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -8,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import softeng_project_group08.model.Action;
+import softeng_project_group08.model.DialogType;
 import softeng_project_group08.model.actions.MultiActions;
 
 /**
@@ -30,40 +32,27 @@ public class MultiActionsTest {
     }
 
     @Test
-    public void testAddChild() {
-        assertEquals(0, multiActions.getList().size());
-
+    public void testAddChildAndContainsChild() {
+        assertFalse(multiActions.containsChild(dummyAction1));
+        assertFalse(multiActions.containsChild(dummyAction2));
         multiActions.addChild(dummyAction1);
-        assertEquals(1, multiActions.getList().size());
-
+        assertTrue(multiActions.containsChild(dummyAction1));
+        assertFalse(multiActions.containsChild(dummyAction2));
         multiActions.addChild(dummyAction2);
-        assertEquals(2, multiActions.getList().size());
+        assertTrue(multiActions.containsChild(dummyAction1));
+        assertTrue(multiActions.containsChild(dummyAction2));
     }
 
     @Test
-    public void testRemoveChild() {
+    public void testRemoveChildAndContainsChild() {
         multiActions.addChild(dummyAction1);
         multiActions.addChild(dummyAction2);
-
-        assertEquals(2, multiActions.getList().size());
-        assertTrue(multiActions.getList().contains(dummyAction1));
-        assertTrue(multiActions.getList().contains(dummyAction2));
-
         multiActions.removeChild(dummyAction1);
-        assertEquals(1, multiActions.getList().size());
-        assertFalse(multiActions.getList().contains(dummyAction1));
-        assertTrue(multiActions.getList().contains(dummyAction2));
-    }
-
-    @Test
-    public void testGetChild() {
-        multiActions.addChild(dummyAction1);
-        multiActions.addChild(dummyAction2);
-
-        Action retrievedAction = multiActions.getChild(dummyAction1);
-
-        assertNotNull(retrievedAction);
-        assertEquals(dummyAction1, retrievedAction);
+        assertFalse(multiActions.containsChild(dummyAction1));
+        assertTrue(multiActions.containsChild(dummyAction2));
+        multiActions.removeChild(dummyAction2);
+        assertFalse(multiActions.containsChild(dummyAction1));
+        assertFalse(multiActions.containsChild(dummyAction2));
     }
 
     @Test
@@ -101,6 +90,18 @@ public class MultiActionsTest {
 
         String expected = "Action 1\nAction 2\n";
         assertEquals(expected, multiActions.toString());
+    }
+    
+    @Test
+    public void testDialogObserverPattern() {
+        // add an action as a child to multiactions, and subscribe a listener
+        // to multiactions: when the child actions generates a dialog request,
+        // listener should be notified
+        multiActions.addChild(dummyAction1);
+        FakeDialogEventListener listener = new FakeDialogEventListener();
+        multiActions.getDialogEventManager().subscribe(listener);
+        dummyAction1.getDialogEventManager().requestDialog(DialogType.INFO, "", "");
+        assertTrue(listener.isShowCalled());
     }
 
 }

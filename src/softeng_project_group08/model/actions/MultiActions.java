@@ -43,8 +43,8 @@ public class MultiActions implements Action, DialogEventListener {
         }
     }
 
-    public Action getChild(Action a) {
-        return list.get(list.indexOf(a));
+    public boolean containsChild(Action a) {
+        return list.contains(a);
     }
 
     @Override
@@ -52,10 +52,6 @@ public class MultiActions implements Action, DialogEventListener {
         for (Action a : list) {
             a.execute();
         }
-    }
-
-    public List<Action> getList() {
-        return list;
     }
 
     @Override
