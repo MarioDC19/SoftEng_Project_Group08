@@ -5,64 +5,34 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import softeng_project_group08.model.Action;
-import softeng_project_group08.model.DialogEventManager;
 import softeng_project_group08.model.DialogType;
 
 /**
  * Java class implementing the Action interface to copy a file from a source to
- * a target directory. Notifies listeners when there's a show dialog request.
+ * a target directory. Implements template method.
  *
  * @author group08
  */
-public class CopyFileAction implements Action {
+public class CopyFileAction extends FileDirectoryAction {
 
-    private File sourceFile;
-    private File targetDirectory;
-    private DialogEventManager dialogEventManager;
-
+    // Constructor to initialize the source file and target directory
     public CopyFileAction(File sourceFile, File targetDirectory) {
-        this.dialogEventManager = new DialogEventManager();
-        this.sourceFile = sourceFile;
-        this.targetDirectory = targetDirectory;
+        super(sourceFile, targetDirectory);
     }
 
     @Override
-    public void execute() {
-        // If the file or folder doesn't exist, notify the user with a dialog
-        if (!sourceFile.exists()) {
-            dialogEventManager.requestDialog(DialogType.ERROR,
-                    "CopyFileAction Error",
-                    "File to copy does not exist:\n" + sourceFile.getAbsolutePath());
-            return;
-        }
-        if (!targetDirectory.exists()) {
-            dialogEventManager.requestDialog(DialogType.ERROR,
-                    "CopyFileAction Error",
-                    "Target directory does not exist:\n" + targetDirectory.getAbsolutePath());
-            return;
-        }
+    protected void handleFileDirectory() {
         // Construct the path for the destination file within the target directory
         Path targetPath = targetDirectory.toPath().resolve(sourceFile.getName());
         try {
             Files.copy(sourceFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("The file has been copied successfully.");
+            System.out.println("The file has been copied successfully:\n" + sourceFile.getAbsolutePath());
         } catch (IOException ex) {
             dialogEventManager.requestDialog(DialogType.ERROR,
-                    "CopyFileAction Error",
+                    this.getClass().getName() + " Error",
                     "Generic file copy error:\n" + sourceFile.getAbsolutePath()
                     + "\n" + targetDirectory.getAbsolutePath());
         }
-    }
-
-    @Override
-    public DialogEventManager getDialogEventManager() {
-        return dialogEventManager;
-    }
-
-    @Override
-    public String toString() {
-        return "CopyFileAction:\n" + "sourceFile=\n" + sourceFile + "\ntargetDirectory=\n" + targetDirectory;
     }
 
 }
