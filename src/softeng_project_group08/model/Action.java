@@ -10,4 +10,7 @@ public interface Action extends Serializable {
     
     public void execute();
     
+    // this method will return null if the action does not need to show dialogs
+    public DialogEventManager getDialogEventManager();
+    
 }

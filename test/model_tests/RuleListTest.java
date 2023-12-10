@@ -4,10 +4,15 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.Iterator;
 import static org.junit.Assert.*;
+import softeng_project_group08.model.DialogType;
 import softeng_project_group08.model.Rule;
 import static softeng_project_group08.model.RuleEventType.*;
 import softeng_project_group08.model.RuleList;
 
+/**
+ *
+ * @author group08
+ */
 public class RuleListTest {
 
     private RuleList ruleList;
@@ -66,8 +71,8 @@ public class RuleListTest {
     public void testRuleObserverPatternAsSubject() {
         // create fakeRuleEventListener subscribed to the RuleList for ADD and REMOVE events
         FakeRuleEventListener listener = new FakeRuleEventListener();
-        ruleList.getEventManager().subscribe(ADD, listener);
-        ruleList.getEventManager().subscribe(REMOVE, listener);
+        ruleList.getRuleEventManager().subscribe(ADD, listener);
+        ruleList.getRuleEventManager().subscribe(REMOVE, listener);
         // add and remove the same rule, the listener should be notified twice
         ruleList.addRule(rule1);
         ruleList.removeRule(rule1);
@@ -79,7 +84,7 @@ public class RuleListTest {
     public void testRuleObserverPatternAsListener() {
         // create fakeRuleEventListener subscribed to the RuleList for CHANGE events
         FakeRuleEventListener listener = new FakeRuleEventListener();
-        ruleList.getEventManager().subscribe(CHANGE, listener);
+        ruleList.getRuleEventManager().subscribe(CHANGE, listener);
         // add a rule and change its state, ruleList should be notified
         // and it should forward the event to the listener (+1)
         ruleList.addRule(rule1);
@@ -90,6 +95,21 @@ public class RuleListTest {
         ruleList.removeRule(rule1);
         rule1.setActive(true);
         assertEquals(1, listener.getUpdateCalledCount());
+    }
+
+    // this covers test of show() method
+    @Test
+    public void testDialogObserverPattern() {
+        // create fakeDialogEventListener subscribed to the RuleList
+        FakeDialogEventListener listener = new FakeDialogEventListener();
+        ruleList.getDialogEventManager().subscribe(listener);
+        // add a rule with an action to the list and generate a dialog request; 
+        // the listener should be notified
+        FakeAction action = new FakeAction("action");
+        Rule rule = new Rule("rule", null, action);
+        ruleList.addRule(rule);
+        action.getDialogEventManager().requestDialog(DialogType.INFO, "", "");
+        assertTrue(listener.isShowCalled());
     }
 
 }

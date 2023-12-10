@@ -1,37 +1,48 @@
 package softeng_project_group08.model.actions;
 
 import java.io.File;
-import javafx.scene.control.Alert;
 import softeng_project_group08.model.Action;
+import softeng_project_group08.model.DialogEventManager;
+import softeng_project_group08.model.DialogType;
 
 /**
- *
  * Represents an action to delete a specified file. Manages the deletion of a
- * file, checking its existence and handling deletion errors
+ * file, checking its existence and handling deletion errors. Notifies listeners
+ * when there's a show dialog request.
  *
  * @author group08
  */
 public class DeleteFileAction implements Action {
 
     private File file;
+    private DialogEventManager dialogEventManager;
 
     public DeleteFileAction(File file) {
+        this.dialogEventManager = new DialogEventManager();
         this.file = file;
     }
 
     @Override
     public void execute() {
-        if (file.exists()) {
-            boolean deleted = file.delete();
-
-            if (deleted) {
-                System.out.println("The file has been deleted.");
-            } else {
-                showDialog("Error deleting the file.");
-            }
-        } else {
-            showDialog("The file does not exist.");
+        if (!file.exists()) {
+            dialogEventManager.requestDialog(DialogType.ERROR,
+                    "DeleteFileAction Error",
+                    "File does not exist:\n" + file.getAbsolutePath());
+            return;
         }
+        boolean deleted = file.delete();
+        if (deleted) {
+            System.out.println("The file " + file.getAbsolutePath() + " has been deleted successfully.");
+        } else {
+            dialogEventManager.requestDialog(DialogType.ERROR,
+                    "DeleteFileAction Error",
+                    "Error while deleting the file:\n" + file.getAbsolutePath());
+        }
+    }
+
+    @Override
+    public DialogEventManager getDialogEventManager() {
+        return dialogEventManager;
     }
 
     @Override
@@ -39,11 +50,4 @@ public class DeleteFileAction implements Action {
         return "DeleteFileAction:\n" + "file=\n" + file;
     }
 
-    private void showDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.show();
-    }
 }

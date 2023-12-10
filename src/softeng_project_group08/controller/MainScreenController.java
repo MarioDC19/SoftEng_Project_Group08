@@ -77,7 +77,7 @@ public class MainScreenController implements Initializable, RuleEventListener {
         initTableView();
         initDeleteRulesFunctionality();
         // subscribe this controller to the RuleList and listen for any type of change.
-        ruleManager.getRules().getEventManager().subscribe(this);
+        ruleManager.getRules().getRuleEventManager().subscribe(this);
         // Initialize the RuleManager (subscribe, start processing rules)
         ruleManager.initialize();
     }
@@ -147,7 +147,7 @@ public class MainScreenController implements Initializable, RuleEventListener {
         Rule newRule = new Rule(null, null, null);
         ruleManager.setCurrentRule(newRule);
         // Unsubscribe from the ruleList before changing screen
-        ruleManager.getRules().getEventManager().unsubscribe(this);
+        ruleManager.getRules().getRuleEventManager().unsubscribe(this);
         // Load the RuleCreateScreen
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         String title = "MyIFTTT";

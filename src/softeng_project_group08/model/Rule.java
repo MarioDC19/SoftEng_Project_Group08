@@ -9,8 +9,8 @@ import java.util.Objects;
  * an action,an activation status and a sleeping time. Provides methods to
  * retrieve and modify the components of the rule. Overrides the equals method
  * for comparing rules based on their names. Notifies subscribed listeners when
- * a change happens in the rule.
- * Refer to RuleState for a list of possible states that a rule can be in.
+ * a change happens in the rule. Refer to RuleState for a list of possible
+ * states that a rule can be in.
  *
  * @author group08
  */
@@ -19,7 +19,7 @@ public class Rule implements Serializable {
     private String name;
     private Trigger trigger;
     private Action action;
-    private RuleEventManager eventManager;
+    private RuleEventManager ruleEventManager;
 
     private static final int MINUTE_IN_HOUR = 60;
     private static final int MINUTE_IN_DAY = 24 * MINUTE_IN_HOUR;
@@ -40,7 +40,7 @@ public class Rule implements Serializable {
         this.action = action;
         this.state = new ActiveRuleState();
         // this subject can only generate "change" events
-        this.eventManager = new RuleEventManager(RuleEventType.CHANGE);
+        this.ruleEventManager = new RuleEventManager(RuleEventType.CHANGE);
     }
 
     public Trigger getTrigger() {
@@ -83,8 +83,8 @@ public class Rule implements Serializable {
         this.name = name;
     }
 
-    public RuleEventManager getEventManager() {
-        return eventManager;
+    public RuleEventManager getRuleEventManager() {
+        return ruleEventManager;
     }
 
     public LocalDateTime getRepeat() {
@@ -123,7 +123,7 @@ public class Rule implements Serializable {
     // The client can manipulate the Rule state only by using public methods of the Rule class
     void setState(RuleState state) {
         this.state = state;
-        eventManager.notify(RuleEventType.CHANGE, this);
+        ruleEventManager.notify(RuleEventType.CHANGE, this);
     }
 
     @Override

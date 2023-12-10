@@ -1,12 +1,10 @@
 package softeng_project_group08.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import softeng_project_group08.model.DialogEventListener;
+import softeng_project_group08.model.DialogType;
 import softeng_project_group08.model.Rule;
 import softeng_project_group08.model.RuleEventListener;
 import softeng_project_group08.model.RuleEventType;
@@ -14,14 +12,15 @@ import softeng_project_group08.model.RuleList;
 
 /**
  *
- * Manages the rules list in the application. Uses the Singleton
- * pattern to provide a shared instance to all controllers. Contains methods for
- * adding and and retrieving rules. Runs a background service
- * (ProcessRulesService) to handle rule-related tasks.
- * 
- * @author group08 
+ * Manages the rules list in the application. Uses the Singleton pattern to
+ * provide a shared instance to all controllers. Contains methods for adding and
+ * and retrieving rules. Runs a background service (ProcessRulesService) to
+ * handle rule-related tasks. This is subscribed to the RuleList for both rule
+ * and dialog events.
+ *
+ * @author group08
  */
-public class RuleManager implements RuleEventListener {
+public class RuleManager implements RuleEventListener, DialogEventListener {
 
     private RuleList rules;
     private Rule currentRule;
@@ -35,7 +34,7 @@ public class RuleManager implements RuleEventListener {
         subscribedToList = false;
         // try to load the list from file
         rules = RuleList.loadFromFile();
-        if(rules == null) {
+        if (rules == null) {
             // if loadRuleListFromFile() returns null the file does not exist
             // or there's been an error during the load procedure
             rules = new RuleList();
@@ -56,7 +55,8 @@ public class RuleManager implements RuleEventListener {
     public void initialize() {
         // subscribe the RuleManager to the list for automatic save if it isn't already
         if (!subscribedToList) {
-            rules.getEventManager().subscribe(this);
+            rules.getRuleEventManager().subscribe(this);
+            rules.getDialogEventManager().subscribe(this);
             subscribedToList = true;
         }
         // starts the ProcessRulesService only if it isn't already running
@@ -99,6 +99,37 @@ public class RuleManager implements RuleEventListener {
     public void update(RuleEventType eventType, Rule updatedRule) {
         SaveRulesService saveThread = new SaveRulesService(rules);
         saveThread.start();
+    }
+
+    @Override
+    public void show(DialogType dialogType, String title, String message) {
+        AlertType at = chooseAlertType(dialogType);
+        Platform.runLater(() -> {
+            showDialog(at, title, message);
+        });
+    }
+
+    private AlertType chooseAlertType(DialogType dialogType) {
+        AlertType at;
+        switch (dialogType) {
+            case INFO:
+                at = AlertType.INFORMATION;
+                break;
+            case ERROR:
+                at = AlertType.ERROR;
+                break;
+            default:
+                at = AlertType.NONE;
+        }
+        return at;
+    }
+
+    private void showDialog(AlertType at, String title, String message) {
+        Alert alert = new Alert(at);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
     }
 
 }

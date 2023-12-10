@@ -17,51 +17,69 @@ import java.util.List;
  * Represents a list of rules, it's notified when a rule it contains is changed
  * and notifies all listeners when a rule it contains changes or when the list
  * itself changes. Thread-safe class with respect to add and remove; if the list
- * is iterated upon, the iteration must be done in a synchronized block
+ * is iterated upon, the iteration must be done in a synchronized block This is
+ * subscribed to all the contained rules for rule events, and to all rules'
+ * actions for dialog events; the events are forwarded to listeners of this
+ * object.
  *
  * @author group08
  */
-public class RuleList implements Iterable<Rule>, RuleEventListener, Serializable {
+public class RuleList implements Iterable<Rule>, RuleEventListener, DialogEventListener, Serializable {
 
     private List<Rule> rules;
     // eventManager in this case must not be serialized, subscriptions are added
     // at application start
-    private transient RuleEventManager eventManager;
+    private transient RuleEventManager ruleEventManager;
+    private transient DialogEventManager dialogEventManager;
     public static final String saveLoadPath = "ListRules.bin";
 
     public RuleList() {
         this.rules = new ArrayList<>();
-        this.eventManager = new RuleEventManager(RuleEventType.ADD,
+        this.ruleEventManager = new RuleEventManager(RuleEventType.ADD,
                 RuleEventType.REMOVE,
                 RuleEventType.CHANGE);
+        this.dialogEventManager = new DialogEventManager();
     }
-    
-    public RuleEventManager getEventManager(){
-        return eventManager;
+
+    public RuleEventManager getRuleEventManager() {
+        return ruleEventManager;
     }
-    
+
+    public DialogEventManager getDialogEventManager() {
+        return dialogEventManager;
+    }
+
     // helper method, must be used only when this object is read from file and
-    // eventManager must be initialized
-    private void resetEventManager(){
-        this.eventManager = new RuleEventManager(RuleEventType.ADD,
+    // event managers must be initialized
+    private void resetEventManagers() {
+        this.ruleEventManager = new RuleEventManager(RuleEventType.ADD,
                 RuleEventType.REMOVE,
                 RuleEventType.CHANGE);
+        this.dialogEventManager = new DialogEventManager();
     }
 
     public synchronized void addRule(Rule rule) {
         rules.add(rule);
         // this list must be notified when an added rule is changed
-        rule.getEventManager().subscribe(this);
+        rule.getRuleEventManager().subscribe(this);
+        // this list must be notified when an added rule's action generates a dialog request
+        if (rule.getAction().getDialogEventManager() != null) {
+            rule.getAction().getDialogEventManager().subscribe(this);
+        }
         // notify observers that the list has changed
-        eventManager.notify(RuleEventType.ADD, rule);
+        ruleEventManager.notify(RuleEventType.ADD, rule);
     }
 
     public synchronized void removeRule(Rule rule) {
         rules.remove(rule);
         // this list does not need to be notified about removed rules
-        rule.getEventManager().unsubscribe(this);
+        rule.getRuleEventManager().unsubscribe(this);
+        // this list does not need be notified when a removed rule's action generates a dialog request
+        if (rule.getAction().getDialogEventManager() != null) {
+            rule.getAction().getDialogEventManager().unsubscribe(this);
+        }
         // notify observers that the list has changed
-        eventManager.notify(RuleEventType.REMOVE, rule);
+        ruleEventManager.notify(RuleEventType.REMOVE, rule);
     }
 
     public boolean containsRule(Rule rule) {
@@ -72,14 +90,22 @@ public class RuleList implements Iterable<Rule>, RuleEventListener, Serializable
     @Override
     public void update(RuleEventType eventType, Rule updatedRule) {
         // forward the event to observers of this list
-        eventManager.notify(RuleEventType.CHANGE, updatedRule);
+        ruleEventManager.notify(RuleEventType.CHANGE, updatedRule);
+    }
+
+    // when this method is called, an action of a rule contained in this list
+    // has generated a dialog request
+    @Override
+    public void show(DialogType dialogType, String title, String message) {
+        // forward the event to subscribed listeners
+        dialogEventManager.requestDialog(dialogType, title, message);
     }
 
     @Override
     public Iterator<Rule> iterator() {
         return rules.iterator();
     }
-    
+
     // load RuleList from file and return it
     public static RuleList loadFromFile() {
         RuleList list = null;
@@ -88,7 +114,7 @@ public class RuleList implements Iterable<Rule>, RuleEventListener, Serializable
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(saveLoadPath))) {
                 list = (RuleList) ois.readObject();
                 // eventManager is transient, so it must be initialized
-                list.resetEventManager();
+                list.resetEventManagers();
                 System.out.println("Rule list successfully loaded");
             } catch (FileNotFoundException ex) {
                 // This catch is unreachable because we have already checked the existence of the file with f.exists()
@@ -102,7 +128,7 @@ public class RuleList implements Iterable<Rule>, RuleEventListener, Serializable
         }
         return list;
     }
-    
+
     // save this object to file
     public void saveToFile() {
         try {
@@ -116,5 +142,5 @@ public class RuleList implements Iterable<Rule>, RuleEventListener, Serializable
             e.printStackTrace();
         }
     }
-    
+
 }

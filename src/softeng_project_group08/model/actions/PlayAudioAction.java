@@ -6,18 +6,23 @@ import java.io.File;
 import java.io.IOException;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import softeng_project_group08.model.DialogEventManager;
+import softeng_project_group08.model.DialogType;
 
 /**
  * Represents an action to play an audio file using the default system
- * application. Implements the Action interface.
+ * application. Implements the Action interface. Notifies listeners when there's
+ * a show dialog request.
  *
  * @author group08
  */
 public class PlayAudioAction implements Action {
 
     private File file;
+    private DialogEventManager dialogEventManager;
 
     public PlayAudioAction(File file) {
+        this.dialogEventManager = new DialogEventManager();
         this.file = file;
     }
 
@@ -31,18 +36,25 @@ public class PlayAudioAction implements Action {
                 if (file.exists() && file.isFile()) {
                     desktop.open(file);
                 } else {
-                    Platform.runLater(() -> {
-                        showDialog("Audio file does not exist.");
-                    });
+                    dialogEventManager.requestDialog(DialogType.ERROR,
+                            "PlayAudioAction Error",
+                            "Audio file does not exist:\n" + file.getAbsolutePath());
                 }
             } else {
-                Platform.runLater(() -> {
-                    showDialog("Desktop is not supported.");
-                });
+                dialogEventManager.requestDialog(DialogType.ERROR,
+                        "PlayAudioAction Error",
+                        "Operating System is not supported");
             }
         } catch (IOException e) {
-            showDialog("Audio file generic error.");
+            dialogEventManager.requestDialog(DialogType.ERROR,
+                    "PlayAudioAction Error",
+                    "Audio file generic error:\n" + file.getAbsolutePath());
         }
+    }
+
+    @Override
+    public DialogEventManager getDialogEventManager() {
+        return dialogEventManager;
     }
 
     @Override
@@ -50,11 +62,4 @@ public class PlayAudioAction implements Action {
         return "PlayAudioAction:\n" + "file=\n" + file;
     }
 
-    private void showDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.show();
-    }
 }
