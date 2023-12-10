@@ -88,6 +88,13 @@ public class ExecuteExternalProgramActionTest {
 
         eepm.execute();
 
+        // Adding a 500ms pause to allow the external program to complete its execution
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         try (BufferedReader reader = new BufferedReader(new FileReader("testWrite.txt"))) {
             String line;
             String lastLine = "";
