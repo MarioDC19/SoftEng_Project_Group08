@@ -1,6 +1,7 @@
 package softeng_project_group08.model.actions;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import softeng_project_group08.model.Action;
@@ -18,28 +19,28 @@ import softeng_project_group08.model.DialogType;
 public class AppendToFileAction implements Action {
 
     private String content;
-    private String filePath;
+    private File file;
     private DialogEventManager dialogEventManager;
 
     // Constructor for the AppendToFileAction class
-    public AppendToFileAction(String content, String filePath) {
+    public AppendToFileAction(String content, File file) {
         this.dialogEventManager = new DialogEventManager();
         this.content = content;
-        this.filePath = filePath;
+        this.file = file;
     }
 
     // Method to execute the action of appending content to the file
     @Override
     public void execute() {
         // the file is created if it is deleted before the action is executed
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             writer.newLine(); // Move to a new line before appending content
             writer.append(content); // Append the content
-            System.out.println("String successfully added to the file: " + filePath);
+            System.out.println("String successfully added to the file: " + file.getAbsolutePath());
         } catch (IOException e) {
             dialogEventManager.requestDialog(DialogType.ERROR,
                     "AppendToFileAction Error",
-                    "Error while adding the string to the file: " + filePath);
+                    "Error while adding the string to the file: " + file.getAbsolutePath());
         }
     }
 
@@ -50,7 +51,7 @@ public class AppendToFileAction implements Action {
 
     @Override
     public String toString() {
-        return "AppendToFileAction: " + "\ncontent=" + content + "\nfilePath=\n" + filePath;
+        return "AppendToFileAction: " + "\ncontent=" + content + "\nfilePath=\n" + file.getAbsolutePath();
     }
 
 }

@@ -4,6 +4,7 @@ import softeng_project_group08.model.actions.AppendToFileAction;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class AppendToFileActionTest {
     public void testAppendToFile() {
         // Test case to append a string to an existing file
         // Creating an AppendToFileAction instance with the string to add and file path
-        AppendToFileAction action = new AppendToFileAction("String to add", FILE_PATH);
+        AppendToFileAction action = new AppendToFileAction("String to add", new File(FILE_PATH));
         action.execute();
         // Read the last line of the file after appending
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {

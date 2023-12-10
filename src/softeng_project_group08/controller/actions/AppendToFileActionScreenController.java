@@ -33,7 +33,7 @@ public class AppendToFileActionScreenController implements Initializable {
     @FXML
     private Button insertFileID;
 
-    File file;
+    private File file;
 
     private RuleManager rm;
 
@@ -52,7 +52,7 @@ public class AppendToFileActionScreenController implements Initializable {
     @FXML
     private void saveButtonAction(ActionEvent event) {
         //Set the action as a AppendToFileAction with the selected file and string
-        AppendToFileAction atfa = new AppendToFileAction(appendStringID.getText(), file.getPath());
+        AppendToFileAction atfa = new AppendToFileAction(appendStringID.getText(), file);
         rm.getCurrentRule().setAction(atfa);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
