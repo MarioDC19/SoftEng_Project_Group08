@@ -22,18 +22,21 @@ public class CopyFileActionTest {
 
     @Before
     public void setUp() throws IOException {
+        // Setting up initial conditions for testing
+        // Create a source file and a target directory
         sourceFile = new File(SOURCE_FILE_PATH);
         sourceFile.createNewFile();
-
         targetDirectory = new File(TARGET_DIRECTORY_PATH);
         targetDirectory.mkdir();
-
+        // Define the target file within the target directory
         targetFile = new File(targetDirectory, sourceFile.getName());
     }
 
     @After
     public void tearDown() throws IOException {
-        // Tear down of the testing file
+        // Clean up after each test
+
+        // Delete the source file, target file, and target directory
         sourceFile.delete();
         targetFile.delete();
         targetDirectory.delete();
@@ -41,10 +44,13 @@ public class CopyFileActionTest {
 
     @Test
     public void testCopyFileSuccess() {
+        // Test case to check successful file copying
+
+        // Creating a CopyFileAction instance with the source file and target directory
         CopyFileAction copyAction = new CopyFileAction(sourceFile, targetDirectory);
         copyAction.execute();
 
-        // Check if the file has been copied successfully.
+        // Check if the file has been copied successfully by verifying its existence in the target directory
         assertTrue(targetFile.exists());
     }
 

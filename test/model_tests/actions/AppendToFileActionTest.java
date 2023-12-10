@@ -25,6 +25,7 @@ public class AppendToFileActionTest {
 
     @Before
     public void setUp() {
+        // Setting up the initial state before each test
         // Check if the file already exists before using it
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
             writer.write(INITIAL_CONTENT);
@@ -32,7 +33,6 @@ public class AppendToFileActionTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @After
@@ -47,19 +47,21 @@ public class AppendToFileActionTest {
 
     @Test
     public void testAppendToFile() {
+        // Test case to append a string to an existing file
+        // Creating an AppendToFileAction instance with the string to add and file path
         AppendToFileAction action = new AppendToFileAction("String to add", FILE_PATH);
         action.execute();
-        // Read the last line of the file
+        // Read the last line of the file after appending
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             String lastLine = "";
             while ((line = reader.readLine()) != null) {
                 lastLine = line; // Update lastLine with each line read
             }
+            // Verifying the last line of the file contains the appended string
             assertEquals("String not found in the last line of the file", "String to add", lastLine);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }

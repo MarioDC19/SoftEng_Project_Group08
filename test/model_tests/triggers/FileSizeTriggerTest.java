@@ -17,6 +17,7 @@ public class FileSizeTriggerTest {
 
     @Before
     public void setUp() {
+        // Creating a temporary test file before each test case
         try {
             testFile = File.createTempFile("testFile", ".txt");
         } catch (Exception e) {
@@ -26,6 +27,7 @@ public class FileSizeTriggerTest {
 
     @After
     public void tearDown() {
+        // Deleting the created test file after each test case if it exists
         if (testFile != null && testFile.exists()) {
             testFile.delete();
         }
@@ -33,24 +35,22 @@ public class FileSizeTriggerTest {
 
     @Test
     public void testCheckFileSizeTrigger() {
-        // Create a FileSizeTrigger with max size 1 KB
+        // Create a FileSizeTrigger with a maximum size of 1 KB
         FileSizeTrigger trigger = new FileSizeTrigger(testFile, 1);
-
-        //Verify that the trigger returns false before writing to the file.
+        // Verify that the trigger returns false before writing to the file.
         assertFalse(trigger.check());
-
+        // Write to the file to make it larger than 1 KB
         writeToFile(testFile, 1025);
-
+        // Verify that the trigger returns true after writing to the file, exceeding the 1 KB limit.
         assertTrue(trigger.check());
     }
 
     private void writeToFile(File file, int numberOfBytes) {
-        //Write to the file to make it larger than numberOfBytes.
+        // Method to write data to the file, making it larger than the specified number of bytes.
         try {
             java.nio.file.Files.write(file.toPath(), new byte[numberOfBytes]);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }

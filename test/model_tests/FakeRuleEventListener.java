@@ -15,11 +15,14 @@ public class FakeRuleEventListener implements RuleEventListener {
 
     @Override
     public void update(RuleEventType eventType, Rule updatedRule) {
-        updateCalledCount++;
+        // This method is invoked when a rule event occurs
+        updateCalledCount++; // Increment the count for each update call
     }
     
     public int getUpdateCalledCount() {
+        // Returns the count of times the update method was called
         return updateCalledCount;
     }
     
 }
+

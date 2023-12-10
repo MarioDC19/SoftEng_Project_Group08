@@ -18,7 +18,6 @@ public class DayOfMonthTriggerTest {
     public void setUp() {
         // Test case a: trigger on the current day
         a = new DayOfMonthTrigger(LocalDate.now().getDayOfMonth());
-
         // Test case b: trigger on the next day
         b = new DayOfMonthTrigger(LocalDate.now().plusDays(1).getDayOfMonth());
     }
@@ -27,7 +26,6 @@ public class DayOfMonthTriggerTest {
     public void testCheck() {
         // Test case a: should be true as it triggers on the current day
         assertTrue(a.check());
-
         // Test case b: should be false as it triggers on the next day
         assertFalse(b.check());
     }

@@ -12,16 +12,18 @@ import softeng_project_group08.model.triggers.NotTriggerDecorator;
  * @author group08
  */
 public class NotTriggerDecoratorTest {
-    FakeTrigger ft= new FakeTrigger(3,3);
+    // Initializing a FakeTrigger instance and wrapping it with a NotTriggerDecorator
+    FakeTrigger ft = new FakeTrigger(3, 3);
     Trigger td = new NotTriggerDecorator(ft);
     
     @Test
-    public void checkTest(){
-        assertFalse(td.check());
+    public void checkTest() {
+        // Verifying the behavior of the NotTriggerDecorator's check method
+        assertFalse(td.check()); // Expects the negation of the FakeTrigger's check() method, hence false
     }
     
     @Test
-    public void toStringTest(){
-        assertEquals(td.toString(),"NOT( " + ft + " )");
+    public void toStringTest() {
+        assertEquals(td.toString(), "NOT( " + ft + " )"); 
     }
 }

@@ -22,11 +22,9 @@ public class FileExistenceTriggerTest {
     public void setUp() {
         // Create a temporary directory for testing
         tempDir = createTempDir();
-
         // Create a temporary file within the directory
         String tempFileName = "testFile.txt";
         tempFile = new File(tempDir, tempFileName);
-
         // Ensure the file exists
         try {
             tempFile.createNewFile();
@@ -39,7 +37,6 @@ public class FileExistenceTriggerTest {
     public void testCheckFileExists() {
         // Create an instance of FileExistenceTrigger
         FileExistenceTrigger fileExistenceTrigger = new FileExistenceTrigger("testFile.txt", tempDir);
-
         // Ensure the file exists
         assertTrue("File should exist", fileExistenceTrigger.check());
     }
@@ -48,7 +45,6 @@ public class FileExistenceTriggerTest {
     public void testCheckFileDoesNotExist() {
         // Create an instance of FileExistenceTrigger with a non-existing file name
         FileExistenceTrigger fileExistenceTrigger = new FileExistenceTrigger("nonExistentFile.txt", tempDir);
-
         // Ensure the file does not exist
         assertFalse("File should not exist", fileExistenceTrigger.check());
     }

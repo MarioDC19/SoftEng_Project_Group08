@@ -22,18 +22,21 @@ public class MoveFileActionTest {
 
     @Before
     public void setUp() throws IOException {
+        // Setting up the source file and target directory
+        // Creating a new source file for testing
         sourceFile = new File(SOURCE_FILE_PATH);
         sourceFile.createNewFile();
-
+        // Creating a target directory to move the file
         targetDirectory = new File(TARGET_DIRECTORY_PATH);
         targetDirectory.mkdir();
-
+        // Creating a reference to the expected target file after moving
         targetFile = new File(targetDirectory, sourceFile.getName());
     }
 
     @After
     public void tearDown() throws IOException {
-        // Tear down of the testing file
+        // Cleaning up the testing environment
+        // Deleting the source and target files along with the target directory
         sourceFile.delete();
         targetFile.delete();
         targetDirectory.delete();
@@ -41,10 +44,11 @@ public class MoveFileActionTest {
 
     @Test
     public void testCopyFileSuccess() {
+        // Test to move the file from source to target directory
+        // Creating an action to move the source file to the target directory
         MoveFileAction moveAction = new MoveFileAction(sourceFile, targetDirectory);
         moveAction.execute();
-
-        // Check if the file has been moved successfully.
+        // Checking if the file has been moved successfully to the target directory
         assertTrue(targetFile.exists());
     }
 

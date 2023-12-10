@@ -16,6 +16,7 @@ public class TimeOfDayTriggerTest {
 
     @Before
     public void setUp() {
+        // Creating TimeOfDayTrigger instances for various test cases
         // Test case a: trigger at this hour and minute
         a = new TimeOfDayTrigger(LocalTime.now().getHour(),
                 LocalTime.now().getMinute());
@@ -35,11 +36,13 @@ public class TimeOfDayTriggerTest {
 
     @Test
     public void testCheck() {
+        // Verifying the behavior of TimeOfDayTrigger's check method for different test cases
+        // Expects a to return true as it's set to the current time
         assertTrue(a.check());
+        // Expects b, c, d, and e to return false as they are set for different times
         assertFalse(b.check());
         assertFalse(c.check());
         assertFalse(d.check());
         assertFalse(e.check());
     }
-
 }

@@ -27,7 +27,6 @@ public class DayOfYearTriggerTest {
     public void testCheck() {
         // Test case a: should be true as it triggers on the current day
         assertTrue(a.check());
-
         // Test case b: should be false as it triggers on the next day
         assertFalse(b.check());
     }
