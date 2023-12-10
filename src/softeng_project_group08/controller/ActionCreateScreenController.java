@@ -194,30 +194,17 @@ public class ActionCreateScreenController implements Initializable {
             }
         } else {
             if(!listViewID.getItems().isEmpty()){
-                 showDialog("Are you sure to delete the multi action ?",Alert.AlertType.CONFIRMATION,"Confirmation");
+                Boolean confirm=DialogUtil.showDialog("Are you sure to delete the multi action ?",Alert.AlertType.CONFIRMATION,"Confirmation");
+                if(confirm){
+                    //clean multiActions and list.
+                multiActions = null;
+                listViewID.getItems().removeAll(listViewID.getItems());
+                } else{
+                    multipleActionID.setSelected(true);
+                }
             }
         }
 
-    }
-    
-    private void showDialog(String message, Alert.AlertType at, String title) {
-        Alert alert = new Alert(at);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        if (at == Alert.AlertType.CONFIRMATION) {
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                //clean multiActions and list.
-                multiActions = null;
-                listViewID.getItems().removeAll(listViewID.getItems());
-            } else {
-                multipleActionID.setSelected(true);
-            }
-        } else {
-            // Show the dialog
-            alert.show();
-        }
     }
 
     private void deleteSelectedRows(ListView<Action> listView) {

@@ -13,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -164,12 +163,8 @@ public class MainScreenController implements Initializable, RuleEventListener {
     //Gives information about the application
     @FXML
     private void aboutIAction(ActionEvent event) {
-        String message = "Information Contacts: \nSalvatore Bruno, Mario Della Corte, Maurizio Esposito, Antonio De Caro";
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("About");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        DialogUtil.showDialog("Information Contacts: \nSalvatore Bruno, Mario Della Corte, Maurizio Esposito, Antonio De Caro",Alert.AlertType.INFORMATION,"About");
+        
     }
 
     @FXML
@@ -177,14 +172,8 @@ public class MainScreenController implements Initializable, RuleEventListener {
         List<Rule> selectedRules = new ArrayList<>(tableViewID.getSelectionModel().getSelectedItems());
 
         if (!selectedRules.isEmpty()) {
-            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmAlert.setTitle("Confirmation");
-            confirmAlert.setHeaderText("Delete selected rules?");
-            confirmAlert.setContentText("Are you sure you want to delete the selected rules?");
-
-            Optional<ButtonType> result = confirmAlert.showAndWait();
-
-            if (result.isPresent() && result.get() == ButtonType.OK) {
+           Boolean confirmed=DialogUtil.showDialog("Are you sure you want to delete the selected rules?", Alert.AlertType.CONFIRMATION, "Confirmation");
+            if (confirmed) {
                 for (Rule rule : selectedRules) {
                     ruleManager.getRules().removeRule(rule);
                 }

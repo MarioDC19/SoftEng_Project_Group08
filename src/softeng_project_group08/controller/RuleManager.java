@@ -84,11 +84,7 @@ public class RuleManager implements RuleEventListener, DialogEventListener {
     public void addCurrentRule() {
         if (rules.containsRule(currentRule)) {
             Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("The rule " + currentRule.getName() + " has already been created");
-                alert.show();
+                DialogUtil.showDialog("The rule " + currentRule.getName() + " has already been created", Alert.AlertType.ERROR, "Error");
             });
         } else {
             rules.addRule(currentRule);
@@ -105,7 +101,7 @@ public class RuleManager implements RuleEventListener, DialogEventListener {
     public void show(DialogType dialogType, String title, String message) {
         AlertType at = chooseAlertType(dialogType);
         Platform.runLater(() -> {
-            showDialog(at, title, message);
+            DialogUtil.showDialog(message,at, title);
         });
     }
 
@@ -122,14 +118,6 @@ public class RuleManager implements RuleEventListener, DialogEventListener {
                 at = AlertType.NONE;
         }
         return at;
-    }
-
-    private void showDialog(AlertType at, String title, String message) {
-        Alert alert = new Alert(at);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.show();
     }
 
 }

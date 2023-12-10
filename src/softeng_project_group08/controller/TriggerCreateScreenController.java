@@ -205,7 +205,7 @@ public class TriggerCreateScreenController implements Initializable {
             listView.getItems().removeAll(selected);
             listView.getItems().add(ruleManager.getCurrentRule().getTrigger());
         } else {
-            showDialog("You need to create a trigger and select a row in the list to apply the NOT operator.", Alert.AlertType.ERROR, "Error");
+            DialogUtil.showDialog("You need to create a trigger and select a row in the list to apply the NOT operator.", Alert.AlertType.ERROR, "Error");
             notID.setSelected(false);
         }
     }
@@ -223,7 +223,7 @@ public class TriggerCreateScreenController implements Initializable {
             listView.getItems().add(ruleManager.getCurrentRule().getTrigger());
             andID.setSelected(false);
         } else {
-            showDialog("You need to create at least two triggers and select at least two rows in the list to apply the AND operator. ", Alert.AlertType.ERROR, "Error");
+            DialogUtil.showDialog("You need to create at least two triggers and select at least two rows in the list to apply the AND operator. ", Alert.AlertType.ERROR, "Error");
             andID.setSelected(false);
         }
     }
@@ -240,7 +240,7 @@ public class TriggerCreateScreenController implements Initializable {
             listView.getItems().add(ruleManager.getCurrentRule().getTrigger());
             orID.setSelected(false);
         } else {
-            showDialog("You need to create at least two triggers and select at least two rows in the list to apply the OR operator.", Alert.AlertType.ERROR, "Error");
+            DialogUtil.showDialog("You need to create at least two triggers and select at least two rows in the list to apply the OR operator.", Alert.AlertType.ERROR, "Error");
             orID.setSelected(false);
         }
     }
@@ -256,31 +256,19 @@ public class TriggerCreateScreenController implements Initializable {
                 tg.getSelectedToggle().setSelected(false);
             }
         } else {
-           if(!listViewID.getItems().isEmpty())
-                showDialog("Are you sure to delete the multi trigger expression?",Alert.AlertType.CONFIRMATION,"Confirmation");
-            
+           if(!listViewID.getItems().isEmpty()){
+                Boolean confirm=DialogUtil.showDialog("Are you sure to delete the multi trigger expression?",Alert.AlertType.CONFIRMATION,"Confirmation");
+                if (confirm){
+                     listViewID.getItems().removeAll(listViewID.getItems());
+                    fieldID.setText("");
+                } else{
+                    multiTriggerID.setSelected(true);
+                }
+           }
         }
     }
 
-    // Method to display a dialog
-    private void showDialog(String message, Alert.AlertType at, String title) {
-        Alert alert = new Alert(at);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        if(at == Alert.AlertType.CONFIRMATION ){
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                listViewID.getItems().removeAll(listViewID.getItems());
-                fieldID.setText("");
-            } else{
-                multiTriggerID.setSelected(true);
-            }
-        } else {
-        // Show the dialog
-        alert.show();
-        }
-    }
+    
 
     private void deleteSelectedRows(ListView<Trigger> listView) {
         //delete the selected rows in the listView.

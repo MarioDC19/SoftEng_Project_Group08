@@ -84,9 +84,9 @@ public class RuleCreateScreenController implements Initializable {
         String enteredName = nameRuleID.getText().trim();
         ruleManager.getCurrentRule().setName(enteredName);
         if (ruleManager.getCurrentRule().getTrigger() == null) {
-            showDialog(" You can't save the rule without a Trigger ", Alert.AlertType.ERROR, "Error");
+            DialogUtil.showDialog(" You can't save the rule without a Trigger ", Alert.AlertType.ERROR, "Error");
         } else if (ruleManager.getCurrentRule().getAction() == null) {
-            showDialog(" You can't save the rule without an Action ", Alert.AlertType.ERROR, "Error");
+            DialogUtil.showDialog(" You can't save the rule without an Action ", Alert.AlertType.ERROR, "Error");
         } else {
             ruleManager.addCurrentRule();
             nameRuleID.clear();
@@ -129,15 +129,6 @@ public class RuleCreateScreenController implements Initializable {
         String title = "MyIFTTT";
         // Switch to the MainScreen without saving
         Initializable newController = cs.switchScreen("/softeng_project_group08/view/MainScreen.fxml", currentStage, title);
-    }
-
-    //shows a dialog window in order to give an alert
-    private void showDialog(String message, Alert.AlertType at, String title) {
-        Alert alert = new Alert(at);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     @FXML

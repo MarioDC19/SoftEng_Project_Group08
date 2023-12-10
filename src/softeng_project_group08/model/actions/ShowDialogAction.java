@@ -1,8 +1,6 @@
 package softeng_project_group08.model.actions;
 
 import softeng_project_group08.model.Action;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
 import softeng_project_group08.model.DialogEventManager;
 import softeng_project_group08.model.DialogType;
 

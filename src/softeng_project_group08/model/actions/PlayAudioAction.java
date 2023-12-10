@@ -4,8 +4,6 @@ import softeng_project_group08.model.Action;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
 import softeng_project_group08.model.DialogEventManager;
 import softeng_project_group08.model.DialogType;
 

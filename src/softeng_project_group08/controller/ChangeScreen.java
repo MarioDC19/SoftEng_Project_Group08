@@ -40,7 +40,7 @@ public class ChangeScreen {
         } catch (IOException ex) {
             // Show an error dialog if loading fails
             Platform.runLater(() -> {
-                showDialog("File generic error", Alert.AlertType.ERROR, "Error");
+                DialogUtil.showDialog("File generic error", Alert.AlertType.ERROR, "Error");
             });
         }
         return null;
@@ -69,20 +69,11 @@ public class ChangeScreen {
         } catch (IOException ex) {
             // Show an error dialog if loading fails
             Platform.runLater(() -> {
-                showDialog("File generic error", Alert.AlertType.ERROR, "Error");
+                DialogUtil.showDialog("File generic error", Alert.AlertType.ERROR, "Error");
             });
         }
         return null;
     }
 
-    // Method to display a dialog
-    private void showDialog(String message, Alert.AlertType at, String title) {
-        Alert alert = new Alert(at);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        // Show the dialog and wait for user interaction
-        alert.showAndWait();
-    }
+    
 }
