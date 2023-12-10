@@ -19,37 +19,31 @@ public class CheckExitStatusTrigger implements Trigger {
     private File programPath;
     private int expectedExitStatus;
     private String parameters;
-    private int actualExitStatus;
 
     public CheckExitStatusTrigger(File programPath, int expectedExitStatus, String parameters) {
         this.programPath = programPath;
         this.expectedExitStatus = expectedExitStatus;
         this.parameters = parameters;
-
     }
 
     @Override
     public boolean check() {
         List<String> command = new ArrayList<>();
         command.add(programPath.getAbsolutePath());
-
-        // Controls if there's a presence of spaces inside the parameters string
-        if (parameters.contains(" ")) {
-            // if there are spaces it separates the parameters
+        parameters = parameters.trim();
+        // Tokenize the parameters if there are any
+        if (!parameters.isEmpty()) {
             String[] paramsArray = parameters.split("\\s+");
             command.addAll(Arrays.asList(paramsArray));
-        } else {
-            // If there are no parameters simply add the string
-            command.add(parameters);
         }
 
         ProcessBuilder processBuilder = new ProcessBuilder(command);
-        processBuilder.redirectErrorStream(true);
-        
+        processBuilder.redirectErrorStream(true); // redirect error stream to output stream
+
         try {
             Process process = processBuilder.start();
-            actualExitStatus= process.waitFor();
-            
+            int actualExitStatus = process.waitFor();
+
             return actualExitStatus == expectedExitStatus;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
