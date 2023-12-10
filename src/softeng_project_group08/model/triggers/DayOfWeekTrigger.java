@@ -17,14 +17,6 @@ public class DayOfWeekTrigger implements Trigger {
         this.day = day;
     }
 
-    public DayOfWeek getDayOfWeek() {
-        return day;
-    }
-
-    public void setDayOfWeek(DayOfWeek day) {
-        this.day = day;
-    }
-
     @Override
     public boolean check() {
         // Get the current day of the week
